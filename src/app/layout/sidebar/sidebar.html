@@ -1,0 +1,32 @@
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        <div class="logo">
+            <span class="material-icons-round">show_chart</span>
+            <h2>Medcare</h2>
+        </div>
+    </div>
+
+    <div class="menu-section">
+        <p class="section-title">MENU</p>
+        <nav class="sidebar-nav">
+            <ng-container *ngFor="let item of mainMenu">
+                <a *ngIf="hasRole(item.roles)" [routerLink]="item.route" routerLinkActive="active" class="nav-item">
+                    <span class="material-icons-round">{{ item.icon }}</span>
+                    <span>{{ item.label }}</span>
+                </a>
+            </ng-container>
+        </nav>
+    </div>
+
+    <div class="menu-section">
+        <p class="section-title">OTHER MENU</p>
+        <nav class="sidebar-nav">
+            <ng-container *ngFor="let item of otherMenu">
+                <a *ngIf="hasRole(item.roles)" [routerLink]="item.route" routerLinkActive="active" class="nav-item">
+                    <span class="material-icons-round">{{ item.icon }}</span>
+                    <span>{{ item.label }}</span>
+                </a>
+            </ng-container>
+        </nav>
+    </div>
+</div>

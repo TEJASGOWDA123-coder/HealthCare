@@ -1,0 +1,127 @@
+<div class="form-container">
+    <div class="page-header">
+        <div class="header-info">
+            <h1>{{ isEditMode() ? 'Edit' : 'Add' }} Patient</h1>
+            <p>{{ isEditMode() ? 'Update the details for patient ' + patientId() : 'Register a new patient to the
+                system' }}</p>
+        </div>
+        <button class="btn btn-secondary" routerLink="/patients">
+            Back to List
+        </button>
+    </div>
+
+    <div class="form-card">
+        <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
+            <div class="form-section">
+                <h3>Personal Information</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input id="name" type="text" formControlName="name" placeholder="Enter patient's full name">
+                        <div class="error-msg"
+                            *ngIf="patientForm.get('name')?.touched && patientForm.get('name')?.invalid">
+                            Valid name is required (min 3 chars)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">Age *</label>
+                        <input id="age" type="number" formControlName="age" placeholder="e.g. 45">
+                        <div class="error-msg"
+                            *ngIf="patientForm.get('age')?.touched && patientForm.get('age')?.invalid">
+                            Valid age is required (0-120)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="gender">Gender *</label>
+                        <select id="gender" formControlName="gender">
+                            <option value="" disabled>Select Gender</option>
+                            <option *ngFor="let g of genders" [value]="g">{{ g }}</option>
+                        </select>
+                        <div class="error-msg"
+                            *ngIf="patientForm.get('gender')?.touched && patientForm.get('gender')?.invalid">
+                            Gender is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bloodGroup">Blood Group</label>
+                        <input id="bloodGroup" type="text" formControlName="bloodGroup" placeholder="e.g. A+">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Contact Details</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input id="phone" type="text" formControlName="phone" placeholder="e.g. +1 555-0101">
+                        <div class="error-msg"
+                            *ngIf="patientForm.get('phone')?.touched && patientForm.get('phone')?.invalid">
+                            Valid phone number is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input id="email" type="email" formControlName="email" placeholder="email@example.com">
+                        <div class="error-msg"
+                            *ngIf="patientForm.get('email')?.touched && patientForm.get('email')?.invalid">
+                            Valid email is required
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="address">Address</label>
+                        <textarea id="address" formControlName="address" rows="2"
+                            placeholder="Street name, City, Zip..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h3>Medical & Hospital Info</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="condition">Primary Condition *</label>
+                        <input id="condition" type="text" formControlName="condition" placeholder="e.g. Hypertension">
+                        <div class="error-msg"
+                            *ngIf="patientForm.get('condition')?.touched && patientForm.get('condition')?.invalid">
+                            Condition is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status *</label>
+                        <select id="status" formControlName="status">
+                            <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="room">Assigned Room *</label>
+                        <input id="room" type="text" formControlName="room" placeholder="e.g. 302-A">
+                        <div class="error-msg"
+                            *ngIf="patientForm.get('room')?.touched && patientForm.get('room')?.invalid">
+                            Room is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastVisit">Last Visit Date *</label>
+                        <input id="lastVisit" type="date" formControlName="lastVisit">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" routerLink="/patients">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+                    {{ submitting() ? 'Saving...' : (isEditMode() ? 'Update Patient' : 'Save Patient') }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

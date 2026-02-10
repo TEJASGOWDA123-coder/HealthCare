@@ -1,0 +1,207 @@
+<div class="dashboard-container">
+    <section class="greeting-section">
+        <div class="welcome">
+            <h1>Hello, {{ authService.currentUser()?.name || 'Sourav' }} 👋</h1>
+            <p>There is the latest update for the last 7 days. check now</p>
+        </div>
+        <div class="date-selector">
+            <span class="material-icons-round">calendar_today</span>
+            <span>Monday, 4th September</span>
+        </div>
+    </section>
+
+    <section class="stats-grid">
+        <div *ngFor="let stat of stats()" class="stat-card" [class.primary]="stat.isPrimary">
+            <div class="card-top">
+                <div class="icon-box">
+                    <span class="material-icons-round">{{ stat.icon }}</span>
+                </div>
+                <span class="label">{{ stat.label }}</span>
+            </div>
+            <div class="card-bottom">
+                <span class="value">{{ stat.value }}</span>
+                <span class="trend" [ngClass]="stat.trendType">
+                    <span class="material-icons-round trend-icon">
+                        {{ stat.trendType === 'up' ? 'trending_up' : 'trending_down' }}
+                    </span>
+                    {{ stat.trend }}
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-dashboard-grid">
+        <!-- Patient Statistics Chart -->
+        <div class="chart-card">
+            <div class="card-header">
+                <h3>Patient statistics</h3>
+                <div class="chart-tabs">
+                    <span>Week</span>
+                    <span>Month</span>
+                    <span class="active">Year-2022</span>
+                </div>
+            </div>
+            <div class="chart-container">
+                <svg viewBox="0 0 800 300">
+                    <!-- Grid Lines -->
+                    <line x1="0" y1="50" x2="800" y2="50" stroke="#f1f5f9" stroke-width="1" />
+                    <line x1="0" y1="150" x2="800" y2="150" stroke="#f1f5f9" stroke-width="1" />
+                    <line x1="0" y1="250" x2="800" y2="250" stroke="#f1f5f9" stroke-width="1" />
+
+                    <!-- Area/Fill for Line 1 -->
+                    <path
+                        d="M0,250 C100,100 200,280 300,150 C400,20 500,180 600,80 C700,40 750,70 800,100 L800,300 L0,300 Z"
+                        fill="url(#gradient-green)" opacity="0.1" />
+
+                    <!-- Line 1 (Dark) -->
+                    <path d="M0,250 C100,100 200,280 300,150 C400,20 500,180 600,80 C700,40 750,70 800,100" fill="none"
+                        stroke="#10403b" stroke-width="4" stroke-linecap="round" />
+
+                    <!-- Line 2 (Light Teal) -->
+                    <path d="M0,200 C100,220 200,150 300,220 C400,250 500,100 600,200 C700,220 750,180 800,150"
+                        fill="none" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" opacity="0.6" />
+
+                    <!-- Tooltip Marker -->
+                    <g transform="translate(400, 35)">
+                        <rect x="-30" y="-15" width="60" height="30" rx="15" fill="#10403b" />
+                        <text x="0" y="5" fill="white" font-size="12" text-anchor="middle"
+                            font-weight="700">1,856</text>
+                        <line x1="0" y1="15" x2="0" y2="215" stroke="#10403b" stroke-width="2" stroke-dasharray="4" />
+                        <circle cx="0" cy="215" r="5" fill="#10403b" stroke="white" stroke-width="2" />
+                    </g>
+
+                    <defs>
+                        <linearGradient id="gradient-green" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#10403b" />
+                            <stop offset="100%" stop-color="white" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Today Schedule -->
+        <div class="schedule-card">
+            <div class="card-header">
+                <h3>Today 4th Sep 2023</h3>
+                <span class="material-icons-round" style="color: #0d9488; cursor: pointer;">add_circle_outline</span>
+            </div>
+            <div class="calendar-strip">
+                <div class="day"><span>3</span><span>mon</span></div>
+                <div class="day active"><span>4</span><span>tue</span></div>
+                <div class="day"><span>5</span><span>wed</span></div>
+                <div class="day"><span>6</span><span>thu</span></div>
+                <div class="day"><span>7</span><span>fri</span></div>
+                <div class="day"><span>8</span><span>sat</span></div>
+            </div>
+            <div class="timeline">
+                <div *ngFor="let item of schedule()" class="timeline-item">
+                    <span class="time">{{ item.time }}</span>
+                    <div class="event-box" [style.border-left-color]="item.color">
+                        <h4>{{ item.title }}</h4>
+                        <p>{{ item.duration }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-grid">
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="card-header">
+                <h3>Balance</h3>
+                <span class="material-icons-round">open_in_new</span>
+            </div>
+            <div class="balance-content">
+                <div class="percent-ring">
+                    <svg width="100" height="100">
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="#f1f5f9" stroke-width="8" />
+                        <circle cx="50" cy="50" r="45" fill="none" stroke="#0d9488" stroke-width="8"
+                            stroke-dasharray="283" stroke-dashoffset="36" stroke-linecap="round" />
+                    </svg>
+                    <span class="ring-text">87%</span>
+                </div>
+                <div class="balance-stats">
+                    <div class="stat-item">
+                        <div class="info">
+                            <span>$8,135,450</span>
+                            <span>Total income</span>
+                        </div>
+                        <div class="sparkline">
+                            <svg viewBox="0 0 40 10">
+                                <path d="M0,8 L10,2 L20,7 L30,1 L40,5" fill="none" stroke="#22c55e" stroke-width="1" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="info">
+                            <span>$7,999,000</span>
+                            <span>Total expense</span>
+                        </div>
+                        <div class="sparkline">
+                            <svg viewBox="0 0 40 10">
+                                <path d="M0,5 L10,8 L20,3 L30,6 L40,2" fill="none" stroke="#f43f5e" stroke-width="1" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">Total Transaction Revenue</p>
+                <h2 style="margin: 0.25rem 0 0; font-size: 1.5rem; font-weight: 700;">$136,450</h2>
+            </div>
+        </div>
+
+        <!-- Room Occupancy Card -->
+        <div class="occupancy-card">
+            <div class="card-header">
+                <h3>Room occupancy</h3>
+                <span class="material-icons-round">more_horiz</span>
+            </div>
+            <div class="occupancy-content">
+                <div class="total-count">
+                    <h2>52</h2>
+                    <span>+124</span>
+                </div>
+                <div class="room-list">
+                    <div *ngFor="let room of occupancy()" class="room-item">
+                        <span class="material-icons-round" [style.background-color]="room.color">home</span>
+                        <span class="name">{{ room.label }}</span>
+                        <span class="count">{{ room.count }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Card -->
+        <div class="reports-card">
+            <div class="card-header">
+                <h3>Reports</h3>
+                <span class="material-icons-round">more_horiz</span>
+            </div>
+            <div class="reports-content">
+                <div class="report-item">
+                    <div class="report-header">
+                        <span class="material-icons-round">report_problem</span>
+                        <p>A shower broken in room 123...</p>
+                    </div>
+                    <div class="report-footer">
+                        <span>1 minute ago</span>
+                        <a href="#">View report &rarr;</a>
+                    </div>
+                </div>
+                <div class="report-item">
+                    <div class="report-header">
+                        <span class="material-icons-round">report_problem</span>
+                        <p>A shower broken in room 123...</p>
+                    </div>
+                    <div class="report-footer">
+                        <span>1 minute ago</span>
+                        <a href="#">View report &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

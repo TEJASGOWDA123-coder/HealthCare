@@ -1,0 +1,63 @@
+@use '../patients/patients.scss'; // Reuse baseline layout and table styles
+
+.time-cell {
+    .date {
+        font-weight: 700;
+        color: #1e293b;
+        font-size: 0.875rem;
+    }
+
+    .time {
+        font-size: 0.75rem;
+        color: #64748b;
+    }
+}
+
+.patient-info,
+.doctor-info {
+    display: flex;
+    flex-direction: column;
+
+    strong {
+        color: #1e293b;
+        font-size: 0.875rem;
+    }
+
+    .id,
+    .dept {
+        font-size: 0.75rem;
+        color: #94a3b8;
+    }
+}
+
+.type-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    color: #475569;
+    font-weight: 500;
+
+    .type-icon {
+        font-size: 1rem;
+    }
+}
+
+.filter-select {
+    padding: 0.625rem 1rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: #334155;
+    outline: none;
+    cursor: pointer;
+
+    &:focus {
+        border-color: #2563eb;
+    }
+}
+
+.appointments-grid {
+    margin-top: 1rem;
+}

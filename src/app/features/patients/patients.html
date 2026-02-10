@@ -1,0 +1,174 @@
+<div class="page-container">
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="breadcrumb">
+            <span>MedNex</span> / <span class="active">Patients Registry</span>
+        </div>
+        <div class="header-main">
+            <h1>Patients Management</h1>
+            <p>Manage patient records, hospital stays, and medical histories.</p>
+        </div>
+    </header>
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+        <div class="search-box">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="search-icon">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <input type="text" placeholder="Search by name, ID, or condition..." [ngModel]="searchTerm()"
+                (ngModelChange)="searchTerm.set($event)">
+        </div>
+
+        <div class="actions">
+            <div class="dropdown">
+                <button class="btn-secondary">
+                    <span>Filter</span>
+                    <svg viewBox="0 0 20 20" fill="currentColor" class="icon-sm">
+                        <path fill-rule="evenodd"
+                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            <button class="btn-secondary">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="icon-sm">
+                    <path
+                        d="M10.75 2.75a.75.75 0 00-1.5 0v8.614L6.295 8.235a.75.75 0 10-1.09 1.03l4.25 4.5a.75.75 0 001.09 0l4.25-4.5a.75.75 0 00-1.09-1.03l-2.955 3.129V2.75z" />
+                    <path
+                        d="M3.5 12.75a.75.75 0 00-1.5 0v2.5A2.75 2.75 0 004.75 18h10.5A2.75 2.75 0 0018 15.25v-2.5a.75.75 0 00-1.5 0v2.5c0 .69-.56 1.25-1.25 1.25H4.75c-.69 0-1.25-.56-1.25-1.25v-2.5z" />
+                </svg>
+                Export
+            </button>
+            <button class="btn-primary">
+                <svg viewBox="0 0 20 20" fill="currentColor" class="icon-sm">
+                    <path
+                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                </svg>
+                New Patient
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Layout -->
+    <div class="content-layout" [class.panel-open]="selectedPatientId()">
+        <!-- Table Area -->
+        <div class="table-container card">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sticky">ID</th>
+                        <th class="sticky">Patient Name</th>
+                        <th class="sticky">Age / Gender</th>
+                        <th class="sticky">Condition</th>
+                        <th class="sticky">Status</th>
+                        <th class="sticky">Last Visit</th>
+                        <th class="sticky text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let patient of filteredPatients()" [class.selected]="selectedPatientId() === patient.id"
+                        (click)="selectPatient(patient.id)">
+                        <td><span class="id-badge">{{ patient.id }}</span></td>
+                        <td>
+                            <div class="patient-name">
+                                <strong>{{ patient.name }}</strong>
+                                <span class="room">Room: {{ patient.room }}</span>
+                            </div>
+                        </td>
+                        <td>{{ patient.age }}y / {{ patient.gender }}</td>
+                        <td>{{ patient.condition }}</td>
+                        <td>
+                            <span class="status-badge" [ngClass]="getStatusClass(patient.status)">
+                                {{ patient.status }}
+                            </span>
+                        </td>
+                        <td>{{ patient.lastVisit }}</td>
+                        <td class="table-actions">
+                            <button class="action-btn" title="View Details"><svg viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                                    <path fill-rule="evenodd"
+                                        d="M.664 10.59a1.651 1.651 0 010-1.186A10.004 10.004 0 0110 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0110 17c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+                                        clip-rule="evenodd" />
+                                </svg></button>
+                            <button class="action-btn" title="Edit Record"><svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M5.433 13.917l1.262-3.155A4 4 0 017.58 9.42l6.92-6.918a2.121 2.121 0 013 3l-6.92 6.918c-.383.383-.84.685-1.343.886l-3.154 1.262a.5.5 0 01-.65-.65z" />
+                                    <path
+                                        d="M3.5 5.75c0-.69.56-1.25 1.25-1.25H10A.75.75 0 0010 3H4.75A2.75 2.75 0 002 5.75v9.5A2.75 2.75 0 004.75 18h9.5A2.75 2.75 0 0017 15.25V10a.75.75 0 00-1.5 0v5.25c0 .69-.56 1.25-1.25 1.25h-9.5c-.69 0-1.25-.56-1.25-1.25v-9.5z" />
+                                </svg></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <footer class="pagination">
+                <span class="page-info">Showing 1 to {{ filteredPatients().length }} of {{ filteredPatients().length }}
+                    patients</span>
+                <div class="page-controls">
+                    <button class="btn-page" disabled>Previous</button>
+                    <button class="btn-page active">1</button>
+                    <button class="btn-page">2</button>
+                    <button class="btn-page">Next</button>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Details Panel -->
+        <aside class="details-panel card" *ngIf="selectedPatient()">
+            <div class="panel-header">
+                <h3>Patient Insights</h3>
+                <button class="close-btn" (click)="closeDetails()">&times;</button>
+            </div>
+
+            <div class="patient-profile" *ngIf="selectedPatient() as p">
+                <div class="avatar-large">{{ p.name.charAt(0) }}</div>
+                <h4>{{ p.name }}</h4>
+                <span class="id-tag">{{ p.id }}</span>
+
+                <div class="p-status">
+                    <span class="status-badge" [ngClass]="getStatusClass(p.status)">{{ p.status }}</span>
+                </div>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="label">Age / Sex</span>
+                        <span class="value">{{ p.age }} / {{ p.gender }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Current Ward</span>
+                        <span class="value">{{ p.room }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Primary Condition</span>
+                        <span class="value">{{ p.condition }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Last Lab Report</span>
+                        <span class="value">2024-02-09</span>
+                    </div>
+                </div>
+
+                <div class="contact-sec">
+                    <h5>Contact Information</h5>
+                    <p><svg class="icon-xs" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 004.587 4.587l.773-1.548a1 1 0 011.06-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                        </svg> {{ p.phone }}</p>
+                    <p><svg class="icon-xs" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M3 4a2 2 0 00-2 2v1.161l8.441 4.221a1.25 1.25 0 001.118 0L19 7.161V6a2 2 0 00-2-2H3z" />
+                            <path
+                                d="M19 8.839l-7.77 3.885a2.75 2.75 0 01-2.46 0L1 8.839V14a2 2 0 002 2h14a2 2 0 002-2V8.839z" />
+                        </svg> {{ p.email }}</p>
+                </div>
+
+                <button class="btn-primary full-width">Open Digital Health Record</button>
+            </div>
+        </aside>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+:host {
+    display: block;
+    width: 250px;
+    height: 100vh;
+    background-color: #10403b;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    font-family: 'Inter', sans-serif;
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem 1rem;
+}
+
+.sidebar-header {
+    margin-bottom: 3rem;
+    padding-left: 0.5rem;
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: #fff;
+
+        .material-icons-round {
+            font-size: 2.25rem;
+            color: #4ade80;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+    }
+}
+
+.menu-section {
+    margin-bottom: 2rem;
+
+    .section-title {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        margin-bottom: 1rem;
+        padding-left: 1rem;
+    }
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 0.85rem 1rem;
+        border-radius: 14px;
+        color: rgba(255, 255, 255, 0.65);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        font-weight: 500;
+        gap: 1.25rem;
+
+        .material-icons-round {
+            font-size: 1.5rem;
+        }
+
+        &:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        &.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+    }
+}

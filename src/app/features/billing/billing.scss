@@ -1,0 +1,230 @@
+@use '../patients/patients.scss' as patients;
+
+.page-container {
+    padding: 2rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.billing-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    margin-bottom: 2.5rem;
+
+    .summary-item {
+        text-align: center;
+
+        &:not(:last-child) {
+            border-right: 1px solid #f1f5f9;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.7rem;
+            color: #64748b;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .value {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+    }
+
+    .text-green {
+        color: #16a34a;
+    }
+
+    .text-red {
+        color: #dc2626;
+    }
+
+    .text-blue {
+        color: #2563eb;
+    }
+}
+
+.action-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    .search-box {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+        width: 350px;
+        gap: 0.75rem;
+
+        .search-icon {
+            color: #94a3b8;
+            font-size: 1.25rem;
+        }
+
+        input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.875rem;
+            color: #1e293b;
+
+            &::placeholder {
+                color: #94a3b8;
+            }
+        }
+    }
+
+    .actions {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #1d4ed8;
+    }
+}
+
+.btn-secondary {
+    background: white;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
+    padding: 0.6rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    .material-icons-round {
+        font-size: 1.1rem;
+    }
+
+    &:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+    }
+}
+
+.table-container {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+
+        th {
+            background: #f8fafc;
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        td {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.875rem;
+            color: #334155;
+
+            strong {
+                color: #1e293b;
+                font-weight: 600;
+            }
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+    }
+}
+
+.amount-cell {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.id-badge {
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+}
+
+.status-badge {
+    padding: 0.4rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+
+    &.status-green {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    &.status-yellow {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    &.status-red {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+}
+
+.table-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .action-btn {
+        background: none;
+        border: none;
+        color: #94a3b8;
+        padding: 0.25rem;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        .material-icons-round {
+            font-size: 1.25rem;
+        }
+
+        &:hover {
+            color: #1e293b;
+        }
+    }
+}
