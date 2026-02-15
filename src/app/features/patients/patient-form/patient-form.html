@@ -16,12 +16,26 @@
                 <h3>Personal Information</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input id="name" type="text" formControlName="name" placeholder="Enter patient's full name">
+                        <label for="firstName">First Name *</label>
+                        <input id="firstName" type="text" formControlName="firstName" placeholder="Enter first name">
                         <div class="error-msg"
-                            *ngIf="patientForm.get('name')?.touched && patientForm.get('name')?.invalid">
-                            Valid name is required (min 3 chars)
+                            *ngIf="patientForm.get('firstName')?.touched && patientForm.get('firstName')?.invalid">
+                            First name is required
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input id="lastName" type="text" formControlName="lastName" placeholder="Enter last name">
+                        <div class="error-msg"
+                            *ngIf="patientForm.get('lastName')?.touched && patientForm.get('lastName')?.invalid">
+                            Last name is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input id="dateOfBirth" type="date" formControlName="dateOfBirth">
                     </div>
 
                     <div class="form-group">

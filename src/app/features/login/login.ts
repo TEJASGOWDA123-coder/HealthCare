@@ -16,6 +16,7 @@ export class Login {
   loading = false;
   error = '';
   showSupportModal = signal(false);
+  showPassword = signal(false);
 
   private auth = inject(AuthService);
   private router = inject(Router);

@@ -1,0 +1,82 @@
+<div class="form-container">
+    <div class="page-header">
+        <div class="header-info">
+            <h1>Create Invoice</h1>
+            <p>Generate a new invoice for patient billing</p>
+        </div>
+        <button class="btn btn-secondary" routerLink="/billing">
+            Back to Billing
+        </button>
+    </div>
+
+    <div class="form-card">
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <div class="form-section">
+                <h3>Invoice Details</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="invoiceNumber">Invoice Number *</label>
+                        <input id="invoiceNumber" type="text" formControlName="invoiceNumber"
+                            placeholder="e.g. INV-2024-001">
+                        <div class="error-msg"
+                            *ngIf="form.get('invoiceNumber')?.touched && form.get('invoiceNumber')?.invalid">
+                            Invoice number is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="patientName">Patient Name *</label>
+                        <input id="patientName" type="text" formControlName="patientName"
+                            placeholder="Enter patient name">
+                        <div class="error-msg"
+                            *ngIf="form.get('patientName')?.touched && form.get('patientName')?.invalid">
+                            Patient name is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Date *</label>
+                        <input id="date" type="date" formControlName="date">
+                        <div class="error-msg" *ngIf="form.get('date')?.touched && form.get('date')?.invalid">
+                            Date is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="method">Payment Method *</label>
+                        <select id="method" formControlName="method">
+                            <option value="Cash">Cash</option>
+                            <option value="Insurance">Insurance</option>
+                            <option value="Card">Card</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amount">Amount *</label>
+                        <input id="amount" type="number" formControlName="amount" placeholder="0.00" step="0.01">
+                        <div class="error-msg" *ngIf="form.get('amount')?.touched && form.get('amount')?.invalid">
+                            Valid amount is required
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status *</label>
+                        <select id="status" formControlName="status">
+                            <option value="PENDING">Pending</option>
+                            <option value="PAID">Paid</option>
+                            <option value="OVERDUE">Overdue</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" routerLink="/billing">Cancel</button>
+                <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+                    Save Invoice
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

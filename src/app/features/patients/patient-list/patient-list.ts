@@ -25,9 +25,13 @@ export class PatientListComponent implements OnInit {
 
     filteredPatients = computed(() => {
         const term = this.searchTerm().toLowerCase();
-        return this.patients().filter(p =>
-            p.name.toLowerCase().includes(term) ||
-            p.id.toLowerCase().includes(term) ||
+        return this.patients().map(p => ({
+            ...p,
+            name: `${p.firstName} ${p.lastName}`
+        })).filter(p =>
+            p.firstName.toLowerCase().includes(term) ||
+            p.lastName.toLowerCase().includes(term) ||
+            p.id.toString().toLowerCase().includes(term) ||
             p.condition.toLowerCase().includes(term)
         );
     });

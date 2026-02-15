@@ -1,0 +1,54 @@
+<div class="admission-container">
+    <header class="page-header mb-4">
+        <div class="breadcrumb">
+            <span>Patients</span> / <span class="active">Admission Process</span>
+        </div>
+        <h1>Patient Admission</h1>
+        <p>Complete the comprehensive intake form for new hospital admission.</p>
+    </header>
+
+    <div class="admission-card">
+        <div class="admission-tabs">
+            <div class="tab-item" [class.active]="activeTab() === 'demographics'" (click)="setTab('demographics')">
+                <span class="material-icons-round">person</span>
+                Demographics
+            </div>
+            <div class="tab-item" [class.active]="activeTab() === 'history'" (click)="setTab('history')">
+                <span class="material-icons-round">history</span>
+                History
+            </div>
+            <div class="tab-item" [class.active]="activeTab() === 'vitals'" (click)="setTab('vitals')">
+                <span class="material-icons-round">analytics</span>
+                Physical & Vitals
+            </div>
+            <div class="tab-item" [class.active]="activeTab() === 'insurance'" (click)="setTab('insurance')">
+                <span class="material-icons-round">receipt_long</span>
+                Insurance
+            </div>
+            <div class="tab-item" [class.active]="activeTab() === 'legal'" (click)="setTab('legal')">
+                <span class="material-icons-round">gavel</span>
+                Legal & Consent
+            </div>
+        </div>
+
+        <form [formGroup]="admissionForm" (ngSubmit)="onSubmit()">
+            <div class="form-body">
+                <!-- Lazy Loading logic via ngSwitch -->
+                <div [ngSwitch]="activeTab()">
+                    <app-demographics-section *ngSwitchCase="'demographics'"></app-demographics-section>
+                    <app-history-section *ngSwitchCase="'history'"></app-history-section>
+                    <app-vitals-section *ngSwitchCase="'vitals'"></app-vitals-section>
+                    <app-insurance-section *ngSwitchCase="'insurance'"></app-insurance-section>
+                    <app-legal-section *ngSwitchCase="'legal'"></app-legal-section>
+                </div>
+            </div>
+
+            <div class="form-footer">
+                <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+                <button type="submit" class="btn-primary" [disabled]="submitting()">
+                    {{ submitting() ? 'Processing...' : 'Complete Admission' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

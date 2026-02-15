@@ -12,15 +12,15 @@
     <div class="billing-summary">
         <div class="summary-item">
             <span class="label">TOTAL COLLECTED (MTD)</span>
-            <h2 class="value text-green">{{ stats().totalCollected | currency:'USD':'symbol':'1.2-2' }}</h2>
+            <h2 class="value text-green">{{ stats().totalCollected | currency }}</h2>
         </div>
         <div class="summary-item">
             <span class="label">OUTSTANDING BALANCE</span>
-            <h2 class="value text-red">{{ stats().outstandingBalance | currency:'USD':'symbol':'1.2-2' }}</h2>
+            <h2 class="value text-red">{{ stats().outstanding | currency }}</h2>
         </div>
         <div class="summary-item">
             <span class="label">PENDING CLAIMS</span>
-            <h2 class="value text-blue">{{ stats().pendingClaims | currency:'USD':'symbol':'1.2-2' }}</h2>
+            <h2 class="value text-blue">{{ stats().pending | currency }}</h2>
         </div>
     </div>
 
@@ -36,7 +36,7 @@
                 <span class="material-icons-round">file_download</span>
                 Revenue Report
             </button>
-            <button class="btn-primary">
+            <button class="btn-primary" routerLink="/billing/new">
                 Create Invoice
             </button>
         </div>
@@ -57,22 +57,22 @@
             </thead>
             <tbody>
                 <tr *ngFor="let inv of filteredInvoices()">
-                    <td><span class="id-badge">{{ inv.id }}</span></td>
+                    <td><span class="id-badge">{{ inv.invoiceNumber }}</span></td>
                     <td><strong>{{ inv.patientName }}</strong></td>
                     <td>{{ inv.date }}</td>
-                    <td>{{ inv.method }}</td>
+                    <td>{{ inv.method | titlecase }}</td>
                     <td class="amount-cell">{{ inv.amount | currency }}</td>
                     <td>
                         <span class="status-badge" [ngClass]="getStatusClass(inv.status)">
-                            {{ inv.status }}
+                            {{ inv.status | titlecase }}
                         </span>
                     </td>
                     <td class="table-actions">
-                        <button class="action-btn" title="Download PDF">
+                        <button class="action-btn" (click)="download(inv.id)" title="Download PDF">
                             <span class="material-icons-round">file_download</span>
                         </button>
-                        <button class="action-btn" title="Send Reminder">
-                            <span class="material-icons-round">notifications</span>
+                        <button class="action-btn" (click)="deleteInvoice(inv.id)" title="Delete Invoice">
+                            <span class="material-icons-round text-red">delete</span>
                         </button>
                     </td>
                 </tr>

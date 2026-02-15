@@ -480,3 +480,14 @@
         }
     }
 }
+
+.no-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 2rem;
+    color: #64748b;
+    font-size: 0.875rem;
+    text-align: center;
+}

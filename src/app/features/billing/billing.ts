@@ -1,38 +1,83 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { BillingService } from '../../core/services/billing.service';
+import { Invoice } from '../../core/models/invoice.model';
 
-interface Invoice {
-  id: string;
-  patientName: string;
-  date: string;
-  amount: number;
-  status: 'Paid' | 'Pending' | 'Overdue';
-  method: 'Insurance' | 'Credit Card' | 'Cash' | 'Bank Transfer';
-}
 
 @Component({
   selector: 'app-billing',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './billing.html',
   styleUrl: './billing.scss',
 })
-export class Billing {
-  invoices = signal<Invoice[]>([
-    { id: 'INV-2001', patientName: 'Johnathan Abernathy', date: '2024-02-08', amount: 1250.00, status: 'Paid', method: 'Insurance' },
-    { id: 'INV-2002', patientName: 'Sarah Montgomery', date: '2024-02-10', amount: 8400.00, status: 'Pending', method: 'Insurance' },
-    { id: 'INV-2003', patientName: 'Robert Chen', date: '2024-02-05', amount: 150.00, status: 'Paid', method: 'Cash' },
-    { id: 'INV-2004', patientName: 'Emma Thompson', date: '2024-01-28', amount: 2450.00, status: 'Overdue', method: 'Credit Card' },
-    { id: 'INV-2005', patientName: 'Michael Rodriguez', date: '2024-02-09', amount: 450.00, status: 'Paid', method: 'Bank Transfer' },
-    { id: 'INV-2006', patientName: 'Alice Walker', date: '2024-02-01', amount: 310.00, status: 'Paid', method: 'Credit Card' },
-  ]);
-
-  stats = signal({
-    totalCollected: 42850.00,
-    outstandingBalance: 0.00,
-    pendingClaims: 12400.00
+export class Billing implements OnInit {
+  private billing = inject(BillingService);
+  invoices = signal<Invoice[]>([]);
+  loading = signal(false);
+  stats = signal<any>({
+    totalCollected: 0,
+    outstanding: 0,
+    pending: 0
   });
+
+  ngOnInit() {
+    this.loadInvoices();
+    this.loadStats();
+  }
+
+  private loadInvoices() {
+    this.loading.set(true);
+    this.billing.getInvoices().subscribe({
+      next: (data) => {
+        this.invoices.set(data);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error fetching invoices', err);
+        this.loading.set(false);
+      }
+    });
+  }
+
+  private loadStats() {
+    this.billing.getStats().subscribe({
+      next: (data) => {
+        this.stats.set(data);
+      },
+      error: (err) => {
+        console.error('Error fetching stats', err);
+      }
+    });
+  }
+
+  deleteInvoice(id: string) {
+    if (confirm('Are you sure you want to delete this invoice?')) {
+      this.billing.deleteInvoice(id).subscribe({
+        next: () => {
+          this.loadInvoices();
+          this.loadStats(); // Refresh stats after deletion
+        },
+        error: (err: any) => console.error('Error deleting invoice', err)
+      });
+    }
+  }
+
+  download(id: string) {
+    this.billing.downloadPdf(id).subscribe({
+      next: (blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `invoice-${id}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err) => console.error('Error downloading PDF', err)
+    });
+  }
 
   searchTerm = signal('');
 
@@ -42,7 +87,7 @@ export class Billing {
     if (!term) return all;
     return all.filter(i =>
       i.patientName.toLowerCase().includes(term) ||
-      i.id.toLowerCase().includes(term)
+      i.invoiceNumber.toLowerCase().includes(term)
     );
   });
 
@@ -53,10 +98,11 @@ export class Billing {
   );
 
   getStatusClass(status: string): string {
-    switch (status) {
-      case 'Paid': return 'status-green';
-      case 'Pending': return 'status-yellow';
-      case 'Overdue': return 'status-red';
+    const s = status.toLowerCase();
+    switch (s) {
+      case 'paid': return 'status-green';
+      case 'pending': return 'status-yellow';
+      case 'overdue': return 'status-red';
       default: return '';
     }
   }

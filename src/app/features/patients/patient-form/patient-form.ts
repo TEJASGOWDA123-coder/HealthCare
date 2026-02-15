@@ -36,7 +36,9 @@ export class PatientFormComponent implements OnInit {
 
     private initForm() {
         this.patientForm = this.fb.group({
-            name: ['', [Validators.required, Validators.minLength(3)]],
+            firstName: ['', [Validators.required, Validators.minLength(2)]],
+            lastName: ['', [Validators.required, Validators.minLength(2)]],
+            dateOfBirth: [null],
             age: [null, [Validators.required, Validators.min(0), Validators.max(120)]],
             gender: ['', Validators.required],
             condition: ['', Validators.required],
@@ -78,7 +80,16 @@ export class PatientFormComponent implements OnInit {
         }
 
         this.submitting.set(true);
-        const patientData = this.patientForm.value;
+        const formValue = this.patientForm.value;
+
+        // Map frontend fields to backend DTO
+        const patientData = {
+            ...formValue,
+            phoneNumber: formValue.phone, // Map phone to phoneNumber
+            medicalHistory: {}, // Default empty object for now as requested
+            age: formValue.age === '' ? null : formValue.age,
+            dateOfBirth: formValue.dateOfBirth || null
+        };
 
         if (this.isEditMode()) {
             this.patientService.updatePatient(this.patientId()!, patientData).subscribe({

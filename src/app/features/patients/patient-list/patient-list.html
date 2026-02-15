@@ -5,11 +5,12 @@
             <p>Manage and monitor patient records</p>
         </div>
         <div class="header-actions" *ngIf="authService.hasRole(['Admin', 'Doctor'])">
+            <button class="btn btn-secondary mr-2" routerLink="admission">
+                <span class="material-icons-round">assignment</span>
+                Patient Admission
+            </button>
             <button class="btn btn-primary" routerLink="new">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                    stroke="currentColor" class="icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
+                <span class="material-icons-round">add</span>
                 Add Patient
             </button>
         </div>

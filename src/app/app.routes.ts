@@ -40,6 +40,11 @@ export const routes: Routes = [
                 data: { roles: ['Admin'] }
             },
             {
+                path: 'billing/new',
+                loadComponent: () => import('./features/billing/invoice-form/invoice-form').then(m => m.InvoiceFormComponent),
+                data: { roles: ['Admin'] }
+            },
+            {
                 path: 'employee',
                 loadComponent: () => import('./features/coming-soon/coming-soon').then(m => m.ComingSoon),
                 data: { roles: ['Admin'] }
