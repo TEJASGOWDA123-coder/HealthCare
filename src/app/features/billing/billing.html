@@ -68,6 +68,9 @@
                         </span>
                     </td>
                     <td class="table-actions">
+                        <button class="action-btn" (click)="showQr(inv.id)" title="QR Payment">
+                            <span class="material-icons-round">qr_code</span>
+                        </button>
                         <button class="action-btn" (click)="download(inv.id)" title="Download PDF">
                             <span class="material-icons-round">file_download</span>
                         </button>
@@ -78,5 +81,14 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class="card qr-container" *ngIf="qrUrl()">
+        <button class="close-btn" (click)="closeQr()">
+            <span class="material-icons-round">close</span>
+        </button>
+        <h3>QR Payment Code</h3>
+        <img [src]="qrUrl()" width="200" alt="QR Code for Payment">
+        <p class="hint">Scanning for payment... (Auto-refresh active)</p>
     </div>
 </div>

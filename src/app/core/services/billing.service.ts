@@ -34,4 +34,8 @@ export class BillingService {
     downloadPdf(id: string): Observable<Blob> {
         return this.http.get(`${this.api}/${id}/pdf`, { responseType: 'blob' });
     }
+
+    getQr(id: string): Observable<Blob> {
+        return this.http.get(`${this.api}/${id}/qr`, { responseType: 'blob' });
+    }
 }

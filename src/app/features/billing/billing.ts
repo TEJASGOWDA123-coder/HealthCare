@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { BillingService } from '../../core/services/billing.service';
+import { interval } from 'rxjs';
 import { Invoice } from '../../core/models/invoice.model';
 
 
@@ -22,6 +23,7 @@ export class Billing implements OnInit {
     outstanding: 0,
     pending: 0
   });
+  qrUrl = signal<string | null>(null);
 
   ngOnInit() {
     this.loadInvoices();
@@ -77,6 +79,42 @@ export class Billing implements OnInit {
       },
       error: (err) => console.error('Error downloading PDF', err)
     });
+  }
+
+  private pollSub: any;
+
+  ngOnDestroy() {
+    if (this.pollSub) {
+      this.pollSub.unsubscribe();
+    }
+  }
+
+  showQr(id: string) {
+    this.billing.getQr(id).subscribe({
+      next: (blob) => {
+        // Revoke previous URL if exists
+        if (this.qrUrl()) {
+          window.URL.revokeObjectURL(this.qrUrl()!);
+        }
+        this.qrUrl.set(window.URL.createObjectURL(blob));
+
+        // Start polling for updates
+        if (this.pollSub) this.pollSub.unsubscribe();
+        this.pollSub = interval(5000).subscribe(() => {
+          this.loadInvoices();
+          this.loadStats();
+        });
+      },
+      error: (err) => console.error('Error fetching QR code', err)
+    });
+  }
+
+  closeQr() {
+    this.qrUrl.set(null);
+    if (this.pollSub) {
+      this.pollSub.unsubscribe();
+      this.pollSub = null;
+    }
   }
 
   searchTerm = signal('');

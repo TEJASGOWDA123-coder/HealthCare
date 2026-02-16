@@ -228,3 +228,58 @@
         }
     }
 }
+
+.qr-container {
+    margin-top: 2rem;
+    padding: 2rem;
+    text-align: center;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    position: relative; // For absolute positioning of close button
+
+    .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: #94a3b8;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: all 0.2s;
+
+        &:hover {
+            background: #f1f5f9;
+            color: #ef4444;
+        }
+
+        .material-icons-round {
+            font-size: 1.5rem;
+        }
+    }
+
+    h3 {
+        margin: 0 0 1.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1e293b;
+    }
+
+    img {
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        padding: 1rem;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .hint {
+        margin-top: 1rem;
+        color: #64748b;
+        font-size: 0.875rem;
+        font-style: italic;
+    }
+}
