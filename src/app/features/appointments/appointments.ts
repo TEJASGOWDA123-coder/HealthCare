@@ -1,6 +1,7 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AppointmentService } from '../../core/services/appointment.service';
 
 interface Appointment {
   id: string;
@@ -20,8 +21,16 @@ interface Appointment {
   templateUrl: './appointments.html',
   styleUrl: './appointments.scss',
 })
-export class Appointments {
+export class Appointments implements OnInit {
+  private appointmentService = inject(AppointmentService);
   appointments = signal<Appointment[]>([]);
+
+  ngOnInit() {
+    this.appointmentService.list().subscribe({
+      next: (data) => this.appointments.set(data),
+      error: (err) => console.error('Error fetching appointments', err)
+    });
+  }
 
   filterStatus = signal<string>('All');
   searchTerm = signal<string>('');
