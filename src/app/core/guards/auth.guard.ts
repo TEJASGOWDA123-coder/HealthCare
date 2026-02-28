@@ -9,9 +9,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     const authService = inject(AuthService);
     const router = inject(Router);
 
-    // If we're on the server, we don't have access to localStorage.
-    // We return true to allow the initial render, and the client will handle the actual check.
-    if (!isPlatformBrowser(platformId)) {
+   if (!isPlatformBrowser(platformId)) {
         return true;
     }
 
