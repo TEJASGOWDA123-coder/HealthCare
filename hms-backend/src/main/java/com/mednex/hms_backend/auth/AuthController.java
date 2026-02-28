@@ -25,15 +25,31 @@ public class AuthController {
         String email = body.get("email");
         String password = body.get("password");
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+        System.out.println("🔑 AuthController: Login attempt for email - " + email);
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid email or password");
+        // Set tenant based on email domain
+        String tenant = "tenantA";
+        if (email != null && email.contains("hospitalB")) {
+            tenant = "tenantB";
+        } else if (email != null && email.contains("hospitalA")) {
+            tenant = "tenantA";
         }
+        System.out.println("🔑 AuthController: Detected tenant - " + tenant);
+        com.mednex.hms_backend.config.TenantContext.setTenant(tenant);
 
-        String token = jwt.generateToken(user.getEmail(), user.getRole());
+        try {
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Invalid email or password"));
 
-        return Map.of("token", token, "role", user.getRole());
+            if (!passwordEncoder.matches(password, user.getPassword())) {
+                throw new RuntimeException("Invalid email or password");
+            }
+
+            String token = jwt.generateToken(user.getEmail(), user.getRole());
+
+            return Map.of("token", token, "role", user.getRole());
+        } finally {
+            com.mednex.hms_backend.config.TenantContext.clear();
+        }
     }
 }

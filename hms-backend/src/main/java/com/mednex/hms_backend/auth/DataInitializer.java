@@ -1,5 +1,6 @@
 package com.mednex.hms_backend.auth;
 
+import com.mednex.hms_backend.config.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,29 +17,47 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (userRepository.count() == 0) {
-            // Seed Admin
-            userRepository.save(User.builder()
-                    .email("admin@mednex.com")
-                    .password(passwordEncoder.encode("admin123"))
-                    .role("ADMIN")
-                    .build());
+        seedForTenant("tenantA", "hospitalA");
+        seedForTenant("tenantB", "hospitalB");
+    }
 
-            // Seed Doctor
-            userRepository.save(User.builder()
-                    .email("doctor@mednex.com")
-                    .password(passwordEncoder.encode("doctor123"))
-                    .role("DOCTOR")
-                    .build());
+    private void seedForTenant(String tenantId, String domainSuffix) {
+        TenantContext.setTenant(tenantId);
+        try {
+            String adminEmail = "admin@" + domainSuffix + ".com";
+            if (userRepository.findByEmail(adminEmail).isEmpty()) {
+                System.out.println("🌱 Seeding users for " + tenantId + "...");
 
-            // Seed Nurse
-            userRepository.save(User.builder()
-                    .email("nurse@mednex.com")
-                    .password(passwordEncoder.encode("nurse123"))
-                    .role("NURSE")
-                    .build());
+                // Seed Admin
+                userRepository.save(User.builder()
+                        .email(adminEmail)
+                        .password(passwordEncoder.encode("admin123"))
+                        .role("ADMIN")
+                        .build());
 
-            System.out.println("Default users seeded: admin@mednex.com / admin123, etc.");
+                // Seed Doctor
+                userRepository.save(User.builder()
+                        .email("doctor@" + domainSuffix + ".com")
+                        .password(passwordEncoder.encode("doctor123"))
+                        .role("DOCTOR")
+                        .build());
+
+                // Seed Nurse
+                userRepository.save(User.builder()
+                        .email("nurse@" + domainSuffix + ".com")
+                        .password(passwordEncoder.encode("nurse123"))
+                        .role("NURSE")
+                        .build());
+
+                System.out.println("✅ " + tenantId + " seeding complete: " + adminEmail + " / admin123");
+            } else {
+                System.out.println("ℹ️ Users already seeded for " + tenantId);
+            }
+        } catch (Exception e) {
+            System.err.println("⚠️ Could not seed users for " + tenantId + ": " + e.getMessage());
+            System.err.println("👉 Please ensure the 'users' table exists in database related to " + tenantId);
+        } finally {
+            TenantContext.clear();
         }
     }
 }

@@ -1,0 +1,213 @@
+﻿
+startup.log:73:2026-0
+2-19T11:53:06.998+05:
+30  WARN 21584 --- 
+[mednex-backend] [   
+        main] o.h.eng
+ine.jdbc.spi.SqlExcep
+tionHelper   : SQL 
+Error: 0, SQLState: 
+42P01
+startup.log:74:2026-0
+2-19T11:53:06.998+05:
+30 ERROR 21584 --- 
+[mednex-backend] [   
+        main] o.h.eng
+ine.jdbc.spi.SqlExcep
+tionHelper   : 
+ERROR: relation 
+"users" does not 
+exist
+startup.log:78:Error 
+starting 
+ApplicationContext. 
+To display the 
+condition evaluation 
+report re-run your 
+application with 
+'debug' enabled.
+startup.log:79:2026-0
+2-19T11:53:07.031+05:
+30 ERROR 21584 --- 
+[mednex-backend] [   
+        main] o.s.boo
+t.SpringApplication  
+             : 
+Application run 
+failed
+startup.log:81:org.sp
+ringframework.dao.Inv
+alidDataAccessResourc
+eUsageException: 
+JDBC exception 
+executing SQL 
+[select count(*) 
+from users u1_0] 
+[ERROR: relation 
+"users" does not 
+exist
+startup.log:83:	at or
+g.springframework.orm
+.jpa.vendor.Hibernate
+JpaDialect.convertHib
+ernateAccessException
+(HibernateJpaDialect.
+java:281) ~[spring-or
+m-6.2.16.jar:6.2.16]
+startup.log:84:	at or
+g.springframework.orm
+.jpa.vendor.Hibernate
+JpaDialect.convertHib
+ernateAccessException
+(HibernateJpaDialect.
+java:256) ~[spring-or
+m-6.2.16.jar:6.2.16]
+startup.log:85:	at or
+g.springframework.orm
+.jpa.vendor.Hibernate
+JpaDialect.translateE
+xceptionIfPossible(Hi
+bernateJpaDialect.jav
+a:241) ~[spring-orm-6
+.2.16.jar:6.2.16]
+startup.log:86:	at or
+g.springframework.orm
+.jpa.AbstractEntityMa
+nagerFactoryBean.tran
+slateExceptionIfPossi
+ble(AbstractEntityMan
+agerFactoryBean.java:
+560) ~[spring-orm-6.2
+.16.jar:6.2.16]
+startup.log:87:	at or
+g.springframework.dao
+.support.ChainedPersi
+stenceExceptionTransl
+ator.translateExcepti
+onIfPossible(ChainedP
+ersistenceExceptionTr
+anslator.java:61) ~[s
+pring-tx-6.2.16.jar:6
+.2.16]
+startup.log:89:	at or
+g.springframework.dao
+.support.PersistenceE
+xceptionTranslationIn
+terceptor.invoke(Pers
+istenceExceptionTrans
+lationInterceptor.jav
+a:160) ~[spring-tx-6.
+2.16.jar:6.2.16]
+startup.log:98:	at or
+g.springframework.uti
+l.function.ThrowingCo
+nsumer$1.acceptWithEx
+ception(ThrowingConsu
+mer.java:82) ~[spring
+-core-6.2.16.jar:6.2.
+16]
+startup.log:117:Cause
+d by: org.hibernate.e
+xception.SQLGrammarEx
+ception: JDBC 
+exception executing 
+SQL [select count(*) 
+from users u1_0] 
+[ERROR: relation 
+"users" does not 
+exist
+startup.log:119:	at o
+rg.hibernate.exceptio
+n.internal.SQLStateCo
+nversionDelegate.conv
+ert(SQLStateConversio
+nDelegate.java:91) ~[
+hibernate-core-6.6.42
+.Final.jar:6.6.42.Fin
+al]
+startup.log:120:	at o
+rg.hibernate.exceptio
+n.internal.StandardSQ
+LExceptionConverter.c
+onvert(StandardSQLExc
+eptionConverter.java:
+58) ~[hibernate-core-
+6.6.42.Final.jar:6.6.
+42.Final]
+startup.log:121:	at o
+rg.hibernate.engine.j
+dbc.spi.SqlExceptionH
+elper.convert(SqlExce
+ptionHelper.java:108)
+ ~[hibernate-core-6.6
+.42.Final.jar:6.6.42.
+Final]
+startup.log:122:	at o
+rg.hibernate.engine.j
+dbc.spi.SqlExceptionH
+elper.convert(SqlExce
+ptionHelper.java:94) 
+~[hibernate-core-6.6.
+42.Final.jar:6.6.42.F
+inal]
+startup.log:158:	at o
+rg.springframework.da
+o.support.Persistence
+ExceptionTranslationI
+nterceptor.invoke(Per
+sistenceExceptionTran
+slationInterceptor.ja
+va:138) ~[spring-tx-6
+.2.16.jar:6.2.16]
+startup.log:160:Cause
+d by: org.postgresql.
+util.PSQLException: 
+ERROR: relation 
+"users" does not 
+exist
+startup.log:162:	at o
+rg.postgresql.core.v3
+.QueryExecutorImpl.re
+ceiveErrorResponse(Qu
+eryExecutorImpl.java:
+2875) ~[postgresql-42
+.7.10.jar:42.7.10]
+startup.log:181:[ERRO
+R] Failed to execute 
+goal org.springframew
+ork.boot:spring-boot-
+maven-plugin:3.5.11-S
+NAPSHOT:run 
+(default-cli) on 
+project hms-backend: 
+Process terminated 
+with exit code: 1 -> 
+[Help 1]
+startup.log:182:[ERRO
+R] 
+startup.log:183:[ERRO
+R] To see the full 
+stack trace of the 
+errors, re-run Maven 
+with the -e switch.
+startup.log:184:[ERRO
+R] Re-run Maven 
+using the -X switch 
+to enable full debug 
+logging.
+startup.log:185:[ERRO
+R] 
+startup.log:186:[ERRO
+R] For more 
+information about 
+the errors and 
+possible solutions, 
+please read the 
+following articles:
+startup.log:187:[ERRO
+R] [Help 1] http://cw
+iki.apache.org/conflu
+ence/display/MAVEN/Mo
+joExecutionException
+
+
