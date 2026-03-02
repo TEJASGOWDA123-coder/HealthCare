@@ -1,11 +1,12 @@
 package com.mednex.hms_backend.admissions.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.Map;
+import java.time.Instant;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -17,10 +18,14 @@ public class AdmissionDto {
     @NotNull(message = "Patient ID is required")
     private Long patientId;
 
-    @NotNull(message = "Admission date is required")
-    private LocalDateTime admissionDate;
+    private String patientName;
 
-    private LocalDateTime dischargeDate;
+    @NotNull(message = "Admission date is required")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate admissionDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dischargeDate;
 
     @NotBlank(message = "Room number is required")
     private String roomNumber;
@@ -28,8 +33,8 @@ public class AdmissionDto {
     @NotBlank(message = "Doctor in charge is required")
     private String doctorInCharge;
 
-    private Map<String, Object> medicalHistory;
+    private String medicalHistory;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

@@ -5,8 +5,9 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 @Entity
 @Table(name = "admissions")
@@ -21,38 +22,43 @@ public class Admission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "patient_id", nullable = false)
     private Long patientId;
 
-    @Column(nullable = false)
-    private LocalDateTime admissionDate;
+    private String patientName;
 
-    private LocalDateTime dischargeDate;
+    @Column(name = "admission_date", nullable = false)
+    private LocalDate admissionDate;
 
-    @Column(nullable = false)
+    @Column(name = "discharge_date")
+    private LocalDate dischargeDate;
+
+    @Column(name = "room_number", nullable = false)
     private String roomNumber;
 
-    @Column(nullable = false)
+    @Column(name = "doctor_in_charge", nullable = false)
     private String doctorInCharge;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(columnDefinition = "jsonb")
-    private Map<String, Object> medicalHistory;
+    @Column(name = "medical_history", columnDefinition = "jsonb")
+    private String medicalHistory;
 
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt = Instant.now();
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
+        updatedAt = Instant.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = Instant.now();
     }
 }

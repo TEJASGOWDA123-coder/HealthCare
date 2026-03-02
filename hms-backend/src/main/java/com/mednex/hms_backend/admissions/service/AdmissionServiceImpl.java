@@ -6,6 +6,8 @@ import com.mednex.hms_backend.admissions.repository.AdmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +21,7 @@ public class AdmissionServiceImpl implements AdmissionService {
     public AdmissionDto createAdmission(AdmissionDto dto) {
         Admission admission = Admission.builder()
                 .patientId(dto.getPatientId())
+                .patientName(dto.getPatientName())
                 .admissionDate(dto.getAdmissionDate())
                 .dischargeDate(dto.getDischargeDate())
                 .roomNumber(dto.getRoomNumber())
@@ -57,6 +60,7 @@ public class AdmissionServiceImpl implements AdmissionService {
                 .orElseThrow(() -> new RuntimeException("Admission not found"));
 
         admission.setPatientId(dto.getPatientId());
+        admission.setPatientName(dto.getPatientName());
         admission.setAdmissionDate(dto.getAdmissionDate());
         admission.setDischargeDate(dto.getDischargeDate());
         admission.setRoomNumber(dto.getRoomNumber());
@@ -76,6 +80,7 @@ public class AdmissionServiceImpl implements AdmissionService {
         return AdmissionDto.builder()
                 .id(admission.getId())
                 .patientId(admission.getPatientId())
+                .patientName(admission.getPatientName())
                 .admissionDate(admission.getAdmissionDate())
                 .dischargeDate(admission.getDischargeDate())
                 .roomNumber(admission.getRoomNumber())
