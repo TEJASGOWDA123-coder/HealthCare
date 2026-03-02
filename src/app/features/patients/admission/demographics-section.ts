@@ -15,23 +15,32 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
       </div>
       
       <div class="grid-layout">
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.patientId')?.invalid && admissionForm().get('demographics.patientId')?.touched">
+          <label>Patient ID*</label>
+          <input type="number" formControlName="patientId" placeholder="e.g. 1">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.patientId')?.invalid && admissionForm().get('demographics.patientId')?.touched">Required</div>
+        </div>
+        <div class="field" [class.invalid]="admissionForm().get('demographics.firstName')?.invalid && admissionForm().get('demographics.firstName')?.touched">
           <label>First Name*</label>
           <input type="text" formControlName="firstName" placeholder="First Name">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.firstName')?.invalid && admissionForm().get('demographics.firstName')?.touched">Required</div>
         </div>
         <div class="field">
           <label>Middle Name</label>
           <input type="text" formControlName="middleName" placeholder="Middle Name">
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.lastName')?.invalid && admissionForm().get('demographics.lastName')?.touched">
           <label>Last Name*</label>
           <input type="text" formControlName="lastName" placeholder="Last Name">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.lastName')?.invalid && admissionForm().get('demographics.lastName')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.dob')?.invalid && admissionForm().get('demographics.dob')?.touched">
           <label>Date of Birth*</label>
           <input type="date" formControlName="dob">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.dob')?.errors?.['required'] && admissionForm().get('demographics.dob')?.touched">Required</div>
+          <div class="error-message" *ngIf="admissionForm().get('demographics.dob')?.errors?.['futureDate'] && admissionForm().get('demographics.dob')?.touched">Date cannot be in future</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.gender')?.invalid && admissionForm().get('demographics.gender')?.touched">
           <label>Gender*</label>
           <select formControlName="gender">
             <option value="">Select Gender</option>
@@ -39,6 +48,7 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
             <option value="Female">Female</option>
             <option value="Other">Other</option>
           </select>
+          <div class="error-message" *ngIf="admissionForm().get('demographics.gender')?.invalid && admissionForm().get('demographics.gender')?.touched">Required</div>
         </div>
         <div class="field">
           <label>SSN / National ID</label>
@@ -76,29 +86,34 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
           <label>Email Address</label>
           <input type="email" formControlName="email" placeholder="name@example.com">
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.phone')?.invalid && admissionForm().get('demographics.phone')?.touched">
           <label>Phone Number*</label>
           <input type="tel" formControlName="phone" placeholder="Phone Number">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.phone')?.invalid && admissionForm().get('demographics.phone')?.touched">Required</div>
         </div>
-        <div class="field full-width">
+        <div class="field full-width" [class.invalid]="admissionForm().get('demographics.addressLine1')?.invalid && admissionForm().get('demographics.addressLine1')?.touched">
           <label>Address Line 1*</label>
           <input type="text" formControlName="addressLine1" placeholder="Street layout, Apt #">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.addressLine1')?.invalid && admissionForm().get('demographics.addressLine1')?.touched">Required</div>
         </div>
         <div class="field full-width">
           <label>Address Line 2</label>
           <input type="text" formControlName="addressLine2" placeholder="Suite, Building, etc.">
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.city')?.invalid && admissionForm().get('demographics.city')?.touched">
           <label>City*</label>
           <input type="text" formControlName="city" placeholder="City">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.city')?.invalid && admissionForm().get('demographics.city')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.state')?.invalid && admissionForm().get('demographics.state')?.touched">
           <label>State / Province*</label>
           <input type="text" formControlName="state" placeholder="State">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.state')?.invalid && admissionForm().get('demographics.state')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.zipCode')?.invalid && admissionForm().get('demographics.zipCode')?.touched">
           <label>Zip / Postal Code*</label>
           <input type="text" formControlName="zipCode" placeholder="Zip Code">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.zipCode')?.invalid && admissionForm().get('demographics.zipCode')?.touched">Required</div>
         </div>
       </div>
 
@@ -107,17 +122,20 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
         <h3>Emergency Contact</h3>
       </div>
       <div class="grid-layout">
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.emergencyContactName')?.invalid && admissionForm().get('demographics.emergencyContactName')?.touched">
           <label>Contact Name*</label>
           <input type="text" formControlName="emergencyContactName" placeholder="Full Name">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.emergencyContactName')?.invalid && admissionForm().get('demographics.emergencyContactName')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.emergencyContactRelation')?.invalid && admissionForm().get('demographics.emergencyContactRelation')?.touched">
           <label>Relationship*</label>
           <input type="text" formControlName="emergencyContactRelation" placeholder="Relation">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.emergencyContactRelation')?.invalid && admissionForm().get('demographics.emergencyContactRelation')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('demographics.emergencyContactPhone')?.invalid && admissionForm().get('demographics.emergencyContactPhone')?.touched">
           <label>Contact Phone*</label>
           <input type="tel" formControlName="emergencyContactPhone" placeholder="Phone Number">
+          <div class="error-message" *ngIf="admissionForm().get('demographics.emergencyContactPhone')?.invalid && admissionForm().get('demographics.emergencyContactPhone')?.touched">Required</div>
         </div>
         <div class="field">
           <label>Contact Email</label>
@@ -133,4 +151,10 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './admission.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DemographicsSection { }
+export class DemographicsSection {
+  private controlContainer = inject(ControlContainer);
+
+  admissionForm() {
+    return this.controlContainer.control as any;
+  }
+}

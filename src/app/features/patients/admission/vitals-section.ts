@@ -15,37 +15,44 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
       </div>
       
       <div class="grid-layout">
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('vitals.height')?.invalid && admissionForm().get('vitals.height')?.touched">
           <label>Height (cm)*</label>
           <input type="number" formControlName="height" placeholder="e.g. 175">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.height')?.invalid && admissionForm().get('vitals.height')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('vitals.weight')?.invalid && admissionForm().get('vitals.weight')?.touched">
           <label>Weight (kg)*</label>
           <input type="number" formControlName="weight" placeholder="e.g. 70">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.weight')?.invalid && admissionForm().get('vitals.weight')?.touched">Required</div>
         </div>
         <div class="field">
           <label>BMI</label>
           <input type="number" formControlName="bmi" readonly placeholder="Calculated">
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('vitals.bloodPressure')?.invalid && admissionForm().get('vitals.bloodPressure')?.touched">
           <label>Blood Pressure*</label>
           <input type="text" formControlName="bloodPressure" placeholder="120/80">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.bloodPressure')?.invalid && admissionForm().get('vitals.bloodPressure')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('vitals.temperature')?.invalid && admissionForm().get('vitals.temperature')?.touched">
           <label>Temp (°C)*</label>
           <input type="number" step="0.1" formControlName="temperature" placeholder="36.6">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.temperature')?.invalid && admissionForm().get('vitals.temperature')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('vitals.pulseRate')?.invalid && admissionForm().get('vitals.pulseRate')?.touched">
           <label>Pulse (BPM)*</label>
           <input type="number" formControlName="pulseRate" placeholder="72">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.pulseRate')?.invalid && admissionForm().get('vitals.pulseRate')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('vitals.respiratoryRate')?.invalid && admissionForm().get('vitals.respiratoryRate')?.touched">
           <label>Resp Rate*</label>
           <input type="number" formControlName="respiratoryRate" placeholder="16">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.respiratoryRate')?.invalid && admissionForm().get('vitals.respiratoryRate')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('vitals.oxygenSaturation')?.invalid && admissionForm().get('vitals.oxygenSaturation')?.touched">
           <label>SpO2 (%)*</label>
           <input type="number" formControlName="oxygenSaturation" placeholder="98">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.oxygenSaturation')?.invalid && admissionForm().get('vitals.oxygenSaturation')?.touched">Required</div>
         </div>
         <div class="field">
           <label>Pain Level (0-10)</label>
@@ -91,6 +98,11 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
             <option value="Pitting">Pitting</option>
             <option value="Non-pitting">Non-pitting</option>
           </select>
+        </div>
+        <div class="field" [class.invalid]="admissionForm().get('vitals.chiefComplaint')?.invalid && admissionForm().get('vitals.chiefComplaint')?.touched">
+          <label>Chief Complaint*</label>
+          <textarea formControlName="chiefComplaint" placeholder="Reason for admission"></textarea>
+          <div class="error-message" *ngIf="admissionForm().get('vitals.chiefComplaint')?.invalid && admissionForm().get('vitals.chiefComplaint')?.touched">Required</div>
         </div>
         <div class="field">
           <label>Heart Sounds</label>
@@ -143,6 +155,16 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
             <option value="Emergency">Emergency</option>
             <option value="Surgical">Surgical</option>
           </select>
+        </div>
+        <div class="field" [class.invalid]="admissionForm().get('vitals.roomNumber')?.invalid && admissionForm().get('vitals.roomNumber')?.touched">
+          <label>Room Number*</label>
+          <input type="text" formControlName="roomNumber" placeholder="e.g. 302-A">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.roomNumber')?.invalid && admissionForm().get('vitals.roomNumber')?.touched">Required</div>
+        </div>
+        <div class="field" [class.invalid]="admissionForm().get('vitals.admissionDate')?.invalid && admissionForm().get('vitals.admissionDate')?.touched">
+          <label>Admission Date*</label>
+          <input type="date" formControlName="admissionDate">
+          <div class="error-message" *ngIf="admissionForm().get('vitals.admissionDate')?.invalid && admissionForm().get('vitals.admissionDate')?.touched">Required</div>
         </div>
         <div class="field d-flex align-items-center mt-3">
           <label class="checkbox-item mb-0"><input type="checkbox" formControlName="patientIdVerified"> ID Verified</label>

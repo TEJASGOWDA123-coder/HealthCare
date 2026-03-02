@@ -15,13 +15,15 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
       </div>
       
       <div class="grid-layout">
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('insurance.providerName')?.invalid && admissionForm().get('insurance.providerName')?.touched">
           <label>Insurance Provider*</label>
           <input type="text" formControlName="providerName" placeholder="Primary Provider">
+          <div class="error-message" *ngIf="admissionForm().get('insurance.providerName')?.invalid && admissionForm().get('insurance.providerName')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('insurance.policyNumber')?.invalid && admissionForm().get('insurance.policyNumber')?.touched">
           <label>Policy / Plan Number*</label>
           <input type="text" formControlName="policyNumber" placeholder="Policy #">
+          <div class="error-message" *ngIf="admissionForm().get('insurance.policyNumber')?.invalid && admissionForm().get('insurance.policyNumber')?.touched">Required</div>
         </div>
         <div class="field">
           <label>Group Number</label>
@@ -46,13 +48,15 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
         <h3>Policy Holder Details</h3>
       </div>
       <div class="grid-layout">
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('insurance.holderName')?.invalid && admissionForm().get('insurance.holderName')?.touched">
           <label>Primary Holder Name*</label>
           <input type="text" formControlName="holderName" placeholder="Full Name">
+          <div class="error-message" *ngIf="admissionForm().get('insurance.holderName')?.invalid && admissionForm().get('insurance.holderName')?.touched">Required</div>
         </div>
-        <div class="field">
+        <div class="field" [class.invalid]="admissionForm().get('insurance.holderDob')?.invalid && admissionForm().get('insurance.holderDob')?.touched">
           <label>Holder DOB*</label>
           <input type="date" formControlName="holderDob">
+          <div class="error-message" *ngIf="admissionForm().get('insurance.holderDob')?.invalid && admissionForm().get('insurance.holderDob')?.touched">Required</div>
         </div>
         <div class="field">
           <label>Relation to Patient</label>
@@ -108,4 +112,10 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './admission.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InsuranceSection { }
+export class InsuranceSection {
+  private controlContainer = inject(ControlContainer);
+
+  admissionForm() {
+    return this.controlContainer.control as any;
+  }
+}

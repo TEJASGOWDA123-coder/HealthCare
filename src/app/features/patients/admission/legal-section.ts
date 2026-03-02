@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-legal-section',
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule],
-    viewProviders: [{ provide: ControlContainer, useFactory: () => inject(ControlContainer, { skipSelf: true }) }],
-    template: `
+  selector: 'app-legal-section',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  viewProviders: [{ provide: ControlContainer, useFactory: () => inject(ControlContainer, { skipSelf: true }) }],
+  template: `
     <div class="form-section" formGroupName="legalConsent">
       <div class="section-header">
         <span class="material-icons-round">gavel</span>
@@ -59,22 +59,26 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
         <span class="material-icons-round">draw</span>
         <h3>Consents & Authorizations</h3>
       </div>
-      <div class="checkbox-stack bg-slate-50 p-6 rounded-2xl border border-slate-100">
+      <div class="checkbox-stack bg-slate-50 p-6 rounded-2xl border border-slate-100" [class.invalid]="(admissionForm().get('legalConsent.consentToTreat')?.invalid && admissionForm().get('legalConsent.consentToTreat')?.touched) || (admissionForm().get('legalConsent.releaseOfInfo')?.invalid && admissionForm().get('legalConsent.releaseOfInfo')?.touched) || (admissionForm().get('legalConsent.assignmentOfBenefits')?.invalid && admissionForm().get('legalConsent.assignmentOfBenefits')?.touched) || (admissionForm().get('legalConsent.privacyNotice')?.invalid && admissionForm().get('legalConsent.privacyNotice')?.touched)">
         <label class="checkbox-item mb-4">
           <input type="checkbox" formControlName="consentToTreat">
           <span>I formally <strong>consent to diagnostic and medical treatment</strong> as deemed necessary by the attending physician.</span>
+          <div class="error-message" *ngIf="admissionForm().get('legalConsent.consentToTreat')?.invalid && admissionForm().get('legalConsent.consentToTreat')?.touched">Required</div>
         </label>
         <label class="checkbox-item mb-4">
           <input type="checkbox" formControlName="releaseOfInfo">
           <span>I authorize the <strong>release of medical information</strong> to insurance providers for billing purposes.</span>
+          <div class="error-message" *ngIf="admissionForm().get('legalConsent.releaseOfInfo')?.invalid && admissionForm().get('legalConsent.releaseOfInfo')?.touched">Required</div>
         </label>
         <label class="checkbox-item mb-4">
           <input type="checkbox" formControlName="assignmentOfBenefits">
           <span>I <strong>assign all insurance benefits</strong> to be paid directly to the hospital for services rendered.</span>
+          <div class="error-message" *ngIf="admissionForm().get('legalConsent.assignmentOfBenefits')?.invalid && admissionForm().get('legalConsent.assignmentOfBenefits')?.touched">Required</div>
         </label>
         <label class="checkbox-item">
           <input type="checkbox" formControlName="privacyNotice">
           <span>I acknowledge receipt of the <strong>HIPAA Notice of Privacy Practices</strong>.</span>
+          <div class="error-message" *ngIf="admissionForm().get('legalConsent.privacyNotice')?.invalid && admissionForm().get('legalConsent.privacyNotice')?.touched">Required</div>
         </label>
       </div>
 
@@ -90,7 +94,13 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
       </div>
     </div>
   `,
-    styleUrl: './admission.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './admission.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LegalSection { }
+export class LegalSection {
+  private controlContainer = inject(ControlContainer);
+
+  admissionForm() {
+    return this.controlContainer.control as any;
+  }
+}

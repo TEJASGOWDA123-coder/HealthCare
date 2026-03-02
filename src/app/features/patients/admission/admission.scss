@@ -145,6 +145,41 @@
             resize: vertical;
         }
 
+        &.invalid {
+            label {
+                color: #dc2626;
+            }
+
+            input,
+            select,
+            textarea {
+                border-color: #fecaca;
+                background-color: #fef2f2;
+
+                &:focus {
+                    border-color: #dc2626;
+                    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.05);
+                }
+            }
+        }
+
+        .error-message {
+            font-size: 0.75rem;
+            color: #dc2626;
+            font-weight: 600;
+            margin-top: 0.25rem;
+            padding-left: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            &::before {
+                content: 'error';
+                font-family: 'Material Icons Round';
+                font-size: 1rem;
+            }
+        }
+
         &.full-width {
             grid-column: 1 / -1;
         }

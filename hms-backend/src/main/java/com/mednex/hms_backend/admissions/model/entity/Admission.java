@@ -7,7 +7,6 @@ import org.hibernate.type.SqlTypes;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "admissions")
@@ -43,6 +42,7 @@ public class Admission {
     @Column(name = "medical_history", columnDefinition = "jsonb")
     private String medicalHistory;
 
+    @Builder.Default
     @Column(name = "created_at", updatable = false)
     private Instant createdAt = Instant.now();
 

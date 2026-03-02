@@ -7,6 +7,8 @@ import { HistorySection } from './history-section';
 import { VitalsSection } from './vitals-section';
 import { InsuranceSection } from './insurance-section';
 import { LegalSection } from './legal-section';
+import { AdmissionService } from '../../../core/services/admission.service';
+import { CreateAdmissionDto } from '../../../core/models/admission.model';
 
 type AdmissionTab = 'demographics' | 'history' | 'vitals' | 'insurance' | 'legal';
 
@@ -29,6 +31,7 @@ type AdmissionTab = 'demographics' | 'history' | 'vitals' | 'insurance' | 'legal
 export class AdmissionComponent {
     private fb = inject(FormBuilder);
     private router = inject(Router);
+    private admissionService = inject(AdmissionService);
 
     activeTab = signal<AdmissionTab>('demographics');
     submitting = signal(false);
@@ -36,6 +39,7 @@ export class AdmissionComponent {
     // Modular Form Structure with 110+ fields
     admissionForm: FormGroup = this.fb.group({
         demographics: this.fb.group({
+            patientId: [1, Validators.required],
             firstName: ['', Validators.required],
             middleName: [''],
             lastName: ['', Validators.required],
@@ -114,7 +118,9 @@ export class AdmissionComponent {
             valuablesStored: [false],
             nurseAssigned: [''],
             doctorAssigned: [''],
-            wardDepartment: ['General']
+            wardDepartment: ['General'],
+            roomNumber: ['TBD', Validators.required],
+            admissionDate: [new Date().toISOString().split('T')[0], Validators.required]
         }),
         insurance: this.fb.group({
             providerName: ['', Validators.required],
@@ -186,13 +192,32 @@ export class AdmissionComponent {
         }
 
         this.submitting.set(true);
-        console.log('Admission Form Data:', this.admissionForm.getRawValue());
+        const rawValues = this.admissionForm.getRawValue();
 
-        // Simulate API call
-        setTimeout(() => {
-            this.submitting.set(false);
-            this.router.navigate(['/patients']);
-        }, 1500);
+        // Map to Backend DTO
+        const admissionDto: CreateAdmissionDto = {
+            patientId: rawValues.demographics.patientId,
+            patientName: `${rawValues.demographics.firstName} ${rawValues.demographics.lastName}`,
+            admissionDate: rawValues.vitals.admissionDate,
+            roomNumber: rawValues.vitals.roomNumber,
+            doctorInCharge: rawValues.vitals.doctorAssigned || 'TBD',
+            medicalHistory: JSON.stringify(rawValues) // Store full form data in JSONB
+        };
+
+        console.log('Final Admission DTO:', admissionDto);
+
+        this.admissionService.createAdmission(admissionDto).subscribe({
+            next: (res) => {
+                console.log('Admission saved successfully:', res);
+                this.submitting.set(false);
+                this.router.navigate(['/patients']);
+            },
+            error: (err) => {
+                console.error('Failed to save admission:', err);
+                this.submitting.set(false);
+                alert('Failed to save admission. Please check if the patient ID exists and the backend is running.');
+            }
+        });
     }
 
     cancel() {
