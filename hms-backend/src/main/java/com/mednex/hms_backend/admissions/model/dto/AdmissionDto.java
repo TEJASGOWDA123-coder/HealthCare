@@ -35,6 +35,9 @@ public class AdmissionDto {
 
     private String medicalHistory;
 
+    private Long assignedDoctorId;
+    private String status; // PENDING, ACTIVE, DISCHARGED
+
     private Instant createdAt;
     private Instant updatedAt;
 }

@@ -1,0 +1,47 @@
+<div class="reports-container">
+    <div class="header">
+        <div class="title-section">
+            <h1>Analytics & Reporting Center</h1>
+            <p>Generate and export detailed insights into hospital performance</p>
+        </div>
+        <div class="global-actions">
+            <button class="secondary-btn">
+                <span class="material-icons-round">history</span>
+                Export History
+            </button>
+        </div>
+    </div>
+
+    <div class="reports-grid">
+        <div class="report-card" *ngFor="let report of reports()">
+            <div class="card-top">
+                <div class="icon-box" [class]="report.category.toLowerCase()">
+                    <span class="material-icons-round">{{ report.icon }}</span>
+                </div>
+                <div class="meta">
+                    <span class="cat-tag">{{ report.category }}</span>
+                    <span class="report-id">#{{ report.id }}</span>
+                </div>
+            </div>
+
+            <div class="card-middle">
+                <h3>{{ report.title }}</h3>
+                <p>{{ report.description }}</p>
+                <div class="last-run">
+                    <span class="material-icons-round">schedule</span>
+                    Last generated: {{ report.lastGenerated }}
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button class="action-btn download" (click)="downloadReport(report)">
+                    <span class="material-icons-round">file_download</span>
+                    Download PDF
+                </button>
+                <button class="action-btn refresh" (click)="generateNow(report)">
+                    <span class="material-icons-round">refresh</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

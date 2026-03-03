@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +44,11 @@ public class PatientController {
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
         service.deletePatient(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<PatientDto> getMe(Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(service.getPatientByEmail(email));
     }
 }

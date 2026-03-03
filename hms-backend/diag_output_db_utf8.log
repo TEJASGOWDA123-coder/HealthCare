@@ -1,0 +1,136 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] -----------------------< com.mednex:hms-backend >-----------------------
+[INFO] Building mednex-backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hms-backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hms-backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hms-backend ---
+[INFO] skip non existing resourceDirectory C:\Users\HP\Videos\Healthcae\frontend\hms-backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hms-backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hms-backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running com.mednex.hms_backend.admissions.DbDiagnosticTest
+15:37:23.512 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.mednex.hms_backend.admissions.DbDiagnosticTest]: DbDiagnosticTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:37:23.844 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.mednex.MednexApplication for test class com.mednex.hms_backend.admissions.DbDiagnosticTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::      (v3.5.11-SNAPSHOT)
+
+2026-03-03T15:37:24.916+05:30  INFO 4824 --- [mednex-backend] [           main] c.m.h.admissions.DbDiagnosticTest        : Starting DbDiagnosticTest using Java 17.0.12 with PID 4824 (started by HP in C:\Users\HP\Videos\Healthcae\frontend\hms-backend)
+2026-03-03T15:37:24.918+05:30 DEBUG 4824 --- [mednex-backend] [           main] c.m.h.admissions.DbDiagnosticTest        : Running with Spring Boot v3.5.11-SNAPSHOT, Spring v6.2.16
+2026-03-03T15:37:24.920+05:30  INFO 4824 --- [mednex-backend] [           main] c.m.h.admissions.DbDiagnosticTest        : No active profile set, falling back to 1 default profile: "default"
+2026-03-03T15:37:24.991+05:30 DEBUG 4824 --- [mednex-backend] [           main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@ec50f54
+2026-03-03T15:37:26.666+05:30  INFO 4824 --- [mednex-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-03T15:37:26.908+05:30  INFO 4824 --- [mednex-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 217 ms. Found 5 JPA repository interfaces.
+2026-03-03T15:37:28.037+05:30  INFO 4824 --- [mednex-backend] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-03T15:37:28.169+05:30  INFO 4824 --- [mednex-backend] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.42.Final
+2026-03-03T15:37:28.265+05:30  INFO 4824 --- [mednex-backend] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-03-03T15:37:29.084+05:30  INFO 4824 --- [mednex-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+? MultiTenantProvider: Requested connection for tenant - tenantA
+? MultiTenantProvider: Connecting to - jdbc:postgresql://localhost:5432/mednex
+2026-03-03T15:37:29.652+05:30  WARN 4824 --- [mednex-backend] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-03T15:37:29.690+05:30  INFO 4824 --- [mednex-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [undefined/unknown]
+	Database driver: undefined/unknown
+	Database version: 18.1
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-03T15:37:31.670+05:30  INFO 4824 --- [mednex-backend] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+? MultiTenantProvider: Requested connection for tenant - tenantA
+? MultiTenantProvider: Connecting to - jdbc:postgresql://localhost:5432/mednex
+2026-03-03T15:37:31.875+05:30  INFO 4824 --- [mednex-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-03T15:37:32.499+05:30  INFO 4824 --- [mednex-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-03T15:37:33.553+05:30  INFO 4824 --- [mednex-backend] [           main] c.m.h.c.s.JwtAuthenticationFilter        : ? JwtAuthenticationFilter: Bean created
+2026-03-03T15:37:33.690+05:30  WARN 4824 --- [mednex-backend] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-03T15:37:33.764+05:30  WARN 4824 --- [mednex-backend] [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 58eb3086-e3f0-4b3f-a1c8-9bfc0da16045
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-03-03T15:37:33.784+05:30  INFO 4824 --- [mednex-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-03-03T15:37:33.995+05:30 DEBUG 4824 --- [mednex-backend] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, JwtAuthenticationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-03-03T15:37:34.410+05:30 DEBUG 4824 --- [mednex-backend] [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 29 mappings in 'requestMappingHandlerMapping'
+2026-03-03T15:37:34.698+05:30 DEBUG 4824 --- [mednex-backend] [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-03-03T15:37:34.768+05:30 DEBUG 4824 --- [mednex-backend] [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-03-03T15:37:34.874+05:30 DEBUG 4824 --- [mednex-backend] [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-03-03T15:37:35.165+05:30  INFO 4824 --- [mednex-backend] [           main] c.m.h.admissions.DbDiagnosticTest        : Started DbDiagnosticTest in 10.929 seconds (process running for 13.204)
+? MultiTenantProvider: Requested connection for tenant - tenantA
+? MultiTenantProvider: Connecting to - jdbc:postgresql://localhost:5432/mednex
+?? Users already seeded for tenantA
+? MultiTenantProvider: Requested connection for tenant - tenantB
+? MultiTenantProvider: Connecting to - jdbc:postgresql://localhost:5432/mednex
+?? Users already seeded for tenantB
+? MultiTenantProvider: Requested connection for tenant - tenantA
+? MultiTenantProvider: Connecting to - jdbc:postgresql://localhost:5432/mednex
+? MultiTenantProvider: Requested connection for tenant - tenantB
+? MultiTenantProvider: Connecting to - jdbc:postgresql://localhost:5432/mednex
+./mvnw : Java 
+HotSpot(TM) 64-Bit 
+Server VM warning: 
+Sharing is only 
+supported for boot 
+loader classes because 
+bootstrap classpath 
+has been appended
+At line:1 char:1
++ ./mvnw test -Dtest=Db
+DiagnosticTest > 
+diag_output_db.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (Java HotSpot(   
+ TM...s been append    
+ed:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+--- DB Diagnostic Starting ---
+? Current Database: mednex
+? All Databases: [postgres, fintechdb, finbank, fintech_db, mednex, db_a, db_b]
+? Schemas found: [public, hospitalb, hospitala]
+   ? Tables in public: [tenant_registry, appointments, users, admissions, invoices, patients]
+   ? Row count in public.admissions: 3
+   ? Tables in hospitalb: []
+   ? Tables in hospitala: []
+--- DB Diagnostic Complete ---
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.05 s -- in com.mednex.hms_backend.admissions.DbDiagnosticTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  19.189 s
+[INFO] Finished at: 2026-03-03T15:37:37+05:30
+[INFO] ------------------------------------------------------------------------

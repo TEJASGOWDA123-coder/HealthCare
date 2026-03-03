@@ -1,0 +1,57 @@
+<div class="help-container">
+    <div class="header">
+        <h1>Help & Support Hub</h1>
+        <p>Find answers, learn how to use the platform, or get in touch with our experts</p>
+    </div>
+
+    <!-- Category Tiles -->
+    <div class="categories-grid">
+        <div class="category-card" *ngFor="let cat of categories">
+            <span class="material-icons-round">{{ cat.icon }}</span>
+            <h3>{{ cat.name }}</h3>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item" *ngFor="let faq of faqs(); let i = index" [class.open]="faq.open">
+                    <div class="faq-header" (click)="toggleFaq(i)">
+                        <h3>{{ faq.question }}</h3>
+                        <span class="material-icons-round">expand_more</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>{{ faq.answer }}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sidebar / Contact -->
+        <aside class="support-sidebar">
+            <div class="contact-card">
+                <span class="material-icons-round">headset_mic</span>
+                <h2>Need more help?</h2>
+                <p>Our dedicated support team is available 24/7 to assist you with any technical issues or questions.
+                </p>
+                <button class="primary-btn" (click)="contactSupport()">
+                    Chat with Support
+                </button>
+            </div>
+
+            <div class="doc-links">
+                <h3>Quick Documentation</h3>
+                <a href="#">
+                    <span class="material-icons-round">menu_book</span>
+                    Full User Manual
+                </a>
+                <a href="#">
+                    <span class="material-icons-round">video_library</span>
+                    Video Tutorials
+                </a>
+            </div>
+        </aside>
+    </div>
+</div>

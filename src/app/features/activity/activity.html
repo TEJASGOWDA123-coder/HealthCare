@@ -1,0 +1,42 @@
+<div class="activity-container">
+    <div class="header">
+        <h1>System Activity Feed</h1>
+        <p>Real-time audit log of all hospital operations and system events</p>
+    </div>
+
+    <div class="timeline" *ngIf="!loading()">
+        <div class="timeline-item" *ngFor="let activity of activities()" [class]="activity.status">
+            <div class="item-marker">
+                <div class="icon-circle">
+                    <span class="material-icons-round">{{ getIcon(activity.type) }}</span>
+                </div>
+                <div class="line"></div>
+            </div>
+
+            <div class="item-content">
+                <div class="item-header">
+                    <h3>{{ activity.title }}</h3>
+                    <span class="timestamp">{{ formatDate(activity.timestamp) }}</span>
+                </div>
+                <p class="description">{{ activity.description }}</p>
+                <div class="footer">
+                    <span class="user">
+                        <span class="material-icons-round">person</span>
+                        {{ activity.performedBy }}
+                    </span>
+                    <span class="tag" [class]="activity.type.toLowerCase()">{{ activity.type }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty-state" *ngIf="activities().length === 0">
+            <span class="material-icons-round">history</span>
+            <p>No activity recorded yet</p>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading()">
+        <div class="skeleton-item" *ngFor="let i of [1,2,3,4]"></div>
+    </div>
+</div>

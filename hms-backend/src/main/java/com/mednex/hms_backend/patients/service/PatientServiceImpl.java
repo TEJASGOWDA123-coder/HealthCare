@@ -40,6 +40,13 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public PatientDto getPatientByEmail(String email) {
+        Patient patient = repository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Patient not found with email: " + email));
+        return mapToDto(patient);
+    }
+
+    @Override
     public PatientDto updatePatient(Long id, PatientDto dto) {
         Patient patient = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));

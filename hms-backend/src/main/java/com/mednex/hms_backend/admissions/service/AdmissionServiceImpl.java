@@ -24,6 +24,8 @@ public class AdmissionServiceImpl implements AdmissionService {
                 .dischargeDate(dto.getDischargeDate())
                 .roomNumber(dto.getRoomNumber())
                 .doctorInCharge(dto.getDoctorInCharge())
+                .assignedDoctorId(dto.getAssignedDoctorId())
+                .status(dto.getStatus() != null ? dto.getStatus() : "PENDING")
                 .medicalHistory(dto.getMedicalHistory())
                 .build();
 
@@ -83,6 +85,8 @@ public class AdmissionServiceImpl implements AdmissionService {
                 .dischargeDate(admission.getDischargeDate())
                 .roomNumber(admission.getRoomNumber())
                 .doctorInCharge(admission.getDoctorInCharge())
+                .assignedDoctorId(admission.getAssignedDoctorId())
+                .status(admission.getStatus())
                 .medicalHistory(admission.getMedicalHistory())
                 .createdAt(admission.getCreatedAt())
                 .updatedAt(admission.getUpdatedAt())

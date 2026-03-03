@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Component
@@ -25,29 +24,36 @@ public class AppointmentSeeder implements CommandLineRunner {
     private void seedForTenant(String tenantId) {
         TenantContext.setTenant(tenantId);
         try {
+            System.out.println("📅 Seeding appointments for " + tenantId + "...");
+            appointmentRepository.deleteAll(); // Force refresh for development
             if (appointmentRepository.count() == 0) {
-                System.out.println("📅 Seeding appointments for " + tenantId + "...");
                 appointmentRepository.saveAll(Arrays.asList(
                         Appointment.builder()
-                                .patient("Alice Green")
-                                .specialist("Dr. Miller")
-                                .dateTime(LocalDateTime.now().plusDays(1).withHour(10).withMinute(0))
+                                .patientName("Alice Green")
+                                .doctorName("Dr. Miller")
+                                .department("Cardiology")
+                                .date("2026-03-04")
+                                .time("10:00 AM")
                                 .type("Consultation")
-                                .status("SCHEDULED")
+                                .status("Confirmed")
                                 .build(),
                         Appointment.builder()
-                                .patient("Bob Wilson")
-                                .specialist("Dr. Sarah")
-                                .dateTime(LocalDateTime.now().plusDays(2).withHour(14).withMinute(30))
+                                .patientName("Bob Wilson")
+                                .doctorName("Dr. Sarah")
+                                .department("Neurology")
+                                .date("2026-03-05")
+                                .time("02:30 PM")
                                 .type("Follow-up")
-                                .status("SCHEDULED")
+                                .status("Confirmed")
                                 .build(),
                         Appointment.builder()
-                                .patient("Charlie Brown")
-                                .specialist("Dr. Smith")
-                                .dateTime(LocalDateTime.now().minusDays(1).withHour(9).withMinute(15))
+                                .patientName("Charlie Brown")
+                                .doctorName("Dr. Smith")
+                                .department("Orthopedics")
+                                .date("2026-03-02")
+                                .time("09:15 AM")
                                 .type("Surgery")
-                                .status("COMPLETED")
+                                .status("Completed")
                                 .build()));
                 System.out.println("✅ " + tenantId + " appointment seeding complete");
             }

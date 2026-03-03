@@ -28,25 +28,34 @@ public class DataInitializer implements CommandLineRunner {
             if (userRepository.findByEmail(adminEmail).isEmpty()) {
                 System.out.println("🌱 Seeding users for " + tenantId + "...");
 
-                // Seed Admin
                 userRepository.save(User.builder()
                         .email(adminEmail)
                         .password(passwordEncoder.encode("admin123"))
                         .role("ADMIN")
+                        .fullName("Hospital Admin")
                         .build());
 
-                // Seed Doctor
-                userRepository.save(User.builder()
-                        .email("doctor@" + domainSuffix + ".com")
-                        .password(passwordEncoder.encode("doctor123"))
-                        .role("DOCTOR")
-                        .build());
+                // Specialized Doctors
+                seedDoctor(domainSuffix, "cardio", "Dr. Arjun Mehta", "Cardiology");
+                seedDoctor(domainSuffix, "ortho", "Dr. Priya Sharma", "Orthopedics");
+                seedDoctor(domainSuffix, "neuro", "Dr. Ravi Kumar", "Neurology");
+                seedDoctor(domainSuffix, "general", "Dr. Sneha Patel", "General Medicine");
+                seedDoctor(domainSuffix, "pulmo", "Dr. Ali Hassan", "Pulmonology");
+                seedDoctor(domainSuffix, "gastro", "Dr. Meena Joshi", "Gastroenterology");
 
-                // Seed Nurse
                 userRepository.save(User.builder()
                         .email("nurse@" + domainSuffix + ".com")
                         .password(passwordEncoder.encode("nurse123"))
                         .role("NURSE")
+                        .fullName("Head Nurse")
+                        .build());
+
+                // Sample Patient User
+                userRepository.save(User.builder()
+                        .email("patient@" + domainSuffix + ".com")
+                        .password(passwordEncoder.encode("patient123"))
+                        .role("PATIENT")
+                        .fullName(domainSuffix.equals("hospitalA") ? "John Doe" : "Jane Doe")
                         .build());
 
                 System.out.println("✅ " + tenantId + " seeding complete: " + adminEmail + " / admin123");
@@ -58,6 +67,19 @@ public class DataInitializer implements CommandLineRunner {
             System.err.println("👉 Please ensure the 'users' table exists in database related to " + tenantId);
         } finally {
             TenantContext.clear();
+        }
+    }
+
+    private void seedDoctor(String domainSuffix, String prefix, String fullName, String specialization) {
+        String email = prefix + ".doctor@" + domainSuffix + ".com";
+        if (userRepository.findByEmail(email).isEmpty()) {
+            userRepository.save(User.builder()
+                    .email(email)
+                    .password(passwordEncoder.encode("doctor123"))
+                    .role("DOCTOR")
+                    .fullName(fullName)
+                    .specialization(specialization)
+                    .build());
         }
     }
 }

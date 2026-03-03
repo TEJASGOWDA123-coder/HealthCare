@@ -6,6 +6,8 @@ export interface Admission {
     dischargeDate?: string;
     roomNumber: string;
     doctorInCharge: string;
+    assignedDoctorId?: number;
+    status: 'PENDING' | 'ACTIVE' | 'DISCHARGED';
     medicalHistory: string; // JSON string
     createdAt?: string;
     updatedAt?: string;
@@ -17,5 +19,7 @@ export interface CreateAdmissionDto {
     admissionDate: string;
     roomNumber: string;
     doctorInCharge: string;
+    assignedDoctorId?: number;
+    status?: 'PENDING' | 'ACTIVE' | 'DISCHARGED';
     medicalHistory: string; // JSON string
 }

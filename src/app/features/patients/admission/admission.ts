@@ -118,6 +118,7 @@ export class AdmissionComponent {
             valuablesStored: [false],
             nurseAssigned: [''],
             doctorAssigned: [''],
+            assignedDoctorId: [null],
             wardDepartment: ['General'],
             roomNumber: ['TBD', Validators.required],
             admissionDate: [new Date().toISOString().split('T')[0], Validators.required]
@@ -201,6 +202,8 @@ export class AdmissionComponent {
             admissionDate: rawValues.vitals.admissionDate,
             roomNumber: rawValues.vitals.roomNumber,
             doctorInCharge: rawValues.vitals.doctorAssigned || 'TBD',
+            assignedDoctorId: rawValues.vitals.assignedDoctorId,
+            status: 'PENDING',
             medicalHistory: JSON.stringify(rawValues) // Store full form data in JSONB
         };
 

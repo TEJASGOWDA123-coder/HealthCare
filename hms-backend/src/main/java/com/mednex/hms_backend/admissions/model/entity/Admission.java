@@ -38,6 +38,13 @@ public class Admission {
     @Column(name = "doctor_in_charge", nullable = false)
     private String doctorInCharge;
 
+    @Column(name = "assigned_doctor_id")
+    private Long assignedDoctorId; // FK to users.id
+
+    @Column(name = "status")
+    @Builder.Default
+    private String status = "PENDING"; // PENDING, ACTIVE, DISCHARGED
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "medical_history", columnDefinition = "jsonb")
     private String medicalHistory;

@@ -23,5 +23,9 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String role; // ADMIN, DOCTOR, NURSE
+    private String role; // ADMIN, DOCTOR, NURSE, PATIENT
+
+    private String fullName; // Display name e.g. "Dr. Sarah Khan"
+
+    private String specialization; // e.g. Cardiology, Orthopedics, General Medicine
 }

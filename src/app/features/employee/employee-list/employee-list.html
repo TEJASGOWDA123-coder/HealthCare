@@ -1,0 +1,111 @@
+<div class="employee-container">
+    <div class="header-section">
+        <div class="title-group">
+            <h1>Employees</h1>
+            <p>Manage hospital staff, doctors and clinical representatives</p>
+        </div>
+        <button class="add-btn" (click)="navigateToForm()">
+            <span class="material-icons-round">add</span>
+            Add New Employee
+        </button>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="staff-stats">
+        <div class="stat-item">
+            <span class="label">Total Staff</span>
+            <span class="value">{{ totalStaff() }}</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="label">Doctors</span>
+            <span class="value">{{ doctorCount() }}</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <span class="label">Clinical/Nurses</span>
+            <span class="value">{{ nurseCount() }}</span>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="table-card">
+            <table [class.loading]="loading()">
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Role</th>
+                        <th>Specialization</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let staff of staffList()">
+                        <td>
+                            <div class="user-info">
+                                <div class="avatar" [class]="getRoleClass(staff.role)">
+                                    {{ getInitials(staff.fullName) }}
+                                </div>
+                                <div class="name-box">
+                                    <span class="full-name">{{ staff.fullName }}</span>
+                                    <span class="emp-id">EMP-{{ staff.id }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="role-badge" [class]="getRoleClass(staff.role)">
+                                {{ staff.role }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="spec-cell">
+                                <span class="material-icons-round" *ngIf="staff.specialization">verified_user</span>
+                                {{ staff.specialization || 'Clinical Support' }}
+                            </div>
+                        </td>
+                        <td>{{ staff.email }}</td>
+                        <td>
+                            <div class="action-row">
+                                <button class="icon-btn edit">
+                                    <span class="material-icons-round">edit</span>
+                                </button>
+                                <button class="icon-btn delete">
+                                    <span class="material-icons-round">delete_outline</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Loading Skeletons -->
+                    <ng-container *ngIf="loading()">
+                        <tr *ngFor="let i of [1,2,3,4,5]" class="skeleton-row">
+                            <td>
+                                <div class="skeleton avatar-box"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton badge"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton text"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton text"></div>
+                            </td>
+                            <td>
+                                <div class="skeleton actions"></div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+
+            <!-- Empty State -->
+            <div class="empty-state" *ngIf="!loading() && staffList().length === 0">
+                <span class="material-icons-round">sentiment_dissatisfied</span>
+                <h3>No staff found</h3>
+                <p>Start by adding your first hospital employee</p>
+            </div>
+        </div>
+    </div>
+</div>

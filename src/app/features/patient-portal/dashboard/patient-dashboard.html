@@ -1,0 +1,111 @@
+<div class="patient-portal-container">
+    <div class="welcome-header" *ngIf="patientProfile()">
+        <div class="user-intro">
+            <h1>Welcome back, {{ patientProfile().firstName }}!</h1>
+            <p>Your health journey at a glance</p>
+        </div>
+        <div class="last-sync">
+            <span class="material-icons-round">sync</span>
+            Refreshed just now
+        </div>
+    </div>
+
+    <!-- Quick Stats for Patient -->
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="card-icon blood">
+                <span class="material-icons-round">bloodtype</span>
+            </div>
+            <div class="card-content">
+                <label>Blood Group</label>
+                <h3>{{ patientProfile()?.bloodGroup || 'N/A' }}</h3>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="card-icon alert">
+                <span class="material-icons-round">heart_broken</span>
+            </div>
+            <div class="card-content">
+                <label>Active Condition</label>
+                <h3>{{ patientProfile()?.condition || 'Stable' }}</h3>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <div class="card-icon room">
+                <span class="material-icons-round">meeting_room</span>
+            </div>
+            <div class="card-content">
+                <label>Current Location</label>
+                <h3>{{ activeAdmission()?.roomNumber || 'Outpatient' }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-main">
+        <!-- Admission Info -->
+        <div class="main-column">
+            <div class="admission-highlight" *ngIf="activeAdmission()">
+                <div class="highlight-header">
+                    <h2>Current Hospitalization</h2>
+                    <span class="status-chip" [class]="activeAdmission()?.status?.toLowerCase()">
+                        {{ activeAdmission()?.status }}
+                    </span>
+                </div>
+
+                <div class="doctor-chip">
+                    <div class="doc-avatar">
+                        <span class="material-icons-round">person</span>
+                    </div>
+                    <div class="doc-details">
+                        <label>Assigned Specialist</label>
+                        <p>{{ activeAdmission()?.doctorInCharge }}</p>
+                    </div>
+                </div>
+
+                <div class="admission-meta">
+                    <div class="meta-item">
+                        <span class="material-icons-round">calendar_today</span>
+                        <span>Admitted on {{ activeAdmission()?.admissionDate | date:'mediumDate' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="empty-admission" *ngIf="!activeAdmission() && !loading()">
+                <span class="material-icons-round">health_and_safety</span>
+                <h3>No active hospitalizations</h3>
+                <p>You have no current inpatient records. Stay safe!</p>
+            </div>
+        </div>
+
+        <!-- Personal Details / History -->
+        <div class="side-column">
+            <div class="profile-summary">
+                <h3>My Details</h3>
+                <div class="detail-row">
+                    <span>Age</span>
+                    <strong>{{ patientProfile()?.age }}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Gender</span>
+                    <strong>{{ patientProfile()?.gender }}</strong>
+                </div>
+                <div class="detail-row">
+                    <span>Date of Birth</span>
+                    <strong>{{ patientProfile()?.dateOfBirth | date:'longDate' }}</strong>
+                </div>
+            </div>
+
+            <div class="medical-alert">
+                <div class="alert-title">
+                    <span class="material-icons-round">warning</span>
+                    <h3>Medical History</h3>
+                </div>
+                <p class="history-text">
+                    {{ patientProfile()?.medicalHistory || 'No major medical history recorded.' }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

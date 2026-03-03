@@ -1,0 +1,199 @@
+.reports-container {
+    padding: 3rem;
+    max-width: 1300px;
+    margin: 0 auto;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 4rem;
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.125rem;
+        }
+
+        .secondary-btn {
+            padding: 0.875rem 1.75rem;
+            border-radius: 0.75rem;
+            border: 1.5px solid #eee;
+            background: white;
+            color: #444;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+
+            &:hover {
+                background: #f9f9f9;
+                border-color: #ddd;
+            }
+        }
+    }
+
+    .reports-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 2rem;
+    }
+
+    .report-card {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2.25rem;
+        border: 1px solid #eee;
+        display: flex;
+        flex-direction: column;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            border-color: #f0f0f0;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+
+            .icon-box {
+                width: 56px;
+                height: 56px;
+                border-radius: 1.25rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .material-icons-round {
+                    font-size: 1.75rem;
+                }
+
+                &.clinical {
+                    background: #e0f2fe;
+                    color: #0369a1;
+                }
+
+                &.financial {
+                    background: #f0fdf4;
+                    color: #15803d;
+                }
+
+                &.operations {
+                    background: #fefce8;
+                    color: #854d0e;
+                }
+
+                &.logistics {
+                    background: #f5f3ff;
+                    color: #5b21b6;
+                }
+            }
+
+            .meta {
+                text-align: right;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                .cat-tag {
+                    font-size: 0.75rem;
+                    font-weight: 800;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    color: #999;
+                }
+
+                .report-id {
+                    font-size: 0.8125rem;
+                    color: #ccc;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .card-middle {
+            flex: 1;
+            margin-bottom: 2.5rem;
+
+            h3 {
+                font-size: 1.25rem;
+                font-weight: 800;
+                color: #1a1a1a;
+                margin-bottom: 0.75rem;
+            }
+
+            p {
+                font-size: 0.9375rem;
+                color: #666;
+                line-height: 1.6;
+                margin-bottom: 1.5rem;
+            }
+
+            .last-run {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.8125rem;
+                font-weight: 600;
+                color: #aaa;
+
+                .material-icons-round {
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        .card-footer {
+            display: flex;
+            gap: 1rem;
+
+            .action-btn {
+                height: 48px;
+                border-radius: 0.875rem;
+                border: none;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &.download {
+                    flex: 1;
+                    background: #1a1a1a;
+                    color: white;
+                    gap: 0.75rem;
+
+                    &:hover {
+                        background: #333;
+                    }
+                }
+
+                &.refresh {
+                    width: 48px;
+                    background: #f5f5f5;
+                    color: #666;
+
+                    &:hover {
+                        background: #eee;
+                        color: #1a1a1a;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -14,6 +14,10 @@ export class AdmissionService {
         return this.http.get<Admission[]>(this.apiUrl);
     }
 
+    getMyAdmissions(): Observable<Admission[]> {
+        return this.http.get<Admission[]>(`${this.apiUrl}/my`);
+    }
+
     getAdmission(id: number): Observable<Admission> {
         return this.http.get<Admission>(`${this.apiUrl}/${id}`);
     }

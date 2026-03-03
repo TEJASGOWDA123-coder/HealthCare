@@ -20,8 +20,18 @@ export const routes: Routes = [
                 data: { roles: ['Admin', 'Doctor', 'Nurse'] }
             },
             {
+                path: 'dashboard',
+                loadComponent: () => import('./features/patient-portal/dashboard/patient-dashboard').then(m => m.PatientDashboard),
+                data: { roles: ['Patient'] }
+            },
+            {
                 path: 'patients',
                 loadChildren: () => import('./features/patients/patients.routes').then(m => m.PATIENT_ROUTES),
+                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+            },
+            {
+                path: 'admissions',
+                loadComponent: () => import('./features/admissions/admission-list/admission-list').then(m => m.AdmissionListComponent),
                 data: { roles: ['Admin', 'Doctor', 'Nurse'] }
             },
             {
@@ -51,32 +61,37 @@ export const routes: Routes = [
             },
             {
                 path: 'employee',
-                loadComponent: () => import('./features/coming-soon/coming-soon').then(m => m.ComingSoon),
+                loadComponent: () => import('./features/employee/employee-list/employee-list').then(m => m.EmployeeListComponent),
+                data: { roles: ['Admin'] }
+            },
+            {
+                path: 'employee/new',
+                loadComponent: () => import('./features/employee/employee-form/employee-form').then(m => m.EmployeeFormComponent),
                 data: { roles: ['Admin'] }
             },
             {
                 path: 'activity',
-                loadComponent: () => import('./features/coming-soon/coming-soon').then(m => m.ComingSoon),
+                loadComponent: () => import('./features/activity/activity').then(m => m.ActivityComponent),
                 data: { roles: ['Admin', 'Doctor'] }
             },
             {
                 path: 'statistics',
-                loadComponent: () => import('./features/coming-soon/coming-soon').then(m => m.ComingSoon),
+                loadComponent: () => import('./features/statistics/statistics').then(m => m.StatisticsComponent),
                 data: { roles: ['Admin'] }
             },
             {
                 path: 'help',
-                loadComponent: () => import('./features/coming-soon/coming-soon').then(m => m.ComingSoon),
-                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+                loadComponent: () => import('./features/help/help').then(m => m.HelpComponent),
+                data: { roles: ['Admin', 'Doctor', 'Nurse', 'Patient'] }
             },
             {
                 path: 'settings',
-                loadComponent: () => import('./features/coming-soon/coming-soon').then(m => m.ComingSoon),
-                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+                loadComponent: () => import('./features/settings/settings').then(m => m.SettingsComponent),
+                data: { roles: ['Admin', 'Doctor', 'Nurse', 'Patient'] }
             },
             {
                 path: 'reports',
-                loadComponent: () => import('./features/coming-soon/coming-soon').then(m => m.ComingSoon),
+                loadComponent: () => import('./features/reports/reports').then(m => m.ReportsComponent),
                 data: { roles: ['Admin'] }
             }
         ]

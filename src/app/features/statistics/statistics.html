@@ -1,0 +1,104 @@
+<div class="stats-container">
+    <div class="header">
+        <h1>Hospital Performance Insights</h1>
+        <p>Real-time metrics and analytics for hospital operations</p>
+    </div>
+
+    <div class="kpi-grid" *ngIf="!loading() && stats()">
+        <!-- Patients Card -->
+        <div class="kpi-card purple">
+            <div class="card-icon">
+                <span class="material-icons-round">people</span>
+            </div>
+            <div class="card-content">
+                <span class="label">Total Patients</span>
+                <span class="value">{{ stats()?.totalPatients }}</span>
+                <span class="trend up">
+                    <span class="material-icons-round">trending_up</span>
+                    +12% this month
+                </span>
+            </div>
+        </div>
+
+        <!-- Admissions Card -->
+        <div class="kpi-card teal">
+            <div class="card-icon">
+                <span class="material-icons-round">medical_services</span>
+            </div>
+            <div class="card-content">
+                <span class="label">Active Admissions</span>
+                <span class="value">{{ stats()?.activeAdmissions }}</span>
+                <span class="sub-label">Out of {{ stats()?.totalAdmissions }} total</span>
+            </div>
+        </div>
+
+        <!-- Revenue Card -->
+        <div class="kpi-card orange">
+            <div class="card-icon">
+                <span class="material-icons-round">payments</span>
+            </div>
+            <div class="card-content">
+                <span class="label">Total Revenue</span>
+                <span class="value">${{ stats()?.totalRevenue | number:'1.2-2' }}</span>
+                <div class="revenue-split">
+                    <span class="paid">Paid: ${{ stats()?.paidRevenue | number:'1.2-2' }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Capacity Section -->
+    <div class="section-grid" *ngIf="!loading() && stats()">
+        <div class="capacity-card main-card">
+            <h3>Bed Occupancy Rate</h3>
+            <div class="occupancy-visual">
+                <div class="progress-ring">
+                    <svg viewBox="0 0 36 36">
+                        <path class="circle-bg"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path class="circle" [style.stroke-dasharray]="getCapacityPercent() + ', 100'"
+                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <text x="18" y="20.35" class="percentage">{{ getCapacityPercent() }}%</text>
+                    </svg>
+                </div>
+                <div class="details">
+                    <div class="detail-item">
+                        <span class="dot active"></span>
+                        <span class="label">Occupied:</span>
+                        <span class="val">{{ stats()?.activeAdmissions }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="dot free"></span>
+                        <span class="label">Available:</span>
+                        <span class="val">{{ 100 - (stats()?.activeAdmissions || 0) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="staff-card main-card">
+            <h3>Medical Workforce</h3>
+            <div class="staff-list">
+                <div class="staff-row" *ngFor="let role of getKeys(stats()?.staffDistribution)">
+                    <div class="role-info">
+                        <span class="material-icons-round" [class]="role.toLowerCase()">
+                            {{ role === 'DOCTOR' ? 'medical_information' : role === 'NURSE' ? 'person' :
+                            'admin_panel_settings' }}
+                        </span>
+                        <span>{{ role }}</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar" [class]="role.toLowerCase()"
+                            [style.width.%]="(stats()!.staffDistribution[role] / stats()!.totalPatients) * 1000"></div>
+                    </div>
+                    <span class="count">{{ stats()?.staffDistribution?.[role] }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-grid" *ngIf="loading()">
+        <div class="skeleton-card" *ngFor="let i of [1,2,3]"></div>
+    </div>
+</div>

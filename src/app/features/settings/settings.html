@@ -1,0 +1,82 @@
+<div class="settings-container">
+    <div class="header">
+        <h1>Account & System Settings</h1>
+        <p>Manage your profile, notifications, and system preferences</p>
+    </div>
+
+    <div class="settings-grid">
+        <!-- Profile Section -->
+        <section class="settings-card profile-card">
+            <div class="card-header">
+                <span class="material-icons-round">person</span>
+                <h2>Personal Profile</h2>
+            </div>
+            <div class="profile-info">
+                <div class="avatar-large">{{ profile().avatar }}</div>
+                <div class="details">
+                    <div class="field">
+                        <label>Full Name</label>
+                        <input type="text" [(ngModel)]="profile().fullName" placeholder="Your Name">
+                    </div>
+                    <div class="field">
+                        <label>Email Address</label>
+                        <input type="email" [(ngModel)]="profile().email" placeholder="email@example.com">
+                    </div>
+                    <div class="role-badge">{{ profile().role }}</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preferences Section -->
+        <section class="settings-card">
+            <div class="card-header">
+                <span class="material-icons-round">palette</span>
+                <h2>Appearance</h2>
+            </div>
+            <div class="option">
+                <div class="text">
+                    <h3>Dark Mode</h3>
+                    <p>Switch between light and dark themes</p>
+                </div>
+                <button class="toggle" [class.active]="darkMode()" (click)="toggleDarkMode()">
+                    <div class="handle"></div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Notifications Section -->
+        <section class="settings-card">
+            <div class="card-header">
+                <span class="material-icons-round">notifications</span>
+                <h2>Notifications</h2>
+            </div>
+            <div class="option">
+                <div class="text">
+                    <h3>Email Notifications</h3>
+                    <p>Receive daily summaries of hospital activity</p>
+                </div>
+                <button class="toggle" [class.active]="notifications().email"
+                    (click)="notifications().email = !notifications().email">
+                    <div class="handle"></div>
+                </button>
+            </div>
+            <div class="option">
+                <div class="text">
+                    <h3>Browser Alerts</h3>
+                    <p>Real-time notifications for urgent updates</p>
+                </div>
+                <button class="toggle" [class.active]="notifications().browser"
+                    (click)="notifications().browser = !notifications().browser">
+                    <div class="handle"></div>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <div class="actions">
+        <button class="save-btn" (click)='saveSettings()'>
+            <span class="material-icons-round">save</span>
+            Save All Changes
+        </button>
+    </div>
+</div>

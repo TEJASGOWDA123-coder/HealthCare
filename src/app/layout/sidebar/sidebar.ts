@@ -22,8 +22,9 @@ export class Sidebar {
   authService = inject(AuthService);
 
   mainMenu: MenuItem[] = [
-    { label: 'Dashboard', route: '/dashboard', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'grid_view' },
+    { label: 'Dashboard', route: '/dashboard', roles: ['Admin', 'Doctor', 'Nurse', 'Patient'], icon: 'grid_view' },
     { label: 'Patients', route: '/patients', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'people' },
+    { label: 'Admissions', route: '/admissions', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'local_hospital' },
     { label: 'Appointment', route: '/appointments', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'event_available' },
     { label: 'Payments', route: '/billing', roles: ['Admin'], icon: 'payments' },
     { label: 'Employee', route: '/employee', roles: ['Admin'], icon: 'person_outline' },
@@ -32,8 +33,8 @@ export class Sidebar {
 
   otherMenu: MenuItem[] = [
     { label: 'Statistic', route: '/statistics', roles: ['Admin'], icon: 'bar_chart' },
-    { label: 'Help & Center', route: '/help', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'help_outline' },
-    { label: 'Setting', route: '/settings', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'settings' },
+    { label: 'Help & Center', route: '/help', roles: ['Admin', 'Doctor', 'Nurse', 'Patient'], icon: 'help_outline' },
+    { label: 'Setting', route: '/settings', roles: ['Admin', 'Doctor', 'Nurse', 'Patient'], icon: 'settings' },
     { label: 'Report', route: '/reports', roles: ['Admin'], icon: 'description' },
   ];
 

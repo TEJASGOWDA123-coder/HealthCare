@@ -32,11 +32,11 @@ export class Dashboard implements OnInit {
 
   stats = computed<StatCard[]>(() => [
     {
-      label: 'Appointments',
+      label: 'Admissions',
       value: this.rawStats().appointments.toLocaleString(),
       trend: `${this.rawStats().appointmentsTrend}% from last week`,
       trendType: this.rawStats().appointmentsTrend >= 0 ? 'up' : 'down',
-      icon: 'event_available',
+      icon: 'local_hospital',
       isPrimary: true
     },
     {

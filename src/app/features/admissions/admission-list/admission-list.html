@@ -1,0 +1,92 @@
+<div class="admissions-container">
+    <div class="page-header">
+        <div class="header-info">
+            <h1>Admissions</h1>
+            <p>Monitor patient hospitalizations and doctor assignments</p>
+        </div>
+        <div class="header-actions" *ngIf="authService.hasRole(['Admin', 'Nurse'])">
+            <button class="btn btn-primary" routerLink="/patients/admission">
+                <span class="material-icons-round">add</span>
+                New Admission
+            </button>
+        </div>
+    </div>
+
+    <div class="filter-bar">
+        <div class="search-input">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="search-icon">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <input type="text" [ngModel]="searchTerm()" (ngModelChange)="searchTerm.set($event)"
+                placeholder="Search by patient, doctor or room...">
+        </div>
+
+        <div class="stats-summary">
+            Showing {{ filteredAdmissions().length }} of {{ admissions().length }} records
+        </div>
+    </div>
+
+    <div class="table-card" [class.loading]="loading()">
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient Name</th>
+                        <th>Admission Date</th>
+                        <th>Room</th>
+                        <th>Doctor in Charge</th>
+                        <th>Status</th>
+                        <th *ngIf="authService.hasRole(['Admin'])">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let admission of filteredAdmissions()">
+                        <td class="id-cell">#{{ admission.id }}</td>
+                        <td>
+                            <div class="patient-name">{{ admission.patientName }}</div>
+                            <div class="patient-meta">ID: {{ admission.patientId }}</div>
+                        </td>
+                        <td>{{ admission.admissionDate | date:'mediumDate' }}</td>
+                        <td>
+                            <span class="room-badge">{{ admission.roomNumber }}</span>
+                        </td>
+                        <td>
+                            <div class="doctor-info">
+                                <span class="material-icons-round">person</span>
+                                {{ admission.doctorInCharge }}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge" [ngClass]="getStatusClass(admission.status)">
+                                {{ admission.status }}
+                            </span>
+                        </td>
+                        <td class="actions-cell" *ngIf="authService.hasRole(['Admin'])">
+                            <button class="action-btn" title="View Details">
+                                <span class="material-icons-round">visibility</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <ng-container *ngIf="loading()">
+                        <tr *ngFor="let i of [1,2,3,4,5]" class="skeleton-row">
+                            <td colspan="7">
+                                <div class="skeleton-line"></div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <tr *ngIf="filteredAdmissions().length === 0 && !loading()">
+                        <td colspan="7" class="empty-state">
+                            <div class="empty-content">
+                                <span class="material-icons-round">info_outline</span>
+                                <p>No admission records found.</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

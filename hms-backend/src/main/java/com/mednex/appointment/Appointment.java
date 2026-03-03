@@ -6,11 +6,10 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
-import java.time.LocalDateTime;
 import java.time.Instant;
 
 @Entity
-@Table(name = "appointments")
+@Table(name = "mednex_appointments")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,12 +20,13 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dateTime;
-    private String patient;
-    private String specialist;
+    private String patientName;
+    private String doctorName;
+    private String department;
+    private String date;
+    private String time;
     private String type;
-
-    private String status; // SCHEDULED / COMPLETED / CANCELLED
+    private String status;
 
     @Builder.Default
     private Instant createdAt = Instant.now();

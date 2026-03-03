@@ -11,6 +11,8 @@ public interface PatientService {
 
     PatientDto getPatientById(Long id);
 
+    PatientDto getPatientByEmail(String email);
+
     PatientDto updatePatient(Long id, PatientDto patientDto);
 
     void deletePatient(Long id);

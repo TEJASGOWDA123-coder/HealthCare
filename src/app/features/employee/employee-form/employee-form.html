@@ -1,0 +1,89 @@
+<div class="form-container">
+    <div class="header">
+        <div class="back-link" (click)="onCancel()">
+            <span class="material-icons-round">arrow_back</span>
+            Back to Directory
+        </div>
+        <h1>New Employee Registration</h1>
+        <p>Enter the credentials and department details for the new staff member</p>
+    </div>
+
+    <div class="card">
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+            <div class="form-grid">
+                <!-- Full Name -->
+                <div class="form-group full-width">
+                    <label>Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-round">person</span>
+                        <input type="text" formControlName="fullName" placeholder="e.g. Dr. John Carter">
+                    </div>
+                    <div class="error"
+                        *ngIf="employeeForm.get('fullName')?.touched && employeeForm.get('fullName')?.invalid">
+                        Full name is required (min 3 chars)
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-round">email</span>
+                        <input type="email" formControlName="email" placeholder="john.carter@hospital.com">
+                    </div>
+                    <div class="error" *ngIf="employeeForm.get('email')?.touched && employeeForm.get('email')?.invalid">
+                        Valid email is required
+                    </div>
+                </div>
+
+                <!-- Temporary Password -->
+                <div class="form-group">
+                    <label>Temporary Password</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-round">lock</span>
+                        <input type="password" formControlName="password" placeholder="••••••••">
+                    </div>
+                    <div class="error"
+                        *ngIf="employeeForm.get('password')?.touched && employeeForm.get('password')?.invalid">
+                        Password must be at least 6 characters
+                    </div>
+                </div>
+
+                <!-- Role Selection -->
+                <div class="form-group">
+                    <label>Hospital Role</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-round">badge</span>
+                        <select formControlName="role">
+                            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Specialization -->
+                <div class="form-group">
+                    <label>Department / Specialization</label>
+                    <div class="input-wrapper">
+                        <span class="material-icons-round">medical_services</span>
+                        <select formControlName="specialization">
+                            <option *ngFor="let spec of specializations" [value]="spec">{{ spec }}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-banner" *ngIf="errorMessage()">
+                <span class="material-icons-round">error</span>
+                {{ errorMessage() }}
+            </div>
+
+            <div class="actions">
+                <button type="button" class="btn-cancel" (click)="onCancel()">Cancel</button>
+                <button type="submit" class="btn-submit" [disabled]="employeeForm.invalid || loading()">
+                    <span *ngIf="!loading()">Register Employee</span>
+                    <span *ngIf="loading()">Registering...</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
