@@ -9,6 +9,14 @@ export const routes: Routes = [
         component: Login
     },
     {
+        path: 'qr-login',
+        loadComponent: () => import('./features/login/qr-login/qr-login').then(m => m.QrLogin)
+    },
+    {
+        path: 'qr-mobile-auth',
+        loadComponent: () => import('./features/login/qr-mobile-auth/qr-mobile-auth').then(m => m.QrMobileAuth)
+    },
+    {
         path: '',
         component: MainLayout,
         canActivate: [authGuard],

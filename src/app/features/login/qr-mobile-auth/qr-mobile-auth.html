@@ -1,0 +1,161 @@
+<div class="mobile-container">
+    <div class="auth-card">
+        <div class="header">
+            <span class="material-icons-round brand-icon">security</span>
+            <h1>MedNex Login</h1>
+        </div>
+
+        <div class="content">
+            <div *ngIf="!isSuccess() && !error()">
+                <p class="description">Are you trying to log in to MedNex Enterprise on another device?</p>
+
+                <div class="session-info">
+                    <span class="material-icons-round">computer</span>
+                    <span>Session ID: {{ sessionId()?.substring(0, 8) }}...</span>
+                </div>
+
+                <button class="btn-confirm" [disabled]="isAuthorizing()" (click)="confirmLogin()">
+                    <span *ngIf="!isAuthorizing()">Confirm Secure Login</span>
+                    <span *ngIf="isAuthorizing()" class="spinner"></span>
+                </button>
+            </div>
+
+            <div *ngIf="isSuccess()" class="status-view success">
+                <span class="material-icons-round status-icon">check_circle</span>
+                <h2>Login Authorized</h2>
+                <p>You have successfully authorized the web session. You can close this window now.</p>
+                <button class="btn-done" (click)="isSuccess.set(false)">Done</button>
+            </div>
+
+            <div *ngIf="error()" class="status-view error">
+                <span class="material-icons-round status-icon">error</span>
+                <h2>Authorization Failed</h2>
+                <p>{{ error() }}</p>
+                <button class="btn-retry" (click)="error.set(null)">Try Again</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 MedNex Enterprise</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .mobile-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 360px;
+        background: white;
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        text-align: center;
+    }
+
+    .brand-icon {
+        font-size: 48px;
+        color: #3b82f6;
+        margin-bottom: 1rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin: 0 0 1.5rem 0;
+    }
+
+    .description {
+        color: #64748b;
+        line-height: 1.5;
+        margin-bottom: 2rem;
+    }
+
+    .session-info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: #f1f5f9;
+        padding: 0.75rem;
+        border-radius: 12px;
+        color: #475569;
+        font-size: 0.875rem;
+        margin-bottom: 2rem;
+    }
+
+    .btn-confirm {
+        width: 100%;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        padding: 1rem;
+        border-radius: 14px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .btn-confirm:active {
+        transform: scale(0.98);
+    }
+
+    .btn-confirm:disabled {
+        opacity: 0.7;
+    }
+
+    .status-view {
+        padding: 1rem 0;
+    }
+
+    .status-icon {
+        font-size: 64px;
+        margin-bottom: 1.5rem;
+    }
+
+    .success .status-icon {
+        color: #22c55e;
+    }
+
+    .error .status-icon {
+        color: #ef4444;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .footer {
+        margin-top: 2rem;
+        color: #94a3b8;
+        font-size: 0.75rem;
+    }
+
+    .spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
