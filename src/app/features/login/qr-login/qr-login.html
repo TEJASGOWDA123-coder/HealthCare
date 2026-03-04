@@ -3,18 +3,23 @@
         <!-- Logo Section -->
         <div class="logo-section">
             <div class="logo-icon">
-                <span class="material-icons-round">local_hospital</span>
+                <span class="material-icons-round">security</span>
             </div>
-            <h1 class="logo-text">MedNex <span>Enterprise</span></h1>
+            <h1 class="logo-text">Secure <span>Verification</span></h1>
         </div>
 
         <!-- QR Card -->
         <div class="qr-card">
+            <div class="user-info" *ngIf="targetUser()">
+                <p>Verifying session for:</p>
+                <strong>{{ targetUser() }}</strong>
+            </div>
+
             <div class="qr-frame" [class.expired]="isExpired()">
                 <div class="qr-overlay" *ngIf="isExpired()" (click)="refreshQr()">
                     <span class="material-icons-round refresh-icon">refresh</span>
-                    <p>QR Expired</p>
-                    <button class="btn-refresh">Click to Refresh</button>
+                    <p>Verification Link Expired</p>
+                    <button class="btn-refresh">Generate New Link</button>
                 </div>
 
                 <div class="qr-placeholder" *ngIf="!qrData() && !isExpired()">
@@ -22,13 +27,13 @@
                     <span class="material-icons-round">qr_code_2</span>
                 </div>
 
-                <qrcode *ngIf="qrData() && !isExpired()" [qrdata]="qrData()!" [width]="300" [errorCorrectionLevel]="'L'"
-                    [margin]="4" [colorDark]="'#0f172a'" [colorLight]="'#ffffff'">
+                <qrcode *ngIf="isBrowser && qrData() && !isExpired()" [qrdata]="qrData()!" [width]="300"
+                    [errorCorrectionLevel]="'L'" [margin]="4" [colorDark]="'#0f172a'" [colorLight]="'#ffffff'">
                 </qrcode>
             </div>
 
             <div class="instruction-box">
-                <p class="instruction-text">Scan this QR code with your mobile device to login securely</p>
+                <p class="instruction-text">Scan this code with your mobile device to complete your login securely</p>
                 <div class="timer-badge" [class.warning]="timeLeft() < 10 && !isExpired()">
                     <span class="material-icons-round">timer</span>
                     <span>QR expires in {{ timeLeft() }}s</span>
@@ -117,6 +122,32 @@
         flex-direction: column;
         align-items: center;
         border: 1px solid rgba(226, 232, 240, 1);
+    }
+
+    .user-info {
+        text-align: center;
+        margin-bottom: 2rem;
+        background: #fdf2f2;
+        padding: 1rem 1.5rem;
+        border-radius: 16px;
+        border: 1px solid #fee2e2;
+        width: 100%;
+    }
+
+    .user-info p {
+        margin: 0;
+        font-size: 0.813rem;
+        color: #ef4444;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+
+    .user-info strong {
+        display: block;
+        color: #1e293b;
+        font-size: 1.125rem;
+        margin-top: 0.25rem;
     }
 
     .qr-frame {

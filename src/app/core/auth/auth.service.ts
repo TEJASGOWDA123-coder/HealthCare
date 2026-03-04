@@ -17,7 +17,11 @@ export class AuthService {
 
     login(email: string, password: string) {
         return this.http.post<AuthResponse>(this.api, { email, password }).pipe(
-            tap(response => this.saveToken(response.token, response.user, response.role))
+            tap(response => {
+                if (!response.requires2fa) {
+                    this.saveToken(response.token, response.user, response.role);
+                }
+            })
         );
     }
 

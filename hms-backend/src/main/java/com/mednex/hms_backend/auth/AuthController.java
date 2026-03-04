@@ -11,7 +11,7 @@ import java.util.Map;
 public class AuthController {
 
     @Autowired
-    private JwtService jwt;
+    private com.mednex.hms_backend.auth.qr.QrAuthService qrAuthService;
 
     @Autowired
     private UserRepository userRepository;
@@ -20,7 +20,7 @@ public class AuthController {
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody Map<String, String> body) {
+    public Map<String, Object> login(@RequestBody Map<String, String> body) {
 
         String email = body.get("email");
         String password = body.get("password");
@@ -45,9 +45,14 @@ public class AuthController {
                 throw new RuntimeException("Invalid email or password");
             }
 
-            String token = jwt.generateToken(user.getEmail(), user.getRole());
+            // Create a QR session for 2FA
+            String sessionId = qrAuthService.createSession();
 
-            return Map.of("token", token, "role", user.getRole());
+            return Map.of(
+                    "requires2fa", true,
+                    "sessionId", sessionId,
+                    "role", user.getRole(),
+                    "email", user.getEmail());
         } finally {
             com.mednex.hms_backend.config.TenantContext.clear();
         }

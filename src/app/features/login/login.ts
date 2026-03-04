@@ -43,7 +43,16 @@ export class Login {
     this.auth.login(email, password)
       .subscribe({
         next: (res) => {
-          // Backend returns {token, role}, construct user object
+          this.loading = false;
+          if (res.requires2fa) {
+            // Redirect to QR verification page with the session ID
+            this.router.navigate(['/qr-login'], {
+              queryParams: { s: res.sessionId, email: res.email, role: res.role }
+            });
+            return;
+          }
+
+          // Legacy/Single-factor path (if ever used)
           const user = {
             id: 0,
             name: email.split('@')[0],
@@ -51,7 +60,6 @@ export class Login {
             role: res.role as any
           };
           this.auth.saveToken(res.token, user, res.role);
-          this.loading = false;
           this.router.navigate(['/dashboard']);
         },
         error: (err) => {

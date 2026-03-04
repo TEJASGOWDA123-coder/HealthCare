@@ -17,4 +17,7 @@ export interface AuthResponse {
     token: string;
     user?: User;
     role?: Role;
+    requires2fa?: boolean;
+    sessionId?: string;
+    email?: string;
 }

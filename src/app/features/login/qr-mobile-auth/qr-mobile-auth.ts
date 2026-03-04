@@ -45,18 +45,22 @@ export class QrMobileAuth implements OnInit {
         // or simulate one if they are testing directly on the phone.
         const token = localStorage.getItem('auth_token') || 'SIMULATED_MOBILE_TOKEN';
 
-        this.http.post<any>('http://10.48.231.236:8080/auth/qr/authorize', {
+        this.http.post<any>('http://10.211.169.236:8080/auth/qr/authorize', {
             sessionId: this.sessionId(),
             mobileToken: token
         }).subscribe({
-            next: () => {
+            next: (res) => {
                 this.isAuthorizing.set(false);
-                this.isSuccess.set(true);
+                if (res.status === 'SUCCESS') {
+                    this.isSuccess.set(true);
+                } else {
+                    this.error.set(res.message || 'Authorization failed.');
+                }
             },
             error: (err) => {
                 console.error('Authorization failed', err);
                 this.isAuthorizing.set(false);
-                this.error.set('Failed to authorize. Please ensure you are logged in on this device.');
+                this.error.set('Failed to connect to the authorization server.');
             }
         });
     }

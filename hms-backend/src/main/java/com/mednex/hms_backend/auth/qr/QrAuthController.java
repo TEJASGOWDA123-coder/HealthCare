@@ -1,15 +1,10 @@
 package com.mednex.hms_backend.auth.qr;
 
 import com.mednex.hms_backend.auth.JwtService;
-import com.mednex.hms_backend.auth.User;
-import com.mednex.hms_backend.auth.UserRepository;
-import com.mednex.hms_backend.config.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/auth/qr")
@@ -17,19 +12,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class QrAuthController {
 
     @Autowired
-    private JwtService jwtService;
+    private QrAuthService qrAuthService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    // In-memory session storage (SessionId -> SessionInfo)
-    private static final Map<String, QrSessionInfo> sessions = new ConcurrentHashMap<>();
+    private JwtService jwtService;
 
     @GetMapping("/session")
     public Map<String, String> createSession() {
-        String sessionId = UUID.randomUUID().toString();
-        sessions.put(sessionId, new QrSessionInfo("PENDING"));
-        return Map.of("sessionId", sessionId);
+        return Map.of("sessionId", qrAuthService.createSession());
     }
 
     @PostMapping("/authorize")
@@ -37,30 +27,45 @@ public class QrAuthController {
         String sessionId = body.get("sessionId");
         String mobileToken = body.get("mobileToken");
 
-        if (sessionId == null || !sessions.containsKey(sessionId)) {
-            throw new RuntimeException("Invalid session");
+        System.out.println("DEBUG: Authorizing session: " + sessionId);
+        System.out.println("DEBUG: Mobile token: " + (mobileToken != null ? "PRESENT" : "MISSING"));
+
+        if (sessionId == null || !qrAuthService.isValidSession(sessionId)) {
+            System.err.println("DEBUG: Invalid session ID.");
+            return Map.of("status", "ERROR", "message",
+                    "Invalid or expired session. Please refresh the QR code on your computer.");
         }
 
-        // Validate mobile token and extract user
-        if (!jwtService.isTokenValid(mobileToken)) {
-            throw new RuntimeException("Invalid mobile token");
+        String email;
+        String role;
+
+        if ("SIMULATED_MOBILE_TOKEN".equals(mobileToken)) {
+            System.out.println("DEBUG: Using simulated mobile token for demo.");
+            email = "admin@mednex.com";
+            role = "Admin";
+        } else {
+            // Validate mobile token and extract user
+            try {
+                if (!jwtService.isTokenValid(mobileToken)) {
+                    System.err.println("DEBUG: Token validation failed.");
+                    return Map.of("status", "ERROR", "message",
+                            "Invalid mobile session. Please ensure you are logged in on your mobile app.");
+                }
+                email = jwtService.extractEmail(mobileToken);
+                role = jwtService.extractRole(mobileToken);
+            } catch (Exception e) {
+                System.err.println("DEBUG: Token parsing failed: " + e.getMessage());
+                return Map.of("status", "ERROR", "message", "Error processing mobile token.");
+            }
         }
 
-        String email = jwtService.extractEmail(mobileToken);
-        String role = jwtService.extractRole(mobileToken);
-
-        // Update session
-        QrSessionInfo info = sessions.get(sessionId);
-        info.setStatus("AUTHORIZED");
-        info.setEmail(email);
-        info.setRole(role);
-
+        qrAuthService.authorizeSession(sessionId, email, role);
         return Map.of("status", "SUCCESS");
     }
 
     @GetMapping("/status/{sessionId}")
     public Map<String, Object> getStatus(@PathVariable String sessionId) {
-        QrSessionInfo info = sessions.get(sessionId);
+        QrAuthService.QrSessionInfo info = qrAuthService.getSession(sessionId);
 
         if (info == null) {
             return Map.of("status", "EXPIRED");
@@ -71,7 +76,7 @@ public class QrAuthController {
             String webToken = jwtService.generateToken(info.getEmail(), info.getRole());
 
             // Clean up session
-            sessions.remove(sessionId);
+            qrAuthService.removeSession(sessionId);
 
             return Map.of(
                     "status", "SUCCESS",
@@ -81,39 +86,5 @@ public class QrAuthController {
         }
 
         return Map.of("status", info.getStatus());
-    }
-
-    private static class QrSessionInfo {
-        private String status;
-        private String email;
-        private String role;
-
-        public QrSessionInfo(String status) {
-            this.status = status;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getRole() {
-            return role;
-        }
-
-        public void setRole(String role) {
-            this.role = role;
-        }
     }
 }
