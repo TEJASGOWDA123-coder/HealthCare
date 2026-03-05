@@ -5,7 +5,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/appointments")
-@CrossOrigin(origins = "http://localhost:4200")
 public class AppointmentController {
 
     private final AppointmentService service;
@@ -22,5 +21,15 @@ public class AppointmentController {
     @PostMapping
     public Appointment create(@RequestBody Appointment a) {
         return service.save(a);
+    }
+
+    @GetMapping("/{id}")
+    public Appointment getById(@PathVariable Long id) {
+        return service.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Appointment update(@PathVariable Long id, @RequestBody Appointment a) {
+        return service.update(id, a);
     }
 }

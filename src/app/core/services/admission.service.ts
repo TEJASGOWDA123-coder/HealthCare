@@ -2,12 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Admission, CreateAdmissionDto } from '../models/admission.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AdmissionService {
-    private readonly apiUrl = 'http://localhost:8080/api/v1/admissions';
+    private readonly apiUrl = `${environment.apiBaseUrl}/api/v1/admissions`;
     private http = inject(HttpClient);
 
     getAdmissions(): Observable<Admission[]> {

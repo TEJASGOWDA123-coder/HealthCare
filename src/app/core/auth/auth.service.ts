@@ -4,11 +4,12 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { AuthResponse, Role, User } from './auth.models';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-    private api = 'http://localhost:8080/auth/login';
+    private api = `${environment.apiBaseUrl}/auth/login`;
     private platformId = inject(PLATFORM_ID);
     currentUser = signal<User | null>(this.getStoredUser());
     private router = inject(Router);

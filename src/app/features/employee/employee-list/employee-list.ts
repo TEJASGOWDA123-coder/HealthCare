@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { TitleService } from '../../../core/services/title.service';
+import { environment } from '../../../../environments/environment';
 
 interface Staff {
     id: number;
@@ -34,7 +35,7 @@ export class EmployeeListComponent implements OnInit {
     doctorCount = computed(() => this.staffList().filter(s => s.role === 'DOCTOR').length);
     nurseCount = computed(() => this.staffList().filter(s => s.role === 'NURSE').length);
 
-    private readonly API = 'http://localhost:8080/api/v1/users';
+    private readonly API = `${environment.apiBaseUrl}/api/v1/users`;
 
     navigateToForm() {
         this.router.navigate(['/employee/new']);

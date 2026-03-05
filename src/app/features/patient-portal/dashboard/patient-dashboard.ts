@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 import { TitleService } from '../../../core/services/title.service';
 import { Admission } from '../../../core/models/admission.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-patient-dashboard',
@@ -20,7 +21,7 @@ export class PatientDashboard implements OnInit {
     activeAdmission = signal<Admission | null>(null);
     loading = signal(true);
 
-    private readonly API = 'http://localhost:8080/api/v1';
+    private readonly API = `${environment.apiBaseUrl}/api/v1`;
 
     ngOnInit() {
         this.titleService.setTitle('My Health Portal');

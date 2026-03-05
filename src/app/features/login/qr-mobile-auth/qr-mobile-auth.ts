@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../core/auth/auth.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-qr-mobile-auth',
@@ -45,7 +46,7 @@ export class QrMobileAuth implements OnInit {
         // or simulate one if they are testing directly on the phone.
         const token = localStorage.getItem('auth_token') || 'SIMULATED_MOBILE_TOKEN';
 
-        this.http.post<any>('http://10.211.169.236:8080/auth/qr/authorize', {
+        this.http.post<any>(`${environment.apiBaseUrl}/auth/qr/authorize`, {
             sessionId: this.sessionId(),
             mobileToken: token
         }).subscribe({

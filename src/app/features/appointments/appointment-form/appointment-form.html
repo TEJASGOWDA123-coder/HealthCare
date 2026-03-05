@@ -4,8 +4,9 @@
             <span>MedNex</span> / <span class="active">Schedule Appointment</span>
         </div>
         <div class="header-main">
-            <h1>New Appointment</h1>
-            <p>Fill in the details below to schedule a new patient appointment.</p>
+            <h1>{{ isEditMode ? 'Edit Appointment' : 'New Appointment' }}</h1>
+            <p>{{ isEditMode ? 'Update the details for this appointment.' : 'Fill in the details below to schedule a new
+                patient appointment.' }}</p>
         </div>
     </header>
 
@@ -62,7 +63,9 @@
 
             <div class="form-actions">
                 <button type="button" class="btn-secondary" routerLink="/appointments">Cancel</button>
-                <button type="submit" class="btn-primary" [disabled]="form.invalid">Schedule Appointment</button>
+                <button type="submit" class="btn-primary" [disabled]="form.invalid">
+                    {{ isEditMode ? 'Update Appointment' : 'Schedule Appointment' }}
+                </button>
             </div>
         </form>
     </div>

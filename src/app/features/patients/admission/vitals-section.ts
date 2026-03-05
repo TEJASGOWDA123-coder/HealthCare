@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { debounceTime, switchMap, of, catchError } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 interface Doctor {
   id: number;
@@ -240,7 +241,7 @@ export class VitalsSection implements OnInit {
   doctors = signal<Doctor[]>([]);
   suggestedDoctor = signal<Doctor | null>(null);
 
-  private readonly API = 'http://localhost:8080/api/v1';
+  private readonly API = `${environment.apiBaseUrl}/api/v1`;
 
   admissionForm() {
     return this.controlContainer.control as any;

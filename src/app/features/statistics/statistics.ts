@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 import { TitleService } from '../../core/services/title.service';
+import { environment } from '../../../environments/environment';
 
 interface Stats {
     totalPatients: number;
@@ -29,7 +30,7 @@ export class StatisticsComponent implements OnInit {
     stats = signal<Stats | null>(null);
     loading = signal(true);
 
-    private readonly API = 'http://localhost:8080/api/v1/stats/overview';
+    private readonly API = `${environment.apiBaseUrl}/api/v1/stats/overview`;
 
     ngOnInit() {
         this.titleService.setTitle('Hospital Insights');

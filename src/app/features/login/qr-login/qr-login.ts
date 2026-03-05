@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { AuthService } from '../../../core/auth/auth.service';
 import { interval, Subscription, switchMap, takeWhile, timer, map, take } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-qr-login',
@@ -64,7 +65,7 @@ export class QrLogin implements OnInit, OnDestroy {
     this.isExpired.set(false);
     this.timeLeft.set(30);
 
-    this.http.get<{ sessionId: string }>('http://10.211.169.236:8080/auth/qr/session')
+    this.http.get<{ sessionId: string }>(`${environment.apiBaseUrl}/auth/qr/session`)
       .subscribe({
         next: (res) => {
           this.sessionId.set(res.sessionId);
@@ -80,7 +81,7 @@ export class QrLogin implements OnInit, OnDestroy {
   }
 
   private generateQrPayload(sessionId: string) {
-    const mobileAuthUrl = `http://10.211.169.236:4200/qr-mobile-auth?s=${sessionId}`;
+    const mobileAuthUrl = `${environment.appBaseUrl}/qr-mobile-auth?s=${sessionId}`;
     this.qrData.set(mobileAuthUrl);
   }
 
@@ -115,7 +116,7 @@ export class QrLogin implements OnInit, OnDestroy {
   private startPolling(sessionId: string) {
     this.pollingSub = interval(2000)
       .pipe(
-        switchMap(() => this.http.get<any>(`http://10.211.169.236:8080/auth/qr/status/${sessionId}`)),
+        switchMap(() => this.http.get<any>(`${environment.apiBaseUrl}/auth/qr/status/${sessionId}`)),
         takeWhile(res => res.status !== 'SUCCESS', true)
       )
       .subscribe({

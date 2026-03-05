@@ -53,6 +53,11 @@ export const routes: Routes = [
                 data: { roles: ['Admin', 'Doctor', 'Nurse'] }
             },
             {
+                path: 'appointments/edit/:id',
+                loadComponent: () => import('./features/appointments/appointment-form/appointment-form').then(m => m.AppointmentFormComponent),
+                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+            },
+            {
                 path: 'medical-records',
                 loadComponent: () => import('./features/medical-records/medical-records').then(m => m.MedicalRecords),
                 data: { roles: ['Admin', 'Doctor'] }

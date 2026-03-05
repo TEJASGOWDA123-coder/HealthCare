@@ -3,6 +3,7 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 import { TitleService } from '../../core/services/title.service';
+import { environment } from '../../../environments/environment';
 
 interface Activity {
     id: number;
@@ -29,7 +30,7 @@ export class ActivityComponent implements OnInit {
     activities = signal<Activity[]>([]);
     loading = signal(true);
 
-    private readonly API = 'http://localhost:8080/api/v1/activities';
+    private readonly API = `${environment.apiBaseUrl}/api/v1/activities`;
 
     ngOnInit() {
         this.titleService.setTitle('System Activity');

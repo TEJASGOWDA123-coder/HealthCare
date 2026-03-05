@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-employee-form',
@@ -50,7 +51,7 @@ export class EmployeeFormComponent {
 
         const payload = this.employeeForm.value;
 
-        this.http.post('http://localhost:8080/api/v1/users', payload, { headers: this.getAuthHeaders() })
+        this.http.post(`${environment.apiBaseUrl}/api/v1/users`, payload, { headers: this.getAuthHeaders() })
             .subscribe({
                 next: () => {
                     this.router.navigate(['/employee']);

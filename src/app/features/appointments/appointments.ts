@@ -1,6 +1,7 @@
 import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { AppointmentService } from '../../core/services/appointment.service';
 
 interface Appointment {
@@ -17,7 +18,7 @@ interface Appointment {
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './appointments.html',
   styleUrl: './appointments.scss',
 })
@@ -45,9 +46,9 @@ export class Appointments implements OnInit {
     const term = this.searchTerm().toLowerCase();
     if (term) {
       list = list.filter(a =>
-        a.patientName.toLowerCase().includes(term) ||
-        a.doctorName.toLowerCase().includes(term) ||
-        a.id.toLowerCase().includes(term)
+        (a.patientName && a.patientName.toLowerCase().includes(term)) ||
+        (a.doctorName && a.doctorName.toLowerCase().includes(term)) ||
+        (a.id && a.id.toString().toLowerCase().includes(term))
       );
     }
 
