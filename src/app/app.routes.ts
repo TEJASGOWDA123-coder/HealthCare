@@ -25,7 +25,7 @@ export const routes: Routes = [
             {
                 path: 'dashboard',
                 loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard),
-                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+                data: { roles: ['Admin'] }
             },
             {
                 path: 'dashboard',
@@ -35,17 +35,17 @@ export const routes: Routes = [
             {
                 path: 'patients',
                 loadChildren: () => import('./features/patients/patients.routes').then(m => m.PATIENT_ROUTES),
-                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+                data: { roles: ['Nurse'] }
             },
             {
                 path: 'admissions',
                 loadComponent: () => import('./features/admissions/admission-list/admission-list').then(m => m.AdmissionListComponent),
-                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+                data: { roles: ['Admin', 'Nurse'] }
             },
             {
                 path: 'appointments',
                 loadComponent: () => import('./features/appointments/appointments').then(m => m.Appointments),
-                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+                data: { roles: ['Admin'] }
             },
             {
                 path: 'appointments/new',
@@ -55,12 +55,17 @@ export const routes: Routes = [
             {
                 path: 'appointments/edit/:id',
                 loadComponent: () => import('./features/appointments/appointment-form/appointment-form').then(m => m.AppointmentFormComponent),
-                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
+                data: { roles: ['Admin'] }
             },
             {
                 path: 'medical-records',
                 loadComponent: () => import('./features/medical-records/medical-records').then(m => m.MedicalRecords),
-                data: { roles: ['Admin', 'Doctor'] }
+                data: { roles: ['Doctor'] }
+            },
+            {
+                path: 'prescriptions',
+                loadComponent: () => import('./features/prescriptions/prescriptions').then(m => m.Prescriptions),
+                data: { roles: ['Doctor'] }
             },
             {
                 path: 'billing',

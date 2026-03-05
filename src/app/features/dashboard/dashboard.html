@@ -1,7 +1,7 @@
 <div class="dashboard-container">
     <section class="greeting-section">
         <div class="welcome">
-            <h1>Hello, {{ authService.currentUser()?.name || 'Admin' }} 👋</h1>
+            <h1>Hello, {{ authService.currentUser()?.name || authService.currentUser()?.role || 'User' }} 👋</h1>
             <p>There is the latest update for the last 7 days. check now</p>
         </div>
         <div class="date-selector">

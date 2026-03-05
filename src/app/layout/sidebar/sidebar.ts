@@ -22,20 +22,23 @@ export class Sidebar {
   authService = inject(AuthService);
 
   mainMenu: MenuItem[] = [
-    { label: 'Dashboard', route: '/dashboard', roles: ['Admin', 'Doctor', 'Nurse', 'Patient'], icon: 'grid_view' },
-    { label: 'Patients', route: '/patients', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'people' },
-    { label: 'Admissions', route: '/admissions', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'local_hospital' },
-    { label: 'Appointment', route: '/appointments', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'event_available' },
-    { label: 'Payments', route: '/billing', roles: ['Admin'], icon: 'payments' },
-    { label: 'Employee', route: '/employee', roles: ['Admin'], icon: 'person_outline' },
-    { label: 'Activity', route: '/activity', roles: ['Admin', 'Doctor'], icon: 'insights' },
+    // ADMIN MENU
+    { label: 'Dashboard', route: '/dashboard', roles: ['Admin'], icon: 'grid_view' },
+    { label: 'Patient Admission', route: '/admissions', roles: ['Admin'], icon: 'local_hospital' },
+    { label: 'User Management', route: '/employee', roles: ['Admin'], icon: 'person_outline' },
+    { label: 'Billing', route: '/billing', roles: ['Admin'], icon: 'payments' },
+
+    // DOCTOR MENU
+    { label: 'Patient Records', route: '/medical-records', roles: ['Doctor'], icon: 'folder_shared' },
+    { label: 'Prescriptions', route: '/prescriptions', roles: ['Doctor'], icon: 'vaccines' },
+
+    // NURSE MENU
+    { label: 'Patient Monitoring', route: '/patients', roles: ['Nurse'], icon: 'monitor_heart' },
+    { label: 'Vitals Update', route: '/admissions', roles: ['Nurse'], icon: 'favorite_border' }
   ];
 
   otherMenu: MenuItem[] = [
-    { label: 'Statistic', route: '/statistics', roles: ['Admin'], icon: 'bar_chart' },
-    { label: 'Help & Center', route: '/help', roles: ['Admin', 'Doctor', 'Nurse', 'Patient'], icon: 'help_outline' },
-    { label: 'Setting', route: '/settings', roles: ['Admin', 'Doctor', 'Nurse', 'Patient'], icon: 'settings' },
-    { label: 'Report', route: '/reports', roles: ['Admin'], icon: 'description' },
+    { label: 'Setting', route: '/settings', roles: ['Admin', 'Doctor', 'Nurse', 'Patient'], icon: 'settings' }
   ];
 
   hasRole(roles: Role[]): boolean {
