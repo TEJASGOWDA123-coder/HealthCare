@@ -45,6 +45,18 @@ export class MedicalRecords implements OnInit {
   }
 
   exportPdf(id: number) {
-    window.open(`${environment.apiBaseUrl}/api/v1/patients/${id}/export-pdf`, '_blank');
+    this.http.get(`${environment.apiBaseUrl}/api/v1/patients/${id}/export-pdf`, {
+      responseType: 'blob'
+    }).subscribe({
+      next: (blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `patient-record-${id}.pdf`;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      error: (err) => console.error('PDF export failed', err)
+    });
   }
 }

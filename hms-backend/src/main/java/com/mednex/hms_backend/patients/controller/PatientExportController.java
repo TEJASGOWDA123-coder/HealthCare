@@ -1,9 +1,7 @@
 package com.mednex.hms_backend.patients.controller;
 
-import com.itextpdf.kernel.pdf.EncryptionConstants;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.WriterProperties;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.mednex.hms_backend.patients.model.dto.PatientDto;
@@ -34,15 +32,7 @@ public class PatientExportController {
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=patient_history_" + id + ".pdf");
 
-        // Use patient email as password for demonstration
-        byte[] userPassword = patient.getEmail().getBytes();
-        byte[] ownerPassword = "admin-secret-password".getBytes();
-
-        WriterProperties props = new WriterProperties()
-                .setStandardEncryption(userPassword, ownerPassword,
-                        EncryptionConstants.ALLOW_PRINTING, EncryptionConstants.ENCRYPTION_AES_128);
-
-        PdfWriter writer = new PdfWriter(response.getOutputStream(), props);
+        PdfWriter writer = new PdfWriter(response.getOutputStream());
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
 
