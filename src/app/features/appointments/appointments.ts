@@ -4,25 +4,26 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AppointmentService } from '../../core/services/appointment.service';
 import { AppointmentCalendarComponent } from './appointment-calendar/appointment-calendar.component';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 interface Appointment {
   id: string;
-  patientName: string;
-  doctorName: string;
-  department: string;
-  date: string;
-  time: string;
-  type: 'Consultation' | 'Follow-up' | 'Surgery' | 'Diagnostic';
-  status: 'Confirmed' | 'Pending' | 'Completed' | 'Cancelled';
+  patientName?: string;
+  doctorName?: string;
+  department?: string;
+  date?: string;
+  time?: string;
+  startTime?: string;
+  endTime?: string;
+  patient?: { id: number; firstName?: string; lastName?: string; fullName?: string; };
+  doctor?: { id: number; fullName?: string; email?: string; specialization?: string; };
+  type: 'Consultation' | 'Follow-up' | 'Surgery' | 'Diagnostic' | 'CONSULTATION' | 'FOLLOW_UP' | 'SURGERY' | 'DIAGNOSTIC';
+  status: 'Confirmed' | 'Pending' | 'Completed' | 'Cancelled' | 'BOOKED' | 'CANCELLED' | 'COMPLETED';
 }
 
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, AppointmentCalendarComponent, MatButtonModule, MatIconModule, MatButtonToggleModule],
+  imports: [CommonModule, FormsModule, RouterLink, AppointmentCalendarComponent],
   templateUrl: './appointments.html',
   styleUrl: './appointments.scss',
 })

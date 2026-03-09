@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
 .search-box {
@@ -44,24 +45,16 @@
     border-radius: 12px;
     padding: 0.625rem 1rem;
     flex: 1;
+}
 
-    input {
-        border: none;
-        outline: none;
-        flex: 1;
-        font-size: 0.875rem;
-        background: transparent;
-    }
+.table-container {
+    overflow-x: auto;
 }
 
 .card {
     background: white;
     border-radius: 16px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
-}
-
-.table-container {
-    overflow-x: auto;
 }
 
 table {
@@ -100,10 +93,14 @@ table {
     font-weight: 600;
 }
 
-.action-btn {
-    cursor: pointer;
+.status-green {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
 }
 
-.table-actions {
-    display: flex;
+.status-red {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
 }

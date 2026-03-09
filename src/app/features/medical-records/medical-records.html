@@ -1,1 +1,136 @@
-<p>medical-records works!</p>
+<div class="page-container">
+    <header class="page-header">
+        <div class="breadcrumb"><span>MedNex</span> / <span class="active">Patient Records</span></div>
+        <div class="header-main">
+            <h1>Patient Records</h1>
+            <p>View and manage complete patient medical histories.</p>
+        </div>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="action-bar" style="margin-bottom:1.5rem;">
+        <div class="search-box">
+            <span class="material-icons-round" style="color:#94a3b8;font-size:20px;">search</span>
+            <input type="text" placeholder="Search by name, email or phone..." [ngModel]="searchTerm()"
+                (ngModelChange)="searchTerm.set($event)"
+                style="border:none;outline:none;flex:1;font-size:0.875rem;background:transparent;">
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading()" style="text-align:center;padding:3rem;color:#94a3b8;">
+        <span class="material-icons-round" style="font-size:48px;">autorenew</span>
+        <p>Loading patient records...</p>
+    </div>
+
+    <!-- Patient Table -->
+    <div class="table-container card" *ngIf="!loading()">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Gender</th>
+                    <th>Blood Type</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let p of filtered(); let i = index" style="cursor:pointer;">
+                    <td>{{ i + 1 }}</td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:0.75rem;">
+                            <div
+                                style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#6366f1);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.75rem;">
+                                {{ (p.firstName || 'P')[0] }}{{ (p.lastName || '')[0] }}
+                            </div>
+                            <div>
+                                <strong>{{ p.firstName }} {{ p.lastName }}</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ p.email }}</td>
+                    <td>{{ p.phoneNumber || '—' }}</td>
+                    <td>
+                        <span style="text-transform:capitalize;">{{ p.gender || '—' }}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge" style="background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;">
+                            {{ p.bloodType || 'N/A' }}
+                        </span>
+                    </td>
+                    <td class="table-actions">
+                        <button class="action-btn" (click)="select(p)" title="View Details"
+                            style="background:#eff6ff;color:#3b82f6;border:1px solid #bfdbfe;border-radius:8px;padding:0.375rem 0.75rem;font-size:0.75rem;font-weight:600;cursor:pointer;">
+                            <span class="material-icons-round"
+                                style="font-size:14px;vertical-align:middle;">visibility</span>
+                            View
+                        </button>
+                        <button class="action-btn" (click)="exportPdf(p.id)" title="Export PDF"
+                            style="background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;border-radius:8px;padding:0.375rem 0.75rem;font-size:0.75rem;font-weight:600;cursor:pointer;margin-left:0.5rem;">
+                            <span class="material-icons-round"
+                                style="font-size:14px;vertical-align:middle;">picture_as_pdf</span>
+                            PDF
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="filtered().length === 0">
+                    <td colspan="7" style="text-align:center;padding:3rem;color:#94a3b8;">No patient records found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Patient Detail Modal -->
+<div *ngIf="selected()" class="modal-overlay" (click)="close()"
+    style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1.5rem;">
+    <div class="modal-content" (click)="$event.stopPropagation()"
+        style="background:white;border-radius:24px;padding:2rem;width:100%;max-width:600px;max-height:85vh;overflow-y:auto;box-shadow:0 25px 50px rgba(0,0,0,0.2);">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1.5rem;">
+            <div>
+                <h2 style="font-size:1.25rem;font-weight:700;color:#1e293b;margin:0;">
+                    {{ selected()?.firstName }} {{ selected()?.lastName }}
+                </h2>
+                <p style="color:#64748b;font-size:0.875rem;margin:0.25rem 0 0;">Patient ID: {{ selected()?.id }}</p>
+            </div>
+            <button (click)="close()"
+                style="background:#f1f5f9;border:none;border-radius:8px;padding:0.5rem;cursor:pointer;color:#64748b;">
+                <span class="material-icons-round">close</span>
+            </button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+            <div class="detail-field" *ngFor="let field of [
+              {label:'Email', val: selected()?.email},
+              {label:'Phone', val: selected()?.phoneNumber},
+              {label:'Gender', val: selected()?.gender},
+              {label:'Blood Type', val: selected()?.bloodType},
+              {label:'Date of Birth', val: selected()?.dateOfBirth},
+              {label:'Address', val: selected()?.address}
+            ]" style="background:#f8fafc;border-radius:12px;padding:0.75rem 1rem;">
+                <p style="font-size:0.75rem;color:#94a3b8;margin:0;text-transform:uppercase;letter-spacing:0.05em;">{{
+                    field.label }}</p>
+                <p style="font-size:0.875rem;color:#1e293b;margin:0.25rem 0 0;font-weight:600;">{{ field.val || '—' }}
+                </p>
+            </div>
+        </div>
+
+        <div style="background:#f8fafc;border-radius:12px;padding:1rem;margin-bottom:1rem;">
+            <p
+                style="font-size:0.75rem;color:#94a3b8;margin:0 0 0.5rem;text-transform:uppercase;letter-spacing:0.05em;">
+                Medical History</p>
+            <p style="font-size:0.875rem;color:#1e293b;margin:0;line-height:1.6;">
+                {{ selected()?.medicalHistory || 'No medical history recorded.' }}
+            </p>
+        </div>
+
+        <button (click)="exportPdf(selected()?.id)"
+            style="width:100%;padding:0.75rem;background:#3b82f6;color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+            <span class="material-icons-round">download</span>
+            Export Full History as PDF
+        </button>
+    </div>
+</div>
