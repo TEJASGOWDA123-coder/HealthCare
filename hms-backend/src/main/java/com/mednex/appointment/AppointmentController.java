@@ -30,6 +30,17 @@ public class AppointmentController {
 
     @PutMapping("/{id}")
     public Appointment update(@PathVariable Long id, @RequestBody Appointment a) {
-        return service.update(id, a);
+        a.setId(id);
+        return service.save(a);
+    }
+
+    @DeleteMapping("/{id}")
+    public Appointment cancel(@PathVariable Long id) {
+        return service.cancel(id);
+    }
+
+    @GetMapping("/doctor/{doctorId}")
+    public List<Appointment> getByDoctor(@PathVariable Long doctorId) {
+        return service.getByDoctor(doctorId);
     }
 }

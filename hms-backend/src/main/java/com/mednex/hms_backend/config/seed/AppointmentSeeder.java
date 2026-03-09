@@ -3,10 +3,15 @@ package com.mednex.hms_backend.config.seed;
 import com.mednex.hms_backend.config.TenantContext;
 import com.mednex.appointment.Appointment;
 import com.mednex.appointment.AppointmentRepository;
+import com.mednex.hms_backend.auth.UserRepository;
+import com.mednex.hms_backend.auth.User;
+import com.mednex.hms_backend.patients.model.entity.Patient;
+import com.mednex.hms_backend.patients.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 @Component
@@ -14,6 +19,8 @@ import java.util.Arrays;
 public class AppointmentSeeder implements CommandLineRunner {
 
     private final AppointmentRepository appointmentRepository;
+    private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
 
     @Override
     public void run(String... args) {
@@ -26,40 +33,38 @@ public class AppointmentSeeder implements CommandLineRunner {
         try {
             System.out.println("📅 Seeding appointments for " + tenantId + "...");
             appointmentRepository.deleteAll(); // Force refresh for development
-            if (appointmentRepository.count() == 0) {
+
+            // Get or create dummy patient and doctor for seeding
+            Patient patient = patientRepository.findAll().stream().findFirst().orElse(null);
+            User doctor = userRepository.findAll().stream()
+                    .filter(u -> "DOCTOR".equals(u.getRole()))
+                    .findFirst().orElse(null);
+
+            if (patient != null && doctor != null) {
                 appointmentRepository.saveAll(Arrays.asList(
                         Appointment.builder()
-                                .patientName("Alice Green")
-                                .doctorName("Dr. Miller")
-                                .department("Cardiology")
-                                .date("2026-03-04")
-                                .time("10:00 AM")
+                                .patient(patient)
+                                .doctor(doctor)
+                                .startTime(LocalDateTime.now().plusHours(2))
+                                .endTime(LocalDateTime.now().plusHours(3))
                                 .type("Consultation")
-                                .status("Confirmed")
+                                .status("BOOKED")
                                 .build(),
                         Appointment.builder()
-                                .patientName("Bob Wilson")
-                                .doctorName("Dr. Sarah")
-                                .department("Neurology")
-                                .date("2026-03-05")
-                                .time("02:30 PM")
+                                .patient(patient)
+                                .doctor(doctor)
+                                .startTime(LocalDateTime.now().plusDays(1).withHour(10).withMinute(0))
+                                .endTime(LocalDateTime.now().plusDays(1).withHour(11).withMinute(0))
                                 .type("Follow-up")
-                                .status("Confirmed")
-                                .build(),
-                        Appointment.builder()
-                                .patientName("Charlie Brown")
-                                .doctorName("Dr. Smith")
-                                .department("Orthopedics")
-                                .date("2026-03-02")
-                                .time("09:15 AM")
-                                .type("Surgery")
-                                .status("Completed")
+                                .status("BOOKED")
                                 .build()));
                 System.out.println("✅ " + tenantId + " appointment seeding complete");
+            } else {
+                System.out.println(
+                        "ℹ️ Skipping appointment seeding for " + tenantId + " because patient or doctor not found.");
             }
         } catch (Exception e) {
             System.err.println("⚠️ Could not seed appointments for " + tenantId + ": " + e.getMessage());
-            System.err.println("👉 Please ensure the 'appointments' table exists in database related to " + tenantId);
         } finally {
             TenantContext.clear();
         }

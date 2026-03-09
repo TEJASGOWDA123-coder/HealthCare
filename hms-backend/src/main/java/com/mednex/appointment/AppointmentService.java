@@ -1,15 +1,18 @@
 package com.mednex.appointment;
 
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class AppointmentService {
 
     private final AppointmentRepository repo;
+    private final EmailService emailService;
 
-    public AppointmentService(AppointmentRepository repo) {
+    public AppointmentService(AppointmentRepository repo, EmailService emailService) {
         this.repo = repo;
+        this.emailService = emailService;
     }
 
     public List<Appointment> all() {
@@ -17,7 +20,26 @@ public class AppointmentService {
     }
 
     public Appointment save(Appointment a) {
-        return repo.save(a);
+        if (hasConflict(a)) {
+            throw new RuntimeException("Conflict detected: Doctor already has an appointment in this time slot.");
+        }
+        Appointment saved = repo.save(a);
+        try {
+            emailService.sendAppointmentConfirmation(saved);
+        } catch (Exception e) {
+            System.err.println("Failed to send email: " + e.getMessage());
+        }
+        return saved;
+    }
+
+    public boolean hasConflict(Appointment a) {
+        List<Appointment> overlaps = repo.findOverlappingAppointments(
+                a.getDoctor().getId(),
+                a.getStartTime(),
+                a.getEndTime());
+
+        // If updating, exclude the current appointment from conflict check
+        return overlaps.stream().anyMatch(existing -> !existing.getId().equals(a.getId()));
     }
 
     public Appointment findById(Long id) {
@@ -25,16 +47,14 @@ public class AppointmentService {
                 .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
     }
 
-    public Appointment update(Long id, Appointment updatedAppointment) {
+    public List<Appointment> getByDoctor(Long doctorId) {
+        return repo.findByDoctorId(doctorId);
+    }
+
+    public Appointment cancel(Long id) {
         return repo.findById(id)
                 .map(existing -> {
-                    existing.setPatientName(updatedAppointment.getPatientName());
-                    existing.setDoctorName(updatedAppointment.getDoctorName());
-                    existing.setDepartment(updatedAppointment.getDepartment());
-                    existing.setDate(updatedAppointment.getDate());
-                    existing.setTime(updatedAppointment.getTime());
-                    existing.setType(updatedAppointment.getType());
-                    existing.setStatus(updatedAppointment.getStatus());
+                    existing.setStatus("CANCELLED");
                     return repo.save(existing);
                 })
                 .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));

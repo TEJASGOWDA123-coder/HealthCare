@@ -23,4 +23,12 @@ export class AppointmentService {
     update(id: number | string, data: any): Observable<any> {
         return this.http.put(`${this.api}/${id}`, data);
     }
+
+    cancel(id: number | string): Observable<any> {
+        return this.http.delete(`${this.api}/${id}`);
+    }
+
+    getByDoctor(doctorId: number | string): Observable<any[]> {
+        return this.http.get<any[]>(`${this.api}/doctor/${doctorId}`);
+    }
 }

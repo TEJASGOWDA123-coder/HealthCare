@@ -11,4 +11,6 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
     List<Admission> findByAssignedDoctorId(Long doctorId);
 
     List<Admission> findByPatientId(Long patientId);
+
+    long countByStatus(String status);
 }
