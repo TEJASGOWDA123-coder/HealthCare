@@ -3,6 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AppointmentService } from '../../core/services/appointment.service';
+import { AppointmentCalendarComponent } from './appointment-calendar/appointment-calendar.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 interface Appointment {
   id: string;
@@ -18,12 +22,13 @@ interface Appointment {
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, AppointmentCalendarComponent, MatButtonModule, MatIconModule, MatButtonToggleModule],
   templateUrl: './appointments.html',
   styleUrl: './appointments.scss',
 })
 export class Appointments implements OnInit {
   private appointmentService = inject(AppointmentService);
+  viewMode = signal<'list' | 'calendar'>('calendar');
   appointments = signal<Appointment[]>([]);
 
   ngOnInit() {

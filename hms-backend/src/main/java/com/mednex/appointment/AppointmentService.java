@@ -33,6 +33,10 @@ public class AppointmentService {
     }
 
     public boolean hasConflict(Appointment a) {
+        // Skip conflict check if doctor, startTime, or endTime is null
+        if (a.getDoctor() == null || a.getStartTime() == null || a.getEndTime() == null) {
+            return false;
+        }
         List<Appointment> overlaps = repo.findOverlappingAppointments(
                 a.getDoctor().getId(),
                 a.getStartTime(),

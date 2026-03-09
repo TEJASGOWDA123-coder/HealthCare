@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/dashboard")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class DashboardController {
 
     private final PatientRepository patientRepository;
@@ -44,5 +44,17 @@ public class DashboardController {
     public ResponseEntity<List<Object>> getOccupancy() {
         // Returning empty list for now
         return ResponseEntity.ok(new ArrayList<>());
+    }
+
+    @GetMapping("/bed-occupancy")
+    public java.util.Map<String, Long> getBedOccupancy() {
+        long occupied = admissionRepository.countByStatus("ACTIVE");
+        long available = 100 - occupied; // Assuming 100 total beds
+
+        java.util.Map<String, Long> stats = new java.util.HashMap<>();
+        stats.put("total", 100L);
+        stats.put("occupied", occupied);
+        stats.put("available", available);
+        return stats;
     }
 }

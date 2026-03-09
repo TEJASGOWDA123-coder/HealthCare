@@ -12,59 +12,86 @@
 
     <div class="form-card card">
         <form [formGroup]="form" (ngSubmit)="submit()">
+
+            <!-- Error Banner -->
+            <div class="error-banner" *ngIf="submitError"
+                style="background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:1rem;border-radius:12px;margin-bottom:1.5rem;font-size:0.875rem;">
+                ⚠️ {{ submitError }}
+            </div>
+
             <div class="form-grid">
+                <!-- Patient Select -->
                 <div class="form-group">
-                    <label for="patientName">Patient Name</label>
-                    <input id="patientName" type="text" formControlName="patientName"
-                        placeholder="Enter patient full name">
-                </div>
-
-                <div class="form-group">
-                    <label for="doctorName">Specialist Name</label>
-                    <input id="doctorName" type="text" formControlName="doctorName" placeholder="Enter specialist name">
-                </div>
-
-                <div class="form-group">
-                    <label for="department">Department</label>
-                    <input id="department" type="text" formControlName="department"
-                        placeholder="e.g. Cardiology, Orthopedics">
-                </div>
-
-                <div class="form-group">
-                    <label for="type">Appointment Type</label>
-                    <select id="type" formControlName="type">
-                        <option value="Consultation">👨‍⚕️ Consultation</option>
-                        <option value="Follow-up">📅 Follow-up</option>
-                        <option value="Surgery">✂️ Surgery</option>
-                        <option value="Diagnostic">🔬 Diagnostic</option>
+                    <label for="patientId">Patient</label>
+                    <select id="patientId" formControlName="patientId">
+                        <option value="" disabled>— Select a patient —</option>
+                        <option *ngFor="let p of patients()" [value]="p.id">
+                            {{ p.firstName || p.fullName }} {{ p.lastName || '' }}
+                        </option>
                     </select>
+                    <span class="hint" *ngIf="patients().length === 0" style="color:#94a3b8;font-size:0.75rem;">Loading
+                        patients...</span>
                 </div>
 
+                <!-- Doctor Select -->
                 <div class="form-group">
-                    <label for="date">Date</label>
+                    <label for="doctorId">Doctor / Specialist</label>
+                    <select id="doctorId" formControlName="doctorId">
+                        <option value="" disabled>— Select a doctor —</option>
+                        <option *ngFor="let d of doctors()" [value]="d.id">
+                            {{ d.fullName }} <span *ngIf="d.specialization">({{ d.specialization }})</span>
+                        </option>
+                    </select>
+                    <span class="hint" *ngIf="doctors().length === 0" style="color:#94a3b8;font-size:0.75rem;">Loading
+                        doctors...</span>
+                </div>
+
+                <!-- Date -->
+                <div class="form-group">
+                    <label for="date">Appointment Date</label>
                     <input id="date" type="date" formControlName="date">
                 </div>
 
+                <!-- Start Time -->
                 <div class="form-group">
-                    <label for="time">Time</label>
-                    <input id="time" type="time" formControlName="time">
+                    <label for="startHour">Start Time</label>
+                    <input id="startHour" type="time" formControlName="startHour">
                 </div>
 
+                <!-- End Time -->
+                <div class="form-group">
+                    <label for="endHour">End Time</label>
+                    <input id="endHour" type="time" formControlName="endHour">
+                </div>
+
+                <!-- Type -->
+                <div class="form-group">
+                    <label for="type">Appointment Type</label>
+                    <select id="type" formControlName="type">
+                        <option value="CONSULTATION">👨‍⚕️ Consultation</option>
+                        <option value="FOLLOW_UP">📅 Follow-up</option>
+                        <option value="SURGERY">✂️ Surgery</option>
+                        <option value="DIAGNOSTIC">🔬 Diagnostic</option>
+                    </select>
+                </div>
+
+                <!-- Status -->
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select id="status" formControlName="status">
-                        <option value="Confirmed">Confirmed</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
+                        <option value="BOOKED">Confirmed</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="CANCELLED">Cancelled</option>
                     </select>
                 </div>
             </div>
 
             <div class="form-actions">
                 <button type="button" class="btn-secondary" routerLink="/appointments">Cancel</button>
-                <button type="submit" class="btn-primary" [disabled]="form.invalid">
-                    {{ isEditMode ? 'Update Appointment' : 'Schedule Appointment' }}
+                <button type="submit" class="btn-primary" [disabled]="form.invalid || isSubmitting">
+                    <span *ngIf="isSubmitting">Saving...</span>
+                    <span *ngIf="!isSubmitting">{{ isEditMode ? 'Update Appointment' : 'Schedule Appointment' }}</span>
                 </button>
             </div>
         </form>

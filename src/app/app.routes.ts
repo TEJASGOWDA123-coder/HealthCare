@@ -24,13 +24,8 @@ export const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             {
                 path: 'dashboard',
-                loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard),
-                data: { roles: ['Admin'] }
-            },
-            {
-                path: 'dashboard',
-                loadComponent: () => import('./features/patient-portal/dashboard/patient-dashboard').then(m => m.PatientDashboard),
-                data: { roles: ['Patient'] }
+                loadComponent: () => import('./features/dashboard/dashboard-wrapper').then(m => m.DashboardWrapper),
+                data: { roles: ['Admin', 'Doctor', 'Nurse', 'Patient'] }
             },
             {
                 path: 'patients',

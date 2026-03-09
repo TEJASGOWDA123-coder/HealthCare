@@ -24,17 +24,17 @@ public class Appointment {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id", nullable = true)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
+    @JoinColumn(name = "doctor_id", nullable = true)
     private User doctor; // User with role DOCTOR
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime startTime;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime endTime;
 
     private String type; // CONSULTATION, SURGERY, etc.

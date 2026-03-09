@@ -18,6 +18,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/v1/patients")
+@org.springframework.web.bind.annotation.CrossOrigin(origins = "*")
 public class PatientExportController {
 
     private final PatientService patientService;

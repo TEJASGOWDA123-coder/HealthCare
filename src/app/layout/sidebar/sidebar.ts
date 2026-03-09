@@ -23,18 +23,20 @@ export class Sidebar {
 
   mainMenu: MenuItem[] = [
     // ADMIN MENU
-    { label: 'Dashboard', route: '/dashboard', roles: ['Admin'], icon: 'grid_view' },
-    { label: 'Patient Admission', route: '/admissions', roles: ['Admin'], icon: 'local_hospital' },
+    { label: 'Dashboard', route: '/dashboard', roles: ['Admin', 'Doctor', 'Nurse', 'Patient'], icon: 'grid_view' },
+    { label: 'Appointments', route: '/appointments', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'calendar_today' },
+    { label: 'Patient Admission', route: '/admissions', roles: ['Admin', 'Nurse'], icon: 'local_hospital' },
     { label: 'User Management', route: '/employee', roles: ['Admin'], icon: 'person_outline' },
     { label: 'Billing', route: '/billing', roles: ['Admin'], icon: 'payments' },
+    { label: 'Audit Logs', route: '/activity', roles: ['Admin'], icon: 'history' },
 
     // DOCTOR MENU
-    { label: 'Patient Records', route: '/medical-records', roles: ['Doctor'], icon: 'folder_shared' },
-    { label: 'Prescriptions', route: '/prescriptions', roles: ['Doctor'], icon: 'vaccines' },
+    { label: 'Patient Records', route: '/medical-records', roles: ['Doctor', 'Admin'], icon: 'folder_shared' },
+    { label: 'Prescriptions', route: '/prescriptions', roles: ['Doctor', 'Admin'], icon: 'vaccines' },
 
     // NURSE MENU
-    { label: 'Patient Monitoring', route: '/patients', roles: ['Nurse'], icon: 'monitor_heart' },
-    { label: 'Vitals Update', route: '/admissions', roles: ['Nurse'], icon: 'favorite_border' }
+    { label: 'Patient Monitoring', route: '/patients', roles: ['Nurse', 'Admin'], icon: 'monitor_heart' },
+    { label: 'Vitals Update', route: '/admissions', roles: ['Nurse', 'Admin'], icon: 'favorite_border' }
   ];
 
   otherMenu: MenuItem[] = [

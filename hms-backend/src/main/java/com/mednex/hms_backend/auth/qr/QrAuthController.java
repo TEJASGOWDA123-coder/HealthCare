@@ -41,8 +41,8 @@ public class QrAuthController {
 
         if ("SIMULATED_MOBILE_TOKEN".equals(mobileToken)) {
             System.out.println("DEBUG: Using simulated mobile token for demo.");
-            email = "admin@mednex.com";
-            role = "Admin";
+            email = body.getOrDefault("email", "admin@hospitalA.com");
+            role = body.getOrDefault("role", "ADMIN");
         } else {
             // Validate mobile token and extract user
             try {

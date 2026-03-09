@@ -19,6 +19,7 @@ export class Dashboard implements OnInit {
   private patientService = inject(PatientService);
   private billingService = inject(BillingService);
   authService = inject(AuthService);
+  role = computed(() => this.authService.currentUser()?.role || 'Admin');
   today = new Date();
 
   // Dynamic signals

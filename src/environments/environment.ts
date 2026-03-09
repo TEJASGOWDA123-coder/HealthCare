@@ -7,7 +7,7 @@
 // After changing, RESTART the frontend with `npm start`.
 // ===================================================================
 
-const LOCAL_IP = '172.16.40.236';
+const LOCAL_IP = '172.22.137.236';
 
 export const environment = {
     production: false,

@@ -136,6 +136,24 @@ export class QrLogin implements OnInit, OnDestroy {
       });
   }
 
+  protected simulateMobileAuth() {
+    const s = this.sessionId();
+    const email = this.targetUser() || 'admin@hospitalA.com';
+    if (!s) return;
+
+    this.http.post(`${environment.apiBaseUrl}/auth/qr/authorize`, {
+      sessionId: s,
+      mobileToken: 'SIMULATED_MOBILE_TOKEN',
+      email: email,
+      role: email.includes('admin') ? 'Admin' :
+        (email.includes('doctor') ? 'Doctor' :
+          (email.includes('nurse') ? 'Nurse' : 'Patient'))
+    }).subscribe({
+      next: () => console.log('Simulation triggered'),
+      error: (err) => console.error('Simulation failed', err)
+    });
+  }
+
   cancel() {
     this.router.navigate(['/login']);
   }
