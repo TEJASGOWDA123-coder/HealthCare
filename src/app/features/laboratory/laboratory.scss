@@ -164,18 +164,18 @@
 }
 
 .status-pending {
-    background: #fee2e2;
-    color: #991b1b;
+    background: rgba(239, 68, 68, 0.15); // Transparent red
+    color: #ef4444;
 }
 
 .status-processing {
-    background: #fef3c7;
-    color: #92400e;
+    background: rgba(245, 158, 11, 0.15); // Transparent amber
+    color: #f59e0b;
 }
 
 .status-completed {
-    background: #d1fae5;
-    color: #065f46;
+    background: rgba(16, 185, 129, 0.15); // Transparent emerald
+    color: #10b981;
 }
 
 .btn-primary-sm,

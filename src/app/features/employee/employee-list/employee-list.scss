@@ -1,6 +1,6 @@
 .employee-container {
     padding: 2.5rem;
-    background: #fdfdfd;
+    background: var(--bg-primary);
 
     .header-section {
         display: flex;
@@ -11,12 +11,12 @@
         h1 {
             font-size: 2rem;
             font-weight: 800;
-            color: #1a1a1a;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
         p {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 1rem;
         }
 
@@ -46,17 +46,17 @@
         align-items: center;
         gap: 2.5rem;
         padding: 1.5rem;
-        background: white;
+        background: var(--bg-secondary);
         border-radius: 1rem;
         margin-bottom: 2.5rem;
-        border: 1px solid #eee;
+        border: 1px solid var(--border-color);
 
         .stat-item {
             .label {
                 display: block;
                 font-size: 0.75rem;
                 text-transform: uppercase;
-                color: #888;
+                color: var(--text-secondary);
                 letter-spacing: 0.05em;
                 font-weight: 700;
                 margin-bottom: 0.375rem;
@@ -65,23 +65,23 @@
             .value {
                 font-size: 1.5rem;
                 font-weight: 800;
-                color: #1a1a1a;
+                color: var(--text-primary);
             }
         }
 
         .stat-divider {
             width: 1px;
             height: 32px;
-            background: #eee;
+            background: var(--border-color);
         }
     }
 
     .table-container {
         .table-card {
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 1rem;
-            border: 1px solid #eee;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
             overflow: hidden;
         }
 
@@ -94,16 +94,17 @@
                 padding: 1.25rem 1.5rem;
                 font-size: 0.75rem;
                 text-transform: uppercase;
-                color: #888;
+                color: var(--text-secondary);
                 font-weight: 700;
-                background: #f9f9f9;
-                border-bottom: 1px solid #eee;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border-color);
             }
 
             td {
                 padding: 1.25rem 1.5rem;
-                border-bottom: 1px solid #f9f9f9;
+                border-bottom: 1px solid var(--border-color);
                 vertical-align: middle;
+                color: var(--text-primary);
             }
 
             .user-info {

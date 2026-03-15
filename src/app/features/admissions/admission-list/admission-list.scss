@@ -12,12 +12,12 @@
         h1 {
             font-size: 1.875rem;
             font-weight: 700;
-            color: #1e293b;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
 
         p {
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.875rem;
         }
     }
@@ -34,11 +34,11 @@
         border: none;
 
         &.btn-primary {
-            background-color: #10403b;
+            background-color: var(--primary-color);
             color: white;
 
             &:hover {
-                background-color: #0d322e;
+                background-color: var(--primary-hover);
                 transform: translateY(-1px);
                 box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             }
@@ -60,14 +60,16 @@
             input {
                 width: 100%;
                 padding: 0.625rem 1rem 0.625rem 2.5rem;
-                border: 1px solid #e2e8f0;
+                background: var(--bg-secondary);
+                border: 1px solid var(--border-color);
                 border-radius: 0.5rem;
+                color: var(--text-primary);
                 outline: none;
                 transition: all 0.2s;
 
                 &:focus {
-                    border-color: #10403b;
-                    box-shadow: 0 0 0 3px rgba(16, 64, 59, 0.1);
+                    border-color: var(--primary-color);
+                    box-shadow: 0 0 0 3px rgba(0, 137, 123, 0.1);
                 }
             }
 
@@ -78,7 +80,7 @@
                 transform: translateY(-50%);
                 width: 1.25rem;
                 height: 1.25rem;
-                color: #94a3b8;
+                color: var(--text-secondary);
             }
         }
 
@@ -90,11 +92,11 @@
     }
 
     .table-card {
-        background: white;
+        background: var(--bg-secondary);
         border-radius: 0.75rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        box-shadow: var(--shadow-sm);
         overflow: hidden;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--border-color);
         transition: all 0.3s ease;
 
         &.loading {
@@ -109,26 +111,26 @@
         text-align: left;
 
         th {
-            background-color: #f8fafc;
+            background-color: var(--bg-primary);
             padding: 1rem 1.5rem;
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: #64748b;
-            border-bottom: 2px solid #f1f5f9;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-color);
         }
 
         td {
             padding: 1rem 1.5rem;
-            border-bottom: 1px solid #f1f5f9;
-            color: #334155;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
             font-size: 0.875rem;
             vertical-align: middle;
         }
 
         tr:hover td {
-            background-color: #f8fafc;
+            background-color: var(--bg-accent);
         }
 
         .id-cell {

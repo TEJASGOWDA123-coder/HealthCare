@@ -50,8 +50,8 @@
 
     <div class="dashboard-main-content">
         <div class="left-col animate-slide-up" style="animation-delay: 0.1s;">
-            <!-- Health Trends Chart -->
-            <div class="glass-card main-chart-card">
+            <!-- Admin/Doctor: Health Trends Chart -->
+            <div class="glass-card main-chart-card" *ngIf="role() !== 'Nurse'">
                 <div class="chart-header">
                     <div class="title">
                         <h3>Patient Inflow Trends</h3>
@@ -63,7 +63,6 @@
                     </div>
                 </div>
                 <div class="premium-chart-container">
-                    <!-- Modern Visual instead of plain SVG -->
                     <div class="chart-mockup">
                         <div class="bar-group" *ngFor="let i of [1,2,3,4,5,6,7]">
                             <div class="bar primary" [style.height.%]="20 + (i * 10)"></div>
@@ -76,9 +75,47 @@
                 </div>
             </div>
 
+            <!-- Nurse: Ward Monitoring Map -->
+            <div class="glass-card ward-monitoring-card" *ngIf="role() === 'Nurse'">
+                <div class="chart-header">
+                    <div class="title">
+                        <h3>Ward Monitoring</h3>
+                        <p>Active patient status by room</p>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="btn-primary-sm">
+                            <span class="material-icons-round">bed</span>
+                            Refresh Grid
+                        </button>
+                    </div>
+                </div>
+
+                <div class="ward-grid">
+                    <div *ngFor="let admission of activeAdmissions()" class="bed-card" [class.stable]="true">
+                        <div class="bed-header">
+                            <span class="room-tag">Room {{ admission.roomNumber }}</span>
+                            <span class="material-icons-round status-icon">check_circle</span>
+                        </div>
+                        <div class="patient-snippet">
+                            <strong>{{ admission.patientName }}</strong>
+                            <span>Dr. {{ admission.doctorInCharge }}</span>
+                        </div>
+                        <div class="vitals-mini">
+                            <div class="v-pill bp">120/80</div>
+                            <div class="v-pill hr">72</div>
+                            <div class="v-pill t">98.6°F</div>
+                        </div>
+                    </div>
+                    <div *ngIf="activeAdmissions().length === 0" class="empty-ward">
+                        <span class="material-icons-round">hotel_class</span>
+                        <p>No active ward patients assigned to your care.</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="duo-grid">
-                <!-- Financial Summary -->
-                <div class="glass-card finance-widget">
+                <!-- Admin Only: Financial Summary -->
+                <div class="glass-card finance-widget" *ngIf="role() === 'Admin'">
                     <div class="widget-header">
                         <h3>Financial Summary</h3>
                         <span class="material-icons-round">payments</span>
@@ -107,7 +144,24 @@
                     </div>
                 </div>
 
-                <!-- Bed Management -->
+                <!-- Nurse: Vitals Checklist -->
+                <div class="glass-card vitals-checklist" *ngIf="role() === 'Nurse'">
+                    <div class="widget-header">
+                        <h3>Vitals Checklist</h3>
+                        <span class="badge-mini">5 DUE</span>
+                    </div>
+                    <div class="vitals-list">
+                        <div *ngFor="let i of [1,2,3]" class="vitals-task">
+                            <div class="task-info">
+                                <strong>Patient #{{ 100 + i }}</strong>
+                                <span>Due: 2:00 PM</span>
+                            </div>
+                            <button class="btn-check">Record</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shared: Bed Management / Stats -->
                 <div class="glass-card occupancy-widget">
                     <div class="widget-header">
                         <h3>Ward Occupancy</h3>
@@ -131,8 +185,38 @@
         </div>
 
         <div class="right-col animate-slide-up" style="animation-delay: 0.2s;">
-            <!-- Modern Schedule Widget -->
-            <div class="glass-card schedule-sidebar">
+            <!-- Nurse: Lab Task List -->
+            <div class="glass-card schedule-sidebar" *ngIf="role() === 'Nurse'">
+                <div class="sidebar-header">
+                    <h3>Lab Collections</h3>
+                    <div class="date-badge">PENDING</div>
+                </div>
+                <div class="compact-timeline">
+                    <div *ngIf="nurseTasks().length === 0" class="empty-schedule">
+                        <span class="material-icons-round">biotech</span>
+                        <p>All samples collected</p>
+                    </div>
+                    <div *ngFor="let task of nurseTasks()" class="schedule-item-premium">
+                        <div class="time-col">
+                            <span class="material-icons-round" style="color:var(--primary-color)">science</span>
+                        </div>
+                        <div class="event-glow"
+                            style="background:var(--bg-accent); border-left-color:var(--primary-color)">
+                            <div class="event-details">
+                                <h4>{{ task.testType }}</h4>
+                                <span class="duration">{{ task.patient.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-primary-block">
+                    <span class="material-icons-round">add_task</span>
+                    New Admission
+                </button>
+            </div>
+
+            <!-- Doctor/Admin: Clinic Schedule -->
+            <div class="glass-card schedule-sidebar" *ngIf="role() !== 'Nurse'">
                 <div class="sidebar-header">
                     <h3>Today's Clinic</h3>
                     <div class="date-badge">{{ today | date:'MMM d' }}</div>

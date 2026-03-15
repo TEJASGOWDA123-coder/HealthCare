@@ -5,7 +5,9 @@ import { AuthService } from '../../core/auth/auth.service';
 import { DashboardService, StatCard, ScheduleItem, OccupancyItem } from '../../core/services/dashboard.service';
 import { PatientService } from '../../core/services/patient.service';
 import { BillingService } from '../../core/services/billing.service';
-import { LaboratoryService } from '../../core/services/laboratory.service';
+import { LaboratoryService, LabRequest } from '../../core/services/laboratory.service';
+import { AdmissionService } from '../../core/services/admission.service';
+import { Admission } from '../../core/models/admission.model';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -21,6 +23,7 @@ export class Dashboard implements OnInit {
   private patientService = inject(PatientService);
   private billingService = inject(BillingService);
   private labService = inject(LaboratoryService);
+  private admissionService = inject(AdmissionService);
   authService = inject(AuthService);
   role = computed(() => this.authService.currentUser()?.role || 'Admin');
   today = new Date();
@@ -35,43 +38,84 @@ export class Dashboard implements OnInit {
   invoices = signal<any[]>([]);
   patients = signal<any[]>([]);
 
+  // Nurse Specific Signals
+  activeAdmissions = signal<Admission[]>([]);
+  nurseTasks = signal<any[]>([]);
+  pendingVitalsCount = signal(5); // Mocked for UI demonstration
+
   // Lab Request Modal State
   showLabModal = signal(false);
   labTestType = signal('BLOOD_WORK');
   labPatientId = signal<number | null>(null);
   labNotes = signal('');
 
-  stats = computed<StatCard[]>(() => [
-    {
-      label: 'New Admissions',
-      value: this.rawStats().appointments.toLocaleString(),
-      trend: `${this.rawStats().appointmentsTrend}% from last week`,
-      trendType: this.rawStats().appointmentsTrend >= 0 ? 'up' : 'down',
-      icon: 'person_add',
-      isPrimary: true
-    },
-    {
-      label: 'Avg. Consultation',
-      value: '24 min',
-      trend: '1.2% faster',
-      trendType: 'up',
-      icon: 'timer'
-    },
-    {
-      label: 'Active Surgeries',
-      value: this.rawStats().surgeries.toLocaleString(),
-      trend: `${Math.abs(this.rawStats().surgeriesTrend)}% from last week`,
-      trendType: this.rawStats().surgeriesTrend >= 0 ? 'up' : 'down',
-      icon: 'emergency'
-    },
-    {
-      label: 'Patient Satisfaction',
-      value: '98%',
-      trend: '4.5% improvement',
-      trendType: 'up',
-      icon: 'favorite'
-    },
-  ]);
+  stats = computed<StatCard[]>(() => {
+    if (this.role() === 'Nurse') {
+      return [
+        {
+          label: 'Active Admissions',
+          value: this.activeAdmissions().length.toString(),
+          trend: '2 new tonight',
+          trendType: 'up',
+          icon: 'hotel',
+          isPrimary: true
+        },
+        {
+          label: 'Pending Vitals',
+          value: this.pendingVitalsCount().toString(),
+          trend: 'Due now',
+          trendType: 'down',
+          icon: 'monitor_heart'
+        },
+        {
+          label: 'Lab Samples',
+          value: this.nurseTasks().length.toString(),
+          trend: 'Awaiting collect',
+          trendType: 'up',
+          icon: 'biotech'
+        },
+        {
+          label: 'Critical Alerts',
+          value: '0',
+          trend: 'All stable',
+          trendType: 'up',
+          icon: 'notifications_active'
+        }
+      ];
+    }
+
+    return [
+      {
+        label: 'New Admissions',
+        value: this.rawStats().appointments.toLocaleString(),
+        trend: `${this.rawStats().appointmentsTrend}% from last week`,
+        trendType: this.rawStats().appointmentsTrend >= 0 ? 'up' : 'down',
+        icon: 'person_add',
+        isPrimary: true
+      },
+      {
+        label: 'Avg. Consultation',
+        value: '24 min',
+        trend: '1.2% faster',
+        trendType: 'up',
+        icon: 'timer'
+      },
+      {
+        label: 'Active Surgeries',
+        value: this.rawStats().surgeries.toLocaleString(),
+        trend: `${Math.abs(this.rawStats().surgeriesTrend)}% from last week`,
+        trendType: this.rawStats().surgeriesTrend >= 0 ? 'up' : 'down',
+        icon: 'emergency'
+      },
+      {
+        label: 'Patient Satisfaction',
+        value: '98%',
+        trend: '4.5% improvement',
+        trendType: 'up',
+        icon: 'favorite'
+      },
+    ];
+  });
 
   balanceStats = computed(() => {
     const all = this.invoices();
@@ -106,6 +150,15 @@ export class Dashboard implements OnInit {
       this.patients.set(p);
     });
     this.billingService.getInvoices().subscribe(i => this.invoices.set(i));
+
+    if (this.role() === 'Nurse') {
+      this.admissionService.getAdmissions().subscribe(a => {
+        this.activeAdmissions.set(a.filter(item => item.status === 'ACTIVE'));
+      });
+      this.labService.getAllRequests().subscribe(reqs => {
+        this.nurseTasks.set(reqs.filter(r => r.status === 'PENDING'));
+      });
+    }
   }
 
   submitLabRequest() {

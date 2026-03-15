@@ -7,21 +7,28 @@ import { isPlatformBrowser } from '@angular/common';
 export class ThemeService {
     private readonly THEME_KEY = 'mednex-theme';
     private platformId = inject(PLATFORM_ID);
-    theme = signal<'light' | 'dark'>('light');
+    theme = signal<'light' | 'dark'>(this.getInitialTheme());
 
     constructor() {
-        // Apply light theme as default on boot
         if (isPlatformBrowser(this.platformId)) {
-            document.documentElement.setAttribute('data-theme', 'light');
+            effect(() => {
+                const currentTheme = this.theme();
+                document.documentElement.setAttribute('data-theme', currentTheme);
+                localStorage.setItem(this.THEME_KEY, currentTheme);
+            });
         }
     }
 
     toggleTheme() {
-        // No-op or just set to light to avoid breaking existing callers
-        this.theme.set('light');
+        this.theme.update(t => t === 'light' ? 'dark' : 'light');
     }
 
     private getInitialTheme(): 'light' | 'dark' {
+        if (isPlatformBrowser(this.platformId)) {
+            const saved = localStorage.getItem(this.THEME_KEY);
+            if (saved === 'light' || saved === 'dark') return saved;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
         return 'light';
     }
 }

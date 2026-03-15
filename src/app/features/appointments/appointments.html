@@ -40,9 +40,8 @@
                 <option value="Cancelled">Cancelled</option>
             </select>
 
-            <a [routerLink]="['/appointments/new']" class="btn-primary"
-                style="display:flex; align-items:center; gap:0.5rem; padding:0.625rem 1.25rem; background:#3b82f6; color:white; border-radius:10px; font-weight:600; font-size:0.875rem; text-decoration:none;">
-                <span class="material-icons-round" style="font-size:18px;">add</span>
+            <a [routerLink]="['/appointments/new']" class="btn-primary-sm">
+                <span class="material-icons-round">add</span>
                 New Appointment
             </a>
         </div>
@@ -117,7 +116,7 @@
                         </td>
                     </tr>
                     <tr *ngIf="filteredAppointments().length === 0">
-                        <td colspan="6" style="text-align:center; padding:3rem; color:#94a3b8;">
+                        <td colspan="6" class="empty-text">
                             No appointments found.
                         </td>
                     </tr>

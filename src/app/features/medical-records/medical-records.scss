@@ -7,11 +7,11 @@
 
     .breadcrumb {
         font-size: 0.8rem;
-        color: #94a3b8;
+        color: var(--text-secondary);
         margin-bottom: 0.5rem;
 
         .active {
-            color: #1e293b;
+            color: var(--text-primary);
             font-weight: 600;
         }
     }
@@ -19,12 +19,12 @@
     h1 {
         font-size: 1.75rem;
         font-weight: 700;
-        color: #1e293b;
+        color: var(--text-primary);
         margin: 0 0 0.25rem;
     }
 
     p {
-        color: #64748b;
+        color: var(--text-secondary);
         margin: 0;
     }
 }
@@ -39,8 +39,8 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: white;
-    border: 1px solid #e2e8f0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 0.625rem 1rem;
     flex: 1;
@@ -51,13 +51,15 @@
         flex: 1;
         font-size: 0.875rem;
         background: transparent;
+        color: var(--text-primary);
     }
 }
 
 .card {
-    background: white;
+    background: var(--bg-secondary);
     border-radius: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 }
 
 .table-container {
@@ -69,26 +71,26 @@ table {
     border-collapse: collapse;
 
     th {
-        background: #f8fafc;
+        background: var(--bg-primary);
         padding: 0.875rem 1rem;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: #64748b;
+        color: var(--text-secondary);
         font-weight: 600;
         text-align: left;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--border-color);
     }
 
     td {
         padding: 0.875rem 1rem;
         font-size: 0.875rem;
-        color: #1e293b;
-        border-bottom: 1px solid #f8fafc;
+        color: var(--text-primary);
+        border-bottom: 1px solid var(--border-color);
     }
 
     tbody tr:hover {
-        background: #f8faff;
+        background: var(--bg-accent);
     }
 }
 

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { Role } from '../../core/auth/auth.models';
+import { ThemeService } from '../../core/services/theme.service';
 
 interface MenuItem {
   label: string;
@@ -20,6 +21,7 @@ interface MenuItem {
 })
 export class Sidebar {
   authService = inject(AuthService);
+  themeService = inject(ThemeService);
 
   mainMenu: MenuItem[] = [
     // ADMIN MENU

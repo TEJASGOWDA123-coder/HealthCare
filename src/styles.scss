@@ -9,6 +9,25 @@
     --primary-hover: #00796b;
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
     --welcome-gradient: linear-gradient(135deg, #0d3632 0%, #10403b 100%);
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.3);
+    --sidebar-bg: #0d3632;
+}
+
+html[data-theme='dark'] {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-accent: #1e3a3a; // Deeper teal
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --border-color: #334155;
+    --primary-color: #26a69a; // Brighter teal for dark mode
+    --primary-hover: #4db6ac;
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    --welcome-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --sidebar-bg: #1e293b;
 }
 
 html,

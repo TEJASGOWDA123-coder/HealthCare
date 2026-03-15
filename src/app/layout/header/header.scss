@@ -21,7 +21,7 @@
     border: 1px solid var(--border-color);
 
     .material-icons-round {
-        color: #94a3b8;
+        color: var(--text-secondary);
         margin-right: 0.75rem;
         font-size: 1.25rem;
     }
@@ -36,7 +36,7 @@
         font-family: 'Inter', sans-serif;
 
         &::placeholder {
-            color: #94a3b8;
+            color: var(--text-secondary);
         }
     }
 }
@@ -151,7 +151,7 @@
         }
 
         .material-icons-round {
-            color: #94a3b8;
+            color: var(--text-secondary);
             font-size: 1.25rem;
         }
     }
