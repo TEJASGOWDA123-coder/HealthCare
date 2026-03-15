@@ -1,7 +1,10 @@
 package com.mednex.appointment;
 
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -62,5 +65,24 @@ public class AppointmentService {
                     return repo.save(existing);
                 })
                 .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+    }
+
+    public List<SlotDto> getSlots(Long doctorId, LocalDate date) {
+        List<SlotDto> slots = new ArrayList<>();
+        LocalTime start = LocalTime.of(9, 0);
+        LocalTime end = LocalTime.of(17, 0);
+
+        while (start.isBefore(end)) {
+            LocalTime next = start.plusMinutes(30);
+            LocalDateTime slotStart = LocalDateTime.of(date, start);
+            LocalDateTime slotEnd = LocalDateTime.of(date, next);
+
+            List<Appointment> overlaps = repo.findOverlappingAppointments(doctorId, slotStart, slotEnd);
+            String status = overlaps.isEmpty() ? "AVAILABLE" : "BOOKED";
+
+            slots.add(new SlotDto(start.toString(), next.toString(), status));
+            start = next;
+        }
+        return slots;
     }
 }

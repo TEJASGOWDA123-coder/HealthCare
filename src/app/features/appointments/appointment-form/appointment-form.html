@@ -52,16 +52,21 @@
                     <input id="date" type="date" formControlName="date">
                 </div>
 
-                <!-- Start Time -->
-                <div class="form-group">
-                    <label for="startHour">Start Time</label>
-                    <input id="startHour" type="time" formControlName="startHour">
-                </div>
-
-                <!-- End Time -->
-                <div class="form-group">
-                    <label for="endHour">End Time</label>
-                    <input id="endHour" type="time" formControlName="endHour">
+                <!-- Slot Selection Grid -->
+                <div class="form-group" style="grid-column: 1 / -1;" *ngIf="slots().length > 0">
+                    <label>Available Slots</label>
+                    <div class="slots-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem; margin-top: 0.5rem;">
+                        <button type="button" *ngFor="let slot of slots()" (click)="selectSlot(slot)"
+                            [disabled]="slot.status === 'BOOKED'"
+                            [style.background]="slot.status === 'BOOKED' ? '#fee2e2' : (selectedSlot() === slot ? '#3b82f6' : 'white')"
+                            [style.color]="slot.status === 'BOOKED' ? '#991b1b' : (selectedSlot() === slot ? 'white' : '#1e293b')"
+                            [style.border]="selectedSlot() === slot ? '2px solid #3b82f6' : '1px solid #e2e8f0'"
+                            style="padding: 0.75rem 0.5rem; border-radius: 8px; font-size: 0.813rem; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.2s;">
+                            {{ slot.time }}
+                            <div style="font-size: 0.625rem; opacity: 0.8;">{{ slot.status }}</div>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Type -->

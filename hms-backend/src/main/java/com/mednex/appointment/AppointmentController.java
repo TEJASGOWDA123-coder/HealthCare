@@ -1,6 +1,8 @@
 package com.mednex.appointment;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -43,5 +45,12 @@ public class AppointmentController {
     @GetMapping("/doctor/{doctorId}")
     public List<Appointment> getByDoctor(@PathVariable Long doctorId) {
         return service.getByDoctor(doctorId);
+    }
+
+    @GetMapping("/slots")
+    public List<SlotDto> getSlots(
+            @RequestParam Long doctorId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return service.getSlots(doctorId, date);
     }
 }

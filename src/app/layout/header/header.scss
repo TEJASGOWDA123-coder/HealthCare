@@ -1,6 +1,6 @@
 .header {
     height: 70px;
-    background: #f8fafc;
+    background: var(--bg-primary);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -13,12 +13,12 @@
 .header-search {
     display: flex;
     align-items: center;
-    background: white;
+    background: var(--bg-secondary);
     padding: 0.6rem 1rem;
     border-radius: 12px;
     width: 350px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-    border: 1px solid #f1f5f9;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
 
     .material-icons-round {
         color: #94a3b8;
@@ -31,7 +31,8 @@
         outline: none;
         width: 100%;
         font-size: 0.9rem;
-        color: #1e293b;
+        color: var(--text-primary);
+        background: transparent;
         font-family: 'Inter', sans-serif;
 
         &::placeholder {
@@ -47,7 +48,7 @@
 }
 
 .btn-add-patient {
-    background: #0d9488; // Teal-600
+    background: var(--primary-color);
     color: white;
     border: none;
     padding: 0.6rem 1.25rem;
@@ -62,7 +63,7 @@
     font-family: 'Inter', sans-serif;
 
     &:hover {
-        background: #0f766e; // Teal-700
+        background: var(--primary-hover);
     }
 
     .material-icons-round {
@@ -71,22 +72,22 @@
 }
 
 .btn-icon {
-    background: white;
-    border: 1px solid #f1f5f9;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     width: 42px;
     height: 42px;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
+    color: var(--text-secondary);
     cursor: pointer;
     position: relative;
     transition: all 0.2s;
 
     &:hover {
-        background: #f1f5f9;
-        color: #1e293b;
+        background: var(--bg-accent);
+        color: var(--text-primary);
     }
 
     .badge {
@@ -97,7 +98,7 @@
         height: 8px;
         background: #f43f5e;
         border-radius: 50%;
-        border: 2px solid white;
+        border: 2px solid var(--bg-secondary);
     }
 }
 
@@ -111,7 +112,7 @@
     transition: background 0.2s;
 
     &:hover {
-        background: #f1f5f9;
+        background: var(--bg-accent);
     }
 
     .avatar {
@@ -134,7 +135,7 @@
             height: 12px;
             background: #22c55e;
             border-radius: 50%;
-            border: 2px solid white;
+            border: 2px solid var(--bg-secondary);
         }
     }
 
@@ -146,7 +147,7 @@
         .user-name {
             font-weight: 600;
             font-size: 0.9rem;
-            color: #1e293b;
+            color: var(--text-primary);
         }
 
         .material-icons-round {

@@ -27,13 +27,13 @@ export class AppointmentFormComponent implements OnInit {
 
     doctors = signal<any[]>([]);
     patients = signal<any[]>([]);
+    slots = signal<any[]>([]);
+    selectedSlot = signal<any | null>(null);
 
     form = this.fb.group({
         patientId: ['', Validators.required],
         doctorId: ['', Validators.required],
         date: ['', Validators.required],
-        startHour: ['09:00', Validators.required],
-        endHour: ['10:00', Validators.required],
         type: ['CONSULTATION', Validators.required],
         status: ['BOOKED', Validators.required]
     });
@@ -43,6 +43,10 @@ export class AppointmentFormComponent implements OnInit {
         this.isEditMode = !!this.appointmentId;
         this.loadDoctors();
         this.loadPatients();
+
+        // Load slots when doctor or date changes
+        this.form.get('doctorId')?.valueChanges.subscribe(() => this.loadSlots());
+        this.form.get('date')?.valueChanges.subscribe(() => this.loadSlots());
     }
 
     private loadDoctors() {
@@ -61,16 +65,40 @@ export class AppointmentFormComponent implements OnInit {
             });
     }
 
+    private loadSlots() {
+        const doctorId = this.form.get('doctorId')?.value;
+        const date = this.form.get('date')?.value;
+
+        if (doctorId && date) {
+            this.http.get<any[]>(`${environment.apiBaseUrl}/api/v1/appointments/slots`, {
+                params: { doctorId, date }
+            }).subscribe({
+                next: (data) => {
+                    this.slots.set(data);
+                    this.selectedSlot.set(null); // Reset selection
+                },
+                error: (err) => console.error('Failed to load slots', err)
+            });
+        }
+    }
+
+    selectSlot(slot: any) {
+        if (slot.status === 'AVAILABLE') {
+            this.selectedSlot.set(slot);
+        }
+    }
+
     submit() {
-        if (this.form.invalid) return;
+        if (this.form.invalid || !this.selectedSlot()) return;
 
         this.isSubmitting = true;
         this.submitError = '';
 
         const val = this.form.value;
         const date = val.date!;
-        const startTime = `${date}T${val.startHour}:00`;
-        const endTime = `${date}T${val.endHour}:00`;
+        const slot = this.selectedSlot();
+        const startTime = `${date}T${slot.time}:00`;
+        const endTime = `${date}T${slot.endTime}:00`;
 
         const payload: any = {
             patient: { id: Number(val.patientId) },
