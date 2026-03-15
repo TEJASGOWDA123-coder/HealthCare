@@ -3,13 +3,13 @@
 .time-cell {
     .date {
         font-weight: 700;
-        color: #1e293b;
+        color: var(--text-primary);
         font-size: 0.875rem;
     }
 
     .time {
         font-size: 0.75rem;
-        color: #64748b;
+        color: var(--text-secondary);
     }
 }
 
@@ -19,45 +19,72 @@
     flex-direction: column;
 
     strong {
-        color: #1e293b;
+        color: var(--text-primary);
         font-size: 0.875rem;
     }
 
     .id,
     .dept {
         font-size: 0.75rem;
-        color: #94a3b8;
+        color: var(--text-secondary);
     }
 }
 
-.type-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8125rem;
-    color: #475569;
-    font-weight: 500;
+.view-toggle-group {
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--bg-secondary);
 
-    .type-icon {
-        font-size: 1rem;
+    .toggle-btn {
+        border: none;
+        padding: 0.6rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        background: transparent;
+        color: var(--text-secondary);
+        transition: all 0.2s;
+
+        .material-icons-round {
+            font-size: 18px;
+        }
+
+        &.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        &:not(.active):hover {
+            background: var(--bg-accent);
+            color: var(--text-primary);
+        }
+
+        &+.toggle-btn {
+            border-left: 1px solid var(--border-color);
+        }
     }
 }
 
 .filter-select {
     padding: 0.625rem 1rem;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
     font-size: 0.875rem;
-    color: #334155;
+    color: var(--text-primary);
     outline: none;
     cursor: pointer;
 
     &:focus {
-        border-color: #2563eb;
+        border-color: var(--primary-color);
     }
 }
 
 .appointments-grid {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }

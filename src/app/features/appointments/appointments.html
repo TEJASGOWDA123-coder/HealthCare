@@ -21,17 +21,13 @@
         </div>
 
         <div class="actions" style="display: flex; gap: 1rem; align-items: center; margin-left: auto;">
-            <div style="display:flex; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden;">
-                <button (click)="viewMode.set('list')" [style.background]="viewMode() === 'list' ? '#3b82f6' : 'white'"
-                    [style.color]="viewMode() === 'list' ? 'white' : '#64748b'"
-                    style="border:none; padding:0.5rem 0.75rem; cursor:pointer; display:flex; align-items:center; gap:4px; font-size:0.813rem; font-weight:600;">
-                    <span class="material-icons-round" style="font-size:18px;">format_list_bulleted</span> List
+            <div class="view-toggle-group">
+                <button (click)="viewMode.set('list')" class="toggle-btn" [class.active]="viewMode() === 'list'">
+                    <span class="material-icons-round">format_list_bulleted</span> List
                 </button>
-                <button (click)="viewMode.set('calendar')"
-                    [style.background]="viewMode() === 'calendar' ? '#3b82f6' : 'white'"
-                    [style.color]="viewMode() === 'calendar' ? 'white' : '#64748b'"
-                    style="border:none; border-left:1px solid #e2e8f0; padding:0.5rem 0.75rem; cursor:pointer; display:flex; align-items:center; gap:4px; font-size:0.813rem; font-weight:600;">
-                    <span class="material-icons-round" style="font-size:18px;">calendar_month</span> Calendar
+                <button (click)="viewMode.set('calendar')" class="toggle-btn"
+                    [class.active]="viewMode() === 'calendar'">
+                    <span class="material-icons-round">calendar_month</span> Calendar
                 </button>
             </div>
 
@@ -44,7 +40,7 @@
                 <option value="Cancelled">Cancelled</option>
             </select>
 
-            <a routerLink="/appointments/new" class="btn-primary"
+            <a [routerLink]="['/appointments/new']" class="btn-primary"
                 style="display:flex; align-items:center; gap:0.5rem; padding:0.625rem 1.25rem; background:#3b82f6; color:white; border-radius:10px; font-weight:600; font-size:0.875rem; text-decoration:none;">
                 <span class="material-icons-round" style="font-size:18px;">add</span>
                 New Appointment

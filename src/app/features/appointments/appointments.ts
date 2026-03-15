@@ -1,5 +1,5 @@
-import { Component, signal, computed, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, computed, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AppointmentService } from '../../core/services/appointment.service';
@@ -32,11 +32,18 @@ export class Appointments implements OnInit {
   viewMode = signal<'list' | 'calendar'>('calendar');
   appointments = signal<Appointment[]>([]);
 
+  private platformId = inject(PLATFORM_ID);
+
   ngOnInit() {
-    this.appointmentService.list().subscribe({
-      next: (data) => this.appointments.set(data),
-      error: (err) => console.error('Error fetching appointments', err)
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.appointmentService.list().subscribe({
+        next: (data) => {
+          // Use setTimeout to ensure change detection has finished its first run
+          setTimeout(() => this.appointments.set(data));
+        },
+        error: (err) => console.error('Error fetching appointments', err)
+      });
+    }
   }
 
   filterStatus = signal<string>('All');

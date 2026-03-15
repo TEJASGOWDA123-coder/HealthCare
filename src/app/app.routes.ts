@@ -106,6 +106,11 @@ export const routes: Routes = [
                 path: 'reports',
                 loadComponent: () => import('./features/reports/reports').then(m => m.ReportsComponent),
                 data: { roles: ['Admin'] }
+            },
+            {
+                path: 'laboratory',
+                loadComponent: () => import('./features/laboratory/laboratory').then(m => m.LaboratoryComponent),
+                data: { roles: ['Admin', 'Doctor', 'Nurse'] }
             }
         ]
     },

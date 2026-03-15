@@ -8,18 +8,7 @@
     --primary-color: #00897b;
     --primary-hover: #00796b;
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-}
-
-[data-theme='dark'] {
-    --bg-primary: #121212;
-    --bg-secondary: #1e1e1e;
-    --bg-accent: #263238;
-    --text-primary: #f1f5f9;
-    --text-secondary: #94a3b8;
-    --border-color: #334155;
-    --primary-color: #26a69a;
-    --primary-hover: #4db6ac;
-    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --welcome-gradient: linear-gradient(135deg, #0d3632 0%, #10403b 100%);
 }
 
 html,
@@ -32,6 +21,7 @@ body {
     color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
 
 *,
 *:before,

@@ -36,7 +36,8 @@ export class Sidebar {
 
     // NURSE MENU
     { label: 'Patient Monitoring', route: '/patients', roles: ['Nurse', 'Admin'], icon: 'monitor_heart' },
-    { label: 'Vitals Update', route: '/admissions', roles: ['Nurse', 'Admin'], icon: 'favorite_border' }
+    { label: 'Vitals Update', route: '/admissions', roles: ['Nurse', 'Admin'], icon: 'favorite_border' },
+    { label: 'Laboratory', route: '/laboratory', roles: ['Admin', 'Doctor', 'Nurse'], icon: 'biotech' }
   ];
 
   otherMenu: MenuItem[] = [

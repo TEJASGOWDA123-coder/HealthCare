@@ -1,0 +1,111 @@
+<div class="laboratory-container animate-fade-in">
+    <header class="page-header">
+        <div class="header-content">
+            <span class="badge-premium">Diagnostics Module</span>
+            <h1>Laboratory Information System</h1>
+            <p>Manage and track diagnostic requests and results</p>
+        </div>
+
+        <div class="header-actions">
+            <div class="filter-group">
+                <span class="material-icons-round">filter_list</span>
+                <select [ngModel]="filterStatus()" (ngModelChange)="filterStatus.set($event)" class="filter-select">
+                    <option value="All">All Requests</option>
+                    <option value="PENDING">Pending</option>
+                    <option value="PROCESSING">Processing</option>
+                    <option value="COMPLETED">Completed</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <div class="requests-grid">
+        <div *ngFor="let req of filteredRequests()" class="glass-card request-card"
+            [class.completed]="req.status === 'COMPLETED'">
+            <div class="card-header">
+                <div class="test-icon">
+                    <span class="material-icons-round">
+                        {{ req.testType.includes('BLOOD') ? 'opacity' :
+                        req.testType.includes('XRAY') || req.testType.includes('MRI') ? 'screenshot_main' : 'biotech' }}
+                    </span>
+                </div>
+                <div class="status-badge" [ngClass]="getStatusClass(req.status)">
+                    {{ req.status }}
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h3>{{ req.testType.replace('_', ' ') }}</h3>
+                <div class="info-row">
+                    <span class="material-icons-round">person</span>
+                    <span><strong>Patient:</strong> {{ req.patient.name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="material-icons-round">medical_services</span>
+                    <span><strong>Dr.</strong> {{ req.doctor.name }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="material-icons-round">event</span>
+                    <span>{{ req.createdAt | date:'medium' }}</span>
+                </div>
+                <p class="notes" *ngIf="req.notes">"{{ req.notes }}"</p>
+            </div>
+
+            <div class="card-footer">
+                <button *ngIf="req.status !== 'COMPLETED' && authService.hasRole(['Admin', 'Nurse'])"
+                    class="btn-primary-sm" (click)="openUploadModal(req)">
+                    <span class="material-icons-round">upload_file</span>
+                    Upload Result
+                </button>
+                <button *ngIf="req.status === 'COMPLETED'" class="btn-secondary-sm">
+                    <span class="material-icons-round">visibility</span>
+                    View Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredRequests().length === 0" class="empty-state">
+        <span class="material-icons-round">science</span>
+        <p>No lab requests found for the selected filter.</p>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal-backdrop" *ngIf="showUploadModal()">
+        <div class="glass-card modal-content animate-slide-up">
+            <div class="modal-header">
+                <h3>Upload Lab Results</h3>
+                <button class="btn-icon" (click)="closeUploadModal()">
+                    <span class="material-icons-round">close</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="request-summary">
+                    <p><strong>Test:</strong> {{ selectedRequest()?.testType }}</p>
+                    <p><strong>Patient:</strong> {{ selectedRequest()?.patient?.name }}</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Findings & Observations</label>
+                    <textarea [ngModel]="resultText()" (ngModelChange)="resultText.set($event)"
+                        placeholder="Enter the lab findings here..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Report Attachment URL (Mock)</label>
+                    <input type="text" [ngModel]="fileUrl()" (ngModelChange)="fileUrl.set($event)"
+                        placeholder="https://storage.mednex.com/reports/repo-123.pdf">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-ghost" (click)="closeUploadModal()">Cancel</button>
+                <button class="btn-primary" (click)="submitResult()" [disabled]="!resultText()">
+                    Complete & Notify Doctor
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

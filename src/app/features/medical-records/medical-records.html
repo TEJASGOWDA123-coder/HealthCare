@@ -127,6 +127,27 @@
             </p>
         </div>
 
+        <!-- Integrated Lab Results -->
+        <div style="background:#f8fafc;border-radius:12px;padding:1rem;margin-bottom:1rem;"
+            *ngIf="labResults().length > 0">
+            <p
+                style="font-size:0.75rem;color:#94a3b8;margin:0 0 0.75rem;text-transform:uppercase;letter-spacing:0.05em;">
+                Lab Diagnostics & Reports</p>
+            <div *ngFor="let res of labResults()"
+                style="display:flex;align-items:center;gap:1rem;padding:0.75rem;background:white;border-radius:10px;margin-bottom:0.5rem;border:1px solid #e2e8f0;">
+                <div
+                    style="width:32px;height:32px;background:#eff6ff;color:#3b82f6;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                    <span class="material-icons-round" style="font-size:18px;">biotech</span>
+                </div>
+                <div style="flex:1;">
+                    <h4 style="margin:0;font-size:0.875rem;color:#1e293b;">{{ res.testType.replace('_', ' ') }}</h4>
+                    <p style="margin:0;font-size:0.75rem;color:#64748b;">{{ res.updatedAt | date:'mediumDate' }}</p>
+                </div>
+                <button class="btn-icon-sm" style="color:#3b82f6;"><span
+                        class="material-icons-round">visibility</span></button>
+            </div>
+        </div>
+
         <button (click)="exportPdf(selected()?.id)"
             style="width:100%;padding:0.75rem;background:#3b82f6;color:white;border:none;border-radius:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
             <span class="material-icons-round">download</span>

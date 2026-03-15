@@ -1,177 +1,227 @@
 <div class="dashboard-container">
-    <section class="greeting-section">
-        <div class="welcome">
-            <h1>Hello, {{ authService.currentUser()?.name || authService.currentUser()?.role || 'User' }} 👋</h1>
-            <p>There is the latest update for the last 7 days. check now</p>
-        </div>
-        <div class="date-selector">
-            <span class="material-icons-round">calendar_today</span>
-            <span>{{ today | date:'EEEE, d MMMM' }}</span>
-        </div>
-    </section>
-
-    <section class="stats-grid">
-        <div *ngFor="let stat of stats()" class="stat-card" [class.primary]="stat.isPrimary">
-            <div class="card-top">
-                <div class="icon-box">
-                    <span class="material-icons-round">{{ stat.icon }}</span>
-                </div>
-                <span class="label">{{ stat.label }}</span>
+    <header class="dashboard-header animate-fade-in">
+        <div class="welcome-card">
+            <div class="welcome-text">
+                <span class="badge-premium">Enterprise Suite</span>
+                <h1>Welcome back, {{ (authService.currentUser()?.name || 'Member').split(' ')[0] }}!</h1>
+                <p>You have <strong>{{ schedule().length }}</strong> appointments scheduled for today.</p>
             </div>
-            <div class="card-bottom">
-                <span class="value">{{ stat.value }}</span>
-                <span class="trend" [ngClass]="stat.trendType">
-                    <span class="material-icons-round trend-icon">
-                        {{ stat.trendType === 'up' ? 'trending_up' : 'trending_down' }}
+            <div class="header-visual">
+                <div class="visual-circle primary"></div>
+                <div class="visual-circle secondary"></div>
+            </div>
+        </div>
+
+        <div class="quick-stats-glass">
+            <div class="quick-stat">
+                <span class="label">Total Patients</span>
+                <span class="value">{{ patientsCount() | number }}</span>
+                <span class="sub-label">+12 today</span>
+            </div>
+            <div class="divider"></div>
+            <div class="quick-stat">
+                <span class="label">Today's Revenue</span>
+                <span class="value">{{ balanceStats().income | currency:'USD':'symbol':'1.0-0' }}</span>
+                <span class="sub-label">Peak: 11 AM</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="stats-carousel animate-slide-up">
+        <div *ngFor="let stat of stats()" class="glass-card stat-card-premium" [class.highlight]="stat.isPrimary">
+            <div class="card-glow"></div>
+            <div class="card-icon">
+                <span class="material-icons-round">{{ stat.icon }}</span>
+            </div>
+            <div class="card-info">
+                <h3>{{ stat.label }}</h3>
+                <div class="main-val">
+                    <span class="value">{{ stat.value }}</span>
+                    <span class="trend-tag" [ngClass]="stat.trendType">
+                        <span class="material-icons-round">
+                            {{ stat.trendType === 'up' ? 'arrow_upward' : 'arrow_downward' }}
+                        </span>
+                        {{ stat.trend.split(' ')[0] }}
                     </span>
-                    {{ stat.trend }}
-                </span>
-            </div>
-        </div>
-    </section>
-
-    <div class="main-dashboard-grid">
-        <!-- Patient Statistics Chart -->
-        <div class="chart-card">
-            <div class="card-header">
-                <h3>Patient statistics</h3>
-                <div class="chart-tabs">
-                    <span>Week</span>
-                    <span>Month</span>
-                    <span class="active">Year-2022</span>
-                </div>
-            </div>
-            <div class="chart-container">
-                <svg viewBox="0 0 800 300">
-                    <!-- Grid Lines -->
-                    <line x1="0" y1="50" x2="800" y2="50" stroke="#f1f5f9" stroke-width="1" />
-                    <line x1="0" y1="150" x2="800" y2="150" stroke="#f1f5f9" stroke-width="1" />
-                    <line x1="0" y1="250" x2="800" y2="250" stroke="#f1f5f9" stroke-width="1" />
-
-                    <!-- Area/Fill for Line 1 -->
-                    <path
-                        d="M0,250 C100,100 200,280 300,150 C400,20 500,180 600,80 C700,40 750,70 800,100 L800,300 L0,300 Z"
-                        fill="url(#gradient-green)" opacity="0.1" />
-
-                    <!-- Line 1 (Dark) -->
-                    <path d="M0,250 C100,100 200,280 300,150 C400,20 500,180 600,80 C700,40 750,70 800,100" fill="none"
-                        stroke="#10403b" stroke-width="4" stroke-linecap="round" />
-
-                    <!-- Line 2 (Light Teal) -->
-                    <path d="M0,200 C100,220 200,150 300,220 C400,250 500,100 600,200 C700,220 750,180 800,150"
-                        fill="none" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" opacity="0.6" />
-
-                    <defs>
-                        <linearGradient id="gradient-green" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="0%" stop-color="#10403b" />
-                            <stop offset="100%" stop-color="white" />
-                        </linearGradient>
-                    </defs>
-                </svg>
-            </div>
-        </div>
-
-        <!-- Today Schedule -->
-        <div class="schedule-card">
-            <div class="card-header">
-                <h3>Today {{ today | date:'d MMM y' }}</h3>
-                <span class="material-icons-round" style="color: #0d9488; cursor: pointer;">add_circle_outline</span>
-            </div>
-            <div class="timeline">
-                <div *ngIf="schedule().length === 0" class="no-data">
-                    <p>No appointments scheduled for today.</p>
-                </div>
-                <div *ngFor="let item of schedule()" class="timeline-item">
-                    <span class="time">{{ item.time }}</span>
-                    <div class="event-box" [style.border-left-color]="item.color">
-                        <h4>{{ item.title }}</h4>
-                        <p>{{ item.duration }}</p>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="bottom-grid">
-        <!-- Balance Card -->
-        <div class="balance-card">
-            <div class="card-header">
-                <h3>Balance</h3>
-                <span class="material-icons-round">open_in_new</span>
-            </div>
-            <div class="balance-content">
-                <div class="percent-ring">
-                    <svg width="100" height="100">
-                        <circle cx="50" cy="50" r="45" fill="none" stroke="#f1f5f9" stroke-width="8" />
-                        <circle cx="50" cy="50" r="45" fill="none" stroke="#0d9488" stroke-width="8"
-                            [attr.stroke-dasharray]="283"
-                            [attr.stroke-dashoffset]="283 - (283 * balanceStats().percent / 100)"
-                            stroke-linecap="round" />
-                    </svg>
-                    <span class="ring-text">{{ balanceStats().percent }}%</span>
+    <div class="dashboard-main-content">
+        <div class="left-col animate-slide-up" style="animation-delay: 0.1s;">
+            <!-- Health Trends Chart -->
+            <div class="glass-card main-chart-card">
+                <div class="chart-header">
+                    <div class="title">
+                        <h3>Patient Inflow Trends</h3>
+                        <p>Weekly analysis across departments</p>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="btn-ghost active">Weekly</button>
+                        <button class="btn-ghost">Monthly</button>
+                    </div>
                 </div>
-                <div class="balance-stats">
-                    <div class="stat-item">
-                        <div class="info">
-                            <span>{{ balanceStats().income | currency:'USD':'symbol':'1.0-0' }}</span>
-                            <span>Total income</span>
-                        </div>
-                        <div class="sparkline">
-                            <svg viewBox="0 0 40 10">
-                                <path d="M0,8 L10,2 L20,7 L30,1 L40,5" fill="none" stroke="#22c55e" stroke-width="1" />
-                            </svg>
+                <div class="premium-chart-container">
+                    <!-- Modern Visual instead of plain SVG -->
+                    <div class="chart-mockup">
+                        <div class="bar-group" *ngFor="let i of [1,2,3,4,5,6,7]">
+                            <div class="bar primary" [style.height.%]="20 + (i * 10)"></div>
+                            <div class="bar secondary" [style.height.%]="10 + (i * 8)"></div>
                         </div>
                     </div>
-                    <div class="stat-item">
-                        <div class="info">
-                            <span>{{ balanceStats().expense | currency:'USD':'symbol':'1.0-0' }}</span>
-                            <span>Total expense</span>
-                        </div>
-                        <div class="sparkline">
-                            <svg viewBox="0 0 40 10">
-                                <path d="M0,5 L10,8 L20,3 L30,6 L40,2" fill="none" stroke="#f43f5e" stroke-width="1" />
-                            </svg>
-                        </div>
+                    <div class="chart-labels">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
                     </div>
                 </div>
             </div>
-            <div style="margin-top: 1.5rem;">
-                <p style="margin: 0; font-size: 0.75rem; color: #64748b;">Total Transaction Revenue</p>
-                <h2 style="margin: 0.25rem 0 0; font-size: 1.5rem; font-weight: 700;">{{ balanceStats().totalRevenue |
-                    currency:'USD':'symbol':'1.0-0' }}</h2>
+
+            <div class="duo-grid">
+                <!-- Financial Summary -->
+                <div class="glass-card finance-widget">
+                    <div class="widget-header">
+                        <h3>Financial Summary</h3>
+                        <span class="material-icons-round">payments</span>
+                    </div>
+                    <div class="finance-progress">
+                        <div class="circular-progress">
+                            <div class="progress-value">{{ balanceStats().percent }}%</div>
+                        </div>
+                        <div class="finance-details">
+                            <div class="detail-item">
+                                <span class="dot income"></span>
+                                <div>
+                                    <span class="val">{{ balanceStats().income | currency:'USD':'symbol':'1.0-0'
+                                        }}</span>
+                                    <span class="lbl">Income</span>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="dot target"></span>
+                                <div>
+                                    <span class="val">$50,000</span>
+                                    <span class="lbl">Target</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bed Management -->
+                <div class="glass-card occupancy-widget">
+                    <div class="widget-header">
+                        <h3>Ward Occupancy</h3>
+                        <button class="btn-icon-sm"><span class="material-icons-round">more_vert</span></button>
+                    </div>
+                    <div class="occupancy-list">
+                        <div *ngFor="let room of occupancy()" class="occupancy-item">
+                            <div class="room-info">
+                                <span class="indicator" [style.background-color]="room.color"></span>
+                                <span class="name">{{ room.label }}</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-fill" [style.width.%]="room.count * 10"
+                                    [style.background-color]="room.color"></div>
+                            </div>
+                            <span class="count">{{ room.count }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Room Occupancy Card -->
-        <div class="occupancy-card">
-            <div class="card-header">
-                <h3>Room occupancy</h3>
-                <span class="material-icons-round">more_horiz</span>
-            </div>
-            <div class="occupancy-content">
-                <div class="total-count">
-                    <h2>{{ occupancy().length > 0 ? occupancy()[0].count + (occupancy()[1]?.count || 0) : 0 }}</h2>
+        <div class="right-col animate-slide-up" style="animation-delay: 0.2s;">
+            <!-- Modern Schedule Widget -->
+            <div class="glass-card schedule-sidebar">
+                <div class="sidebar-header">
+                    <h3>Today's Clinic</h3>
+                    <div class="date-badge">{{ today | date:'MMM d' }}</div>
                 </div>
-                <div class="room-list">
-                    <div *ngFor="let room of occupancy()" class="room-item">
-                        <span class="material-icons-round" [style.background-color]="room.color">home</span>
-                        <span class="name">{{ room.label }}</span>
-                        <span class="count">{{ room.count }}</span>
+
+                <div class="compact-timeline">
+                    <div *ngIf="schedule().length === 0" class="empty-schedule">
+                        <span class="material-icons-round">event_busy</span>
+                        <p>No more patients for today</p>
+                    </div>
+                    <div *ngFor="let item of schedule()" class="schedule-item-premium">
+                        <div class="time-col">
+                            <span class="hour">{{ item.time.split(' ')[0] }}</span>
+                            <span class="ampm">{{ item.time.split(' ')[1] }}</span>
+                        </div>
+                        <div class="event-glow" [style.background-color]="item.color + '20'"
+                            [style.border-left-color]="item.color">
+                            <div class="event-details">
+                                <h4>{{ item.title }}</h4>
+                                <span class="duration">{{ item.duration }}</span>
+                            </div>
+                            <button class="btn-action-mini">
+                                <span class="material-icons-round">chevron_right</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
+
+                <button class="btn-primary-block" (click)="showLabModal.set(true)"
+                    *ngIf="authService.hasRole(['Doctor', 'Admin'])">
+                    <span class="material-icons-round">science</span>
+                    Order Diagnostics
+                </button>
             </div>
         </div>
+    </div>
 
-        <!-- Reports Card -->
-        <div class="reports-card">
-            <div class="card-header">
-                <h3>Reports</h3>
-                <span class="material-icons-round">more_horiz</span>
+    <!-- Lab Request Modal -->
+    <div class="modal-backdrop" *ngIf="showLabModal()">
+        <div class="glass-card modal-content animate-slide-up">
+            <div class="modal-header">
+                <h3>Request Diagnostic Test</h3>
+                <button class="btn-icon" (click)="showLabModal.set(false)">
+                    <span class="material-icons-round">close</span>
+                </button>
             </div>
-            <div class="reports-content">
-                <div class="no-data">
-                    <p>No new maintenance or incident reports.</p>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Select Patient</label>
+                    <select [ngModel]="labPatientId()" (ngModelChange)="labPatientId.set($event)" class="form-select">
+                        <option [ngValue]="null">Choose a patient...</option>
+                        <option *ngFor="let p of patients()" [ngValue]="p.id">{{ p.name }} (#{{ p.id }})</option>
+                    </select>
                 </div>
+
+                <div class="form-group">
+                    <label>Test Type</label>
+                    <div class="test-options">
+                        <div class="test-opt" [class.selected]="labTestType() === 'BLOOD_WORK'"
+                            (click)="labTestType.set('BLOOD_WORK')">
+                            <span class="material-icons-round">opacity</span>
+                            <span>Blood Work</span>
+                        </div>
+                        <div class="test-opt" [class.selected]="labTestType() === 'XRAY'"
+                            (click)="labTestType.set('XRAY')">
+                            <span class="material-icons-round">screenshot_main</span>
+                            <span>X-Ray</span>
+                        </div>
+                        <div class="test-opt" [class.selected]="labTestType() === 'MRI'"
+                            (click)="labTestType.set('MRI')">
+                            <span class="material-icons-round">biotech</span>
+                            <span>MRI Scan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Doctor's Notes</label>
+                    <textarea [ngModel]="labNotes()" (ngModelChange)="labNotes.set($event)"
+                        placeholder="Describe clinical indications or specific tests..."></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-ghost" (click)="showLabModal.set(false)">Cancel</button>
+                <button class="btn-primary" (click)="submitLabRequest()" [disabled]="!labPatientId()">
+                    Send to Lab
+                </button>
             </div>
         </div>
     </div>

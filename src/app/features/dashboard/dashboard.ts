@@ -1,15 +1,17 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, signal, computed, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TitleService } from '../../core/services/title.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { DashboardService, StatCard, ScheduleItem, OccupancyItem } from '../../core/services/dashboard.service';
 import { PatientService } from '../../core/services/patient.service';
 import { BillingService } from '../../core/services/billing.service';
+import { LaboratoryService } from '../../core/services/laboratory.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -18,6 +20,7 @@ export class Dashboard implements OnInit {
   private dashboardService = inject(DashboardService);
   private patientService = inject(PatientService);
   private billingService = inject(BillingService);
+  private labService = inject(LaboratoryService);
   authService = inject(AuthService);
   role = computed(() => this.authService.currentUser()?.role || 'Admin');
   today = new Date();
@@ -30,29 +33,43 @@ export class Dashboard implements OnInit {
   // Real patient count from service
   patientsCount = signal(0);
   invoices = signal<any[]>([]);
+  patients = signal<any[]>([]);
+
+  // Lab Request Modal State
+  showLabModal = signal(false);
+  labTestType = signal('BLOOD_WORK');
+  labPatientId = signal<number | null>(null);
+  labNotes = signal('');
 
   stats = computed<StatCard[]>(() => [
     {
-      label: 'Admissions',
+      label: 'New Admissions',
       value: this.rawStats().appointments.toLocaleString(),
       trend: `${this.rawStats().appointmentsTrend}% from last week`,
       trendType: this.rawStats().appointmentsTrend >= 0 ? 'up' : 'down',
-      icon: 'local_hospital',
+      icon: 'person_add',
       isPrimary: true
     },
     {
-      label: 'Surgeries',
+      label: 'Avg. Consultation',
+      value: '24 min',
+      trend: '1.2% faster',
+      trendType: 'up',
+      icon: 'timer'
+    },
+    {
+      label: 'Active Surgeries',
       value: this.rawStats().surgeries.toLocaleString(),
       trend: `${Math.abs(this.rawStats().surgeriesTrend)}% from last week`,
       trendType: this.rawStats().surgeriesTrend >= 0 ? 'up' : 'down',
-      icon: 'medical_services'
+      icon: 'emergency'
     },
     {
-      label: 'Total patient',
-      value: this.patientsCount().toLocaleString(),
-      trend: '2.1% from last week',
+      label: 'Patient Satisfaction',
+      value: '98%',
+      trend: '4.5% improvement',
       trendType: 'up',
-      icon: 'group'
+      icon: 'favorite'
     },
   ]);
 
@@ -69,9 +86,13 @@ export class Dashboard implements OnInit {
     };
   });
 
+  private platformId = inject(PLATFORM_ID);
+
   ngOnInit() {
     this.titleService.setTitle('');
-    this.loadData();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadData();
+    }
   }
 
   private loadData() {
@@ -80,7 +101,30 @@ export class Dashboard implements OnInit {
     this.dashboardService.getOccupancy().subscribe(o => this.occupancy.set(o));
 
     // Fetch live data from existing services
-    this.patientService.getPatients().subscribe(p => this.patientsCount.set(p.length));
+    this.patientService.getPatients().subscribe(p => {
+      this.patientsCount.set(p.length);
+      this.patients.set(p);
+    });
     this.billingService.getInvoices().subscribe(i => this.invoices.set(i));
+  }
+
+  submitLabRequest() {
+    if (!this.labPatientId()) return;
+
+    this.labService.createRequest({
+      patient: { id: this.labPatientId() },
+      doctor: { id: this.authService.currentUser()?.id },
+      testType: this.labTestType(),
+      notes: this.labNotes()
+    }).subscribe(() => {
+      this.showLabModal.set(false);
+      this.resetLabForm();
+    });
+  }
+
+  resetLabForm() {
+    this.labTestType.set('BLOOD_WORK');
+    this.labPatientId.set(null);
+    this.labNotes.set('');
   }
 }

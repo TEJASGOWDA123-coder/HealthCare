@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { LaboratoryService, LabRequest } from '../../core/services/laboratory.service';
 
 @Component({
   selector: 'app-medical-records',
@@ -13,11 +14,13 @@ import { environment } from '../../../environments/environment';
 })
 export class MedicalRecords implements OnInit {
   private http = inject(HttpClient);
+  private labService = inject(LaboratoryService);
 
   patients = signal<any[]>([]);
   loading = signal(true);
   searchTerm = signal('');
   selected = signal<any | null>(null);
+  labResults = signal<LabRequest[]>([]);
 
   filtered = computed(() => {
     const q = this.searchTerm().toLowerCase();
@@ -38,6 +41,10 @@ export class MedicalRecords implements OnInit {
 
   select(p: any) {
     this.selected.set(p);
+    this.labResults.set([]);
+    this.labService.getRequestsByPatient(p.id).subscribe(data => {
+      this.labResults.set(data.filter(r => r.status === 'COMPLETED'));
+    });
   }
 
   close() {
