@@ -13,19 +13,19 @@ public class MultiTenantProvider
 
     @Override
     public Connection getConnection(String tenantIdentifier) throws SQLException {
-
-        String url;
-
+        String url = "jdbc:postgresql://localhost:5432/mednex";
         System.out.println("🔍 MultiTenantProvider: Requested connection for tenant - " + tenantIdentifier);
 
-        if ("tenantA".equals(tenantIdentifier)) {
-            url = "jdbc:postgresql://localhost:5432/mednex";
-        } else {
-            url = "jdbc:postgresql://localhost:5432/mednex";
+        Connection connection = DriverManager.getConnection(url, "postgres", "123");
+        try (var statement = connection.createStatement()) {
+            String schema = tenantIdentifier != null ? tenantIdentifier : "public";
+            statement.execute("SET search_path TO " + schema);
+            System.out.println("🔌 MultiTenantProvider: Schema set to - " + schema);
+        } catch (SQLException e) {
+            connection.close();
+            throw e;
         }
-
-        System.out.println("🔌 MultiTenantProvider: Connecting to - " + url);
-        return DriverManager.getConnection(url, "postgres", "123");
+        return connection;
     }
 
     @Override

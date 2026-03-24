@@ -46,13 +46,16 @@ public class DashboardController {
         return ResponseEntity.ok(new ArrayList<>());
     }
 
+    @org.springframework.beans.factory.annotation.Value("${hospital.total-beds:100}")
+    private long totalBeds;
+
     @GetMapping("/bed-occupancy")
     public java.util.Map<String, Long> getBedOccupancy() {
         long occupied = admissionRepository.countByStatus("ACTIVE");
-        long available = 100 - occupied; // Assuming 100 total beds
+        long available = totalBeds - occupied;
 
         java.util.Map<String, Long> stats = new java.util.HashMap<>();
-        stats.put("total", 100L);
+        stats.put("total", totalBeds);
         stats.put("occupied", occupied);
         stats.put("available", available);
         return stats;

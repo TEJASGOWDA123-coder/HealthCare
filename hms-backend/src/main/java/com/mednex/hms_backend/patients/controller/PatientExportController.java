@@ -20,14 +20,25 @@ import java.io.IOException;
 public class PatientExportController {
 
     private final PatientService patientService;
+    private final com.mednex.hms_backend.activity.AuditLogService auditLogService;
 
-    public PatientExportController(PatientService patientService) {
+    public PatientExportController(PatientService patientService,
+            com.mednex.hms_backend.activity.AuditLogService auditLogService) {
         this.patientService = patientService;
+        this.auditLogService = auditLogService;
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_DOCTOR')")
     @GetMapping("/{id}/export-pdf")
     public void exportToPdf(@PathVariable Long id, HttpServletResponse response) throws IOException {
         PatientDto patient = patientService.getPatientById(id);
+
+        // Security check: Only allow export if searching for authorized patient (simple
+        // version)
+        // Audit log export action
+        String currentUser = org.springframework.security.core.context.SecurityContextHolder.getContext()
+                .getAuthentication().getName();
+        auditLogService.log(currentUser, id.toString(), "EXPORT_PDF", "Exported patient medical history to PDF");
 
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=patient_history_" + id + ".pdf");
