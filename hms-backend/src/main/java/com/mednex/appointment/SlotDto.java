@@ -1,4 +1,14 @@
 package com.mednex.appointment;
 
-public record SlotDto(String time, String endTime, String status) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class SlotDto {
+    private String time;
+    private String endTime;
+    private String status;
 }

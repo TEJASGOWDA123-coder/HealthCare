@@ -1,5 +1,5 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../core/auth/auth.service';
@@ -22,6 +22,7 @@ export class QrMobileAuth implements OnInit {
     private route = inject(ActivatedRoute);
     private http = inject(HttpClient);
     private auth = inject(AuthService);
+    private platformId = inject(PLATFORM_ID);
 
     protected sessionId = signal<string | null>(null);
     protected isAuthorizing = signal<boolean>(false);
@@ -44,7 +45,10 @@ export class QrMobileAuth implements OnInit {
         // In a real app, we'd get the token from the mobile app's storage.
         // For this simulation/demo, we'll use the user's current token 
         // or simulate one if they are testing directly on the phone.
-        const token = localStorage.getItem('auth_token') || 'SIMULATED_MOBILE_TOKEN';
+        let token = 'SIMULATED_MOBILE_TOKEN';
+        if (isPlatformBrowser(this.platformId)) {
+            token = localStorage.getItem('auth_token') || token;
+        }
 
         this.http.post<any>(`${environment.apiBaseUrl}/auth/qr/authorize`, {
             sessionId: this.sessionId(),

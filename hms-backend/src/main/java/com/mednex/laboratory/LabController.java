@@ -3,9 +3,10 @@ package com.mednex.laboratory;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 @RestController
 @RequestMapping("/api/v1/laboratory")
-@CrossOrigin(origins = "*")
 public class LabController {
 
     private final LabService service;
@@ -15,11 +16,13 @@ public class LabController {
     }
 
     @GetMapping("/requests")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'NURSE')")
     public List<LabRequest> getAllRequests() {
         return service.getAllRequests();
     }
 
     @PostMapping("/requests")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'NURSE')")
     public LabRequest createRequest(@RequestBody LabRequest request) {
         return service.createRequest(request);
     }
@@ -35,6 +38,7 @@ public class LabController {
     }
 
     @PostMapping("/requests/{id}/results")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'NURSE')")
     public LabResult uploadResult(@PathVariable Long id, @RequestBody LabResult result) {
         return service.uploadResult(id, result);
     }

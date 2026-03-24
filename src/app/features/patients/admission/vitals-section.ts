@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { debounceTime, switchMap, of, catchError } from 'rxjs';
@@ -237,6 +237,7 @@ interface Doctor {
 export class VitalsSection implements OnInit {
   private controlContainer = inject(ControlContainer);
   private http = inject(HttpClient);
+  private platformId = inject(PLATFORM_ID);
 
   doctors = signal<Doctor[]>([]);
   suggestedDoctor = signal<Doctor | null>(null);
@@ -252,8 +253,11 @@ export class VitalsSection implements OnInit {
   }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
-    return new HttpHeaders({ Authorization: `Bearer ${token}` });
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
+      return new HttpHeaders({ Authorization: `Bearer ${token}` });
+    }
+    return new HttpHeaders();
   }
 
   loadDoctors() {

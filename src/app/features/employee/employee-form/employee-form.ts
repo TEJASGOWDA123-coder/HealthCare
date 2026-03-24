@@ -1,5 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, signal, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -16,6 +16,7 @@ export class EmployeeFormComponent {
     private fb = inject(FormBuilder);
     private http = inject(HttpClient);
     private router = inject(Router);
+    private platformId = inject(PLATFORM_ID);
 
     employeeForm: FormGroup;
     loading = signal(false);
@@ -39,8 +40,11 @@ export class EmployeeFormComponent {
     }
 
     private getAuthHeaders(): HttpHeaders {
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
-        return new HttpHeaders({ Authorization: `Bearer ${token}` });
+        if (isPlatformBrowser(this.platformId)) {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
+            return new HttpHeaders({ Authorization: `Bearer ${token}` });
+        }
+        return new HttpHeaders();
     }
 
     onSubmit() {

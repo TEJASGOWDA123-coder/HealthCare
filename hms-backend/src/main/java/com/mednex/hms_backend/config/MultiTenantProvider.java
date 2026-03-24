@@ -19,8 +19,13 @@ public class MultiTenantProvider
         Connection connection = DriverManager.getConnection(url, "postgres", "123");
         try (var statement = connection.createStatement()) {
             String schema = tenantIdentifier != null ? tenantIdentifier : "public";
-            statement.execute("SET search_path TO " + schema);
-            System.out.println("🔌 MultiTenantProvider: Schema set to - " + schema);
+
+            // Provision schema if it doesn't exist
+            statement.execute("CREATE SCHEMA IF NOT EXISTS " + schema);
+
+            // Set search path (including public as fallback for common tables)
+            statement.execute("SET search_path TO " + schema + ", public");
+            System.out.println("🔌 MultiTenantProvider: Search path set to - " + schema + ", public");
         } catch (SQLException e) {
             connection.close();
             throw e;

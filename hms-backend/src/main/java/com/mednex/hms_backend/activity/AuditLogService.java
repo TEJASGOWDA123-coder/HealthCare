@@ -22,6 +22,10 @@ public class AuditLogService {
         repository.save(entry);
     }
 
+    public void logAction(String action, String details) {
+        log("SYSTEM", "N/A", action, details);
+    }
+
     public List<AuditLog> getAll() {
         return repository.findAll();
     }

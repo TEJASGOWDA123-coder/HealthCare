@@ -4,10 +4,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.util.List;
+import com.mednex.appointment.SlotDto;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @RestController
 @RequestMapping("/api/v1/appointments")
-@CrossOrigin(origins = "*")
 public class AppointmentController {
 
     private final AppointmentService service;
@@ -17,11 +19,13 @@ public class AppointmentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'NURSE')")
     public List<Appointment> list() {
         return service.all();
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'NURSE', 'PATIENT')")
     public Appointment create(@RequestBody Appointment a) {
         return service.save(a);
     }
@@ -38,6 +42,7 @@ public class AppointmentController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DOCTOR', 'NURSE')")
     public Appointment cancel(@PathVariable Long id) {
         return service.cancel(id);
     }

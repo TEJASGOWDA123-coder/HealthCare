@@ -1,5 +1,6 @@
 package com.mednex.laboratory;
 
+import com.mednex.hms_backend.activity.AuditLogService;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
@@ -9,10 +10,13 @@ public class LabService {
 
     private final LabRequestRepository requestRepo;
     private final LabResultRepository resultRepo;
+    private final AuditLogService auditLogService;
 
-    public LabService(LabRequestRepository requestRepo, LabResultRepository resultRepo) {
+    public LabService(LabRequestRepository requestRepo, LabResultRepository resultRepo,
+            AuditLogService auditLogService) {
         this.requestRepo = requestRepo;
         this.resultRepo = resultRepo;
+        this.auditLogService = auditLogService;
     }
 
     public List<LabRequest> getAllRequests() {
@@ -22,7 +26,10 @@ public class LabService {
     public LabRequest createRequest(LabRequest request) {
         request.setStatus("PENDING");
         request.setCreatedAt(Instant.now());
-        return requestRepo.save(request);
+        LabRequest saved = requestRepo.save(request);
+        auditLogService.logAction("LAB_REQUEST",
+                "New lab request: " + saved.getTestType() + " for patient ID: " + saved.getPatient().getId());
+        return saved;
     }
 
     public List<LabRequest> getRequestsByPatient(Long patientId) {
@@ -36,13 +43,21 @@ public class LabService {
 
     public LabResult uploadResult(Long requestId, LabResult result) {
         LabRequest request = getRequestById(requestId);
+
+        // Prevent duplicate results
+        if (resultRepo.findByRequestId(requestId) != null) {
+            throw new RuntimeException("Result already exists for this request");
+        }
+
         request.setStatus("COMPLETED");
         request.setUpdatedAt(Instant.now());
         requestRepo.save(request);
 
         result.setRequest(request);
         result.setCreatedAt(Instant.now());
-        return resultRepo.save(result);
+        LabResult saved = resultRepo.save(result);
+        auditLogService.logAction("LAB_RESULT_UPLOAD", "Lab result uploaded for request ID: " + requestId);
+        return saved;
     }
 
     public LabResult getResultByRequestId(Long requestId) {

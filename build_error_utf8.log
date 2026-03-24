@@ -1,0 +1,162 @@
+﻿node.exe : npm verbose 
+cli C:\Program 
+Files\nodejs\node.exe C
+:\Users\HP\AppData\Roam
+ing\npm\node_modules\np
+m\bin\npm-cli.js
+At C:\Program Files\nod
+ejs\npm.ps1:29 char:3
++   & $NODE_EXE 
+$NPM_CLI_JS $args
++   ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: (npm verbose c   
+ li...\bin\npm-cli.    
+js:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+npm info using 
+npm@11.7.0
+npm info using 
+node@v22.14.0
+npm verbose title npm 
+run build
+npm verbose argv "run" 
+"build" "--loglevel" 
+"verbose"
+npm verbose logfile 
+logs-max:10 dir:C:\User
+s\HP\AppData\Local\npm-
+cache\_logs\2026-03-24T
+03_48_10_839Z-
+npm verbose logfile C:\
+Users\HP\AppData\Local\
+npm-cache\_logs\2026-03
+-24T03_48_10_839Z-debug
+-0.log
+
+> frontend@0.0.0 build
+> ng build
+
+[33mΓ¥»[39m Building...
+[32mΓ£ö[39m Building...
+[35mBrowser bundles[39m     
+[1mInitial chunk files[22m [2m | [22m[1mNames[22m            [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mchunk-TXXKNFGN.js[39m   [2m | [22m[2m-[22m                [2m | [22m[36m227.94 kB[39m[2m | [22m               [36m65.84 kB[39m
+[32mchunk-NRSUFYRB.js[39m   [2m | [22m[2m-[22m                [2m | [22m [36m94.63 kB[39m[2m | [22m               [36m23.85 kB[39m
+[32mchunk-5A5SQB6W.js[39m   [2m | [22m[2m-[22m                [2m | [22m [36m44.91 kB[39m[2m | [22m                [36m8.99 kB[39m
+[32mmain-6JDTHGHB.js[39m    [2m | [22m[2mmain[22m             [2m | [22m [36m31.11 kB[39m[2m | [22m                [36m6.93 kB[39m
+[32mchunk-D3OJKJL5.js[39m   [2m | [22m[2m-[22m                [2m | [22m [36m23.29 kB[39m[2m | [22m                [36m6.84 kB[39m
+[32mchunk-ROLV2H65.js[39m   [2m | [22m[2m-[22m                [2m | [22m  [36m1.43 kB[39m[2m | [22m              [36m661 bytes[39m
+[32mstyles-RDJXP4NT.css[39m [2m | [22m[2mstyles[22m           [2m | [22m  [36m1.17 kB[39m[2m | [22m              [36m453 bytes[39m
+[32mchunk-C6Q5SG76.js[39m   [2m | [22m[2m-[22m                [2m | [22m  [36m1.07 kB[39m[2m | [22m              [36m468 bytes[39m
+[32mchunk-FZD4FXY2.js[39m   [2m | [22m[2m-[22m                [2m | [22m[36m241 bytes[39m[2m | [22m              [36m241 bytes[39m
+
+[1m [22m                   [2m | [22m[1mInitial total[22m    [2m | [22m[1m425.78 kB[22m[2m | [22m              [1m114.28 kB[22m
+
+[1mLazy chunk files[22m    [2m | [22m[1mNames[22m            [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mchunk-MVMJLKJP.js[39m   [2m | [22m[2mappointments[22m     [2m | [22m[36m379.54 kB[39m[2m | [22m               [36m90.72 kB[39m
+[32mchunk-EMVLNV5O.js[39m   [2m | [22m[2madmission[22m        [2m | [22m [36m85.50 kB[39m[2m | [22m               [36m10.08 kB[39m
+[32mchunk-SKSTIZGG.js[39m   [2m | [22m[2mdashboard-wrapper[22m[2m | [22m [36m50.59 kB[39m[2m | [22m                [36m9.33 kB[39m
+[32mchunk-S2IZOXZH.js[39m   [2m | [22m[2mqr-login[22m         [2m | [22m [36m39.94 kB[39m[2m | [22m               [36m12.87 kB[39m
+[32mchunk-LIUD4VLN.js[39m   [2m | [22m[2mlaboratory[22m       [2m | [22m [36m21.65 kB[39m[2m | [22m                [36m4.49 kB[39m
+[32mchunk-YW3SC4HK.js[39m   [2m | [22m[2mbilling[22m          [2m | [22m [36m20.44 kB[39m[2m | [22m                [36m4.31 kB[39m
+[32mchunk-ESXDTBA4.js[39m   [2m | [22m[2mstatistics[22m       [2m | [22m [36m14.06 kB[39m[2m | [22m                [36m2.98 kB[39m
+[32mchunk-A3TPSKF7.js[39m   [2m | [22m[2memployee-list[22m    [2m | [22m [36m13.18 kB[39m[2m | [22m                [36m2.85 kB[39m
+[32mchunk-VSNXM4F6.js[39m   [2m | [22m[2mmedical-records[22m  [2m | [22m [36m12.73 kB[39m[2m | [22m                [36m3.52 kB[39m
+[32mchunk-27BJMONP.js[39m   [2m | [22m[2mpatient-form[22m     [2m | [22m [36m12.44 kB[39m[2m | [22m                [36m3.19 kB[39m
+[32mchunk-JHCVF6PW.js[39m   [2m | [22m[2madmission-list[22m   [2m | [22m [36m12.31 kB[39m[2m | [22m                [36m3.06 kB[39m
+[32mchunk-EHO62PQW.js[39m   [2m | [22m[2mpatient-list[22m     [2m | [22m [36m11.96 kB[39m[2m | [22m                [36m3.17 kB[39m
+[32mchunk-6KY2MFSS.js[39m   [2m | [22m[2mprescriptions[22m    [2m | [22m [36m10.80 kB[39m[2m | [22m                [36m3.12 kB[39m
+[32mchunk-FSL7MK7K.js[39m   [2m | [22m[2mactivity[22m         [2m | [22m [36m10.09 kB[39m[2m | [22m                [36m2.21 kB[39m
+[32mchunk-UVHPGFAM.js[39m   [2m | [22m[2mappointment-form[22m [2m | [22m  [36m9.98 kB[39m[2m | [22m                [36m3.18 kB[39m
+[2m...and 12 more lazy chunks files. Use "--verbose" to show all the files.[22m
+
+
+[35mServer bundles[39m      
+[1mInitial chunk files[22m [2m | [22m[1mNames[22m            [2m | [22m [1mRaw size[22m
+[32mserver.mjs[39m          [2m | [22m[2mserver[22m           [2m | [22m[36m806.34 kB[39m[2m | [22m                       
+[32mmain.server.mjs[39m     [2m | [22m[2mmain.server[22m      [2m | [22m[36m467.73 kB[39m[2m | [22m                       
+[32mpolyfills.server.mjs[39m[2m | [22m[2mpolyfills.server[22m [2m | [22m[36m233.25 kB[39m[2m | [22m                       
+[32mchunk-SDZU6O56.mjs[39m  [2m | [22m[2m-[22m                [2m | [22m[36m226.17 kB[39m[2m | [22m                       
+[32mchunk-7VRH677H.mjs[39m  [2m | [22m[2m-[22m                [2m | [22m [36m94.88 kB[39m[2m | [22m                       
+[32mchunk-IO2CWATL.mjs[39m  [2m | [22m[2m-[22m                [2m | [22m [36m44.94 kB[39m[2m | [22m                       
+[32mchunk-3VHBEA3P.mjs[39m  [2m | [22m[2m-[22m                [2m | [22m [36m23.57 kB[39m[2m | [22m                       
+[32mchunk-6BZUFPIG.mjs[39m  [2m | [22m[2m-[22m                [2m | [22m  [36m1.47 kB[39m[2m | [22m                       
+[32mchunk-N7QBYMCK.mjs[39m  [2m | [22m[2m-[22m                [2m | [22m  [36m1.36 kB[39m[2m | [22m                       
+[32mchunk-L2MVFUKD.mjs[39m  [2m | [22m[2m-[22m                [2m | [22m  [36m1.32 kB[39m[2m | [22m                       
+[32mchunk-ZQM3R4MM.mjs[39m  [2m | [22m[2m-[22m                [2m | [22m[36m275 bytes[39m[2m | [22m                       
+
+[1mLazy chunk files[22m    [2m | [22m[1mNames[22m            [2m | [22m [1mRaw size[22m
+[32mchunk-7ZP2UR6U.mjs[39m  [2m | [22m[2mappointments[22m     [2m | [22m[36m379.58 kB[39m[2m | [22m                       
+[32mchunk-7I4FMFKV.mjs[39m  [2m | [22m[2madmission[22m        [2m | [22m [36m85.54 kB[39m[2m | [22m                       
+[32mchunk-TPFN5OBE.mjs[39m  [2m | [22m[2mqr-login[22m         [2m | [22m [36m74.55 kB[39m[2m | [22m                       
+[32mchunk-VDWFUJDB.mjs[39m  [2m | [22m[2mdashboard-wrapper[22m[2m | [22m [36m50.64 kB[39m[2m | [22m                       
+[32mchunk-JXAOB4VA.mjs[39m  [2m | [22m[2mlaboratory[22m       [2m | [22m [36m21.69 kB[39m[2m | [22m                       
+[32mchunk-HVB3DGYE.mjs[39m  [2m | [22m[2mbilling[22m          [2m | [22m [36m20.48 kB[39m[2m | [22m                       
+[32mchunk-O4WINEEG.mjs[39m  [2m | [22m[2mstatistics[22m       [2m | [22m [36m14.10 kB[39m[2m | [22m                       
+[32mchunk-GIT6EQSQ.mjs[39m  [2m | [22m[2memployee-list[22m    [2m | [22m [36m13.22 kB[39m[2m | [22m                       
+[32mchunk-WNDC5ESK.mjs[39m  [2m | [22m[2mmedical-records[22m  [2m | [22m [36m12.77 kB[39m[2m | [22m                       
+[32mchunk-EBZN4AAM.mjs[39m  [2m | [22m[2mpatient-form[22m     [2m | [22m [36m12.47 kB[39m[2m | [22m                       
+[32mchunk-AU277GLV.mjs[39m  [2m | [22m[2madmission-list[22m   [2m | [22m [36m12.36 kB[39m[2m | [22m                       
+[32mchunk-RHDGF2TI.mjs[39m  [2m | [22m[2mxhr2[22m             [2m | [22m [36m12.14 kB[39m[2m | [22m                       
+[32mchunk-5WMVLZXW.mjs[39m  [2m | [22m[2mxhr2[22m             [2m | [22m [36m12.07 kB[39m[2m | [22m                       
+[32mchunk-AU77NN65.mjs[39m  [2m | [22m[2mpatient-list[22m     [2m | [22m [36m12.00 kB[39m[2m | [22m                       
+[32mchunk-6SF4MI23.mjs[39m  [2m | [22m[2mprescriptions[22m    [2m | [22m [36m10.84 kB[39m[2m | [22m                       
+[2m...and 14 more lazy chunks files. Use "--verbose" to show all the files.[22m
+
+[35mPrerendered 23 static routes.[39m
+Application bundle generation failed. [21.548 seconds] - 2026-03-24T03:48:35.653Z
+
+[1m[33m[33mΓû▓ [43;
+33m[[43;30mWARNING[43
+;33m][0m [1mModule 
+'qrcode' used by 'node_
+modules/angularx-qrcode
+/fesm2022/angularx-qrco
+de.mjs' is not ESM[0m
+
+  CommonJS or AMD 
+dependencies can cause 
+optimization bailouts.
+  For more information 
+see: [4mhttps://angula
+r.dev/tools/cli/build#c
+onfiguring-commonjs-dep
+endencies[0m
+
+[39m[22m
+[1m[31m[31mX [41;31
+m[[41;97mERROR[41;31m
+][0m [1mThe 'appointm
+ents/edit/:id' route 
+uses prerendering and 
+includes parameters, 
+but 
+'getPrerenderParams' 
+is missing. Please 
+define 
+'getPrerenderParams' 
+function for this 
+route in your server 
+routing configuration 
+or specify a different 
+'renderMode'.[0m
+
+[39m[22m
+npm verbose cwd C:\User
+s\HP\Videos\Healthcae\f
+rontend
+npm verbose os 
+Windows_NT 10.0.26200
+npm verbose node 
+v22.14.0
+npm verbose npm  
+v11.7.0
+npm verbose exit 1
+npm verbose code 1

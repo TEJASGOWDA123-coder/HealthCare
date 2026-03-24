@@ -1,5 +1,6 @@
 package com.mednex.appointment;
 
+import com.mednex.hms_backend.activity.AuditLogService;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,10 +13,12 @@ public class AppointmentService {
 
     private final AppointmentRepository repo;
     private final EmailService emailService;
+    private final AuditLogService auditLogService;
 
-    public AppointmentService(AppointmentRepository repo, EmailService emailService) {
+    public AppointmentService(AppointmentRepository repo, EmailService emailService, AuditLogService auditLogService) {
         this.repo = repo;
         this.emailService = emailService;
+        this.auditLogService = auditLogService;
     }
 
     public List<Appointment> all() {
@@ -27,6 +30,8 @@ public class AppointmentService {
             throw new RuntimeException("Conflict detected: Doctor already has an appointment in this time slot.");
         }
         Appointment saved = repo.save(a);
+        auditLogService.logAction("BOOK_APPOINTMENT", "New appointment booked for patient ID: "
+                + (saved.getPatient() != null ? saved.getPatient().getId() : "Unknown"));
         try {
             emailService.sendAppointmentConfirmation(saved);
         } catch (Exception e) {
@@ -62,7 +67,9 @@ public class AppointmentService {
         return repo.findById(id)
                 .map(existing -> {
                     existing.setStatus("CANCELLED");
-                    return repo.save(existing);
+                    Appointment cancelled = repo.save(existing);
+                    auditLogService.logAction("CANCEL_APPOINTMENT", "Appointment ID " + id + " cancelled");
+                    return cancelled;
                 })
                 .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
     }

@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, signal, computed, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
@@ -15,6 +15,7 @@ import { environment } from '../../../environments/environment';
 export class Prescriptions implements OnInit {
   private http = inject(HttpClient);
   private fb = inject(FormBuilder);
+  private platformId = inject(PLATFORM_ID);
 
   patients = signal<any[]>([]);
   doctors = signal<any[]>([]);
@@ -53,8 +54,10 @@ export class Prescriptions implements OnInit {
       next: d => this.doctors.set(d)
     });
     // Load prescriptions - use local storage as fallback if no API yet
-    const saved = localStorage.getItem('prescriptions');
-    if (saved) this.prescriptions.set(JSON.parse(saved));
+    if (isPlatformBrowser(this.platformId)) {
+      const saved = localStorage.getItem('prescriptions');
+      if (saved) this.prescriptions.set(JSON.parse(saved));
+    }
   }
 
   savePrescription() {
@@ -65,7 +68,9 @@ export class Prescriptions implements OnInit {
     val.status = 'Active';
     const updated = [...this.prescriptions(), val];
     this.prescriptions.set(updated);
-    localStorage.setItem('prescriptions', JSON.stringify(updated));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('prescriptions', JSON.stringify(updated));
+    }
     this.form.reset({ frequency: 'Once daily' });
     this.showForm.set(false);
   }
@@ -73,7 +78,9 @@ export class Prescriptions implements OnInit {
   deletePrescription(id: number) {
     const updated = this.prescriptions().filter(p => p.id !== id);
     this.prescriptions.set(updated);
-    localStorage.setItem('prescriptions', JSON.stringify(updated));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('prescriptions', JSON.stringify(updated));
+    }
   }
 
   statusClass(status: string) {

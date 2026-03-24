@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 import { TitleService } from '../../../core/services/title.service';
@@ -16,6 +16,7 @@ import { environment } from '../../../../environments/environment';
 export class PatientDashboard implements OnInit {
     private titleService = inject(TitleService);
     private http = inject(HttpClient);
+    private platformId = inject(PLATFORM_ID);
 
     patientProfile = signal<any>(null);
     activeAdmission = signal<Admission | null>(null);
@@ -29,8 +30,11 @@ export class PatientDashboard implements OnInit {
     }
 
     private getAuthHeaders(): HttpHeaders {
-        const token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
-        return new HttpHeaders({ Authorization: `Bearer ${token}` });
+        if (isPlatformBrowser(this.platformId)) {
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
+            return new HttpHeaders({ Authorization: `Bearer ${token}` });
+        }
+        return new HttpHeaders();
     }
 
     loadPatientData() {
