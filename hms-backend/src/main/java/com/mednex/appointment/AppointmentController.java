@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.util.List;
-import com.mednex.appointment.SlotDto;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
